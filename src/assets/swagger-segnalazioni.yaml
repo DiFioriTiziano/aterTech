@@ -1,0 +1,263 @@
+openapi: 3.0.0
+
+info:
+  title: A.t.e.r Roma documentazione Api Rest
+  description: Application API Node.js<br><br>Le interfacce di seguito descritte consentono a prodotti o servizi esterni di dialogare e usufruire di risorse interne, mantenedo sicurezza e controllo.
+  contact:
+    name: API Support
+    email: t.difiori@aterroma.it
+  license:
+    name: MIT Licenze
+    url: http://opensource.org/licenses/MIT
+  version: 1.0.0
+servers:
+  - url: http://192.168.9.205
+    description: Server for testing
+  - url: attesa
+    description: (production) server
+tags:
+- name: "Authorization"
+  description: "Login per il recupero del token"
+- name: "Segnalazioni"
+  description: "Risorse per operare su segnalazioni"
+paths:
+  /auth/login:
+    post:
+      security:
+      - BasicAuth: []
+      tags:
+      - "Authorization"
+      summary: Autorizzazione alle risorse.
+      parameters:
+        - in: header
+          name: Content-Type
+          description: application/json
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: string
+                password:
+                  type: string
+              required:
+                  - user
+                  - password             
+      responses:
+        '200':
+          description: Authorization success.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    description: true or false.
+                  message:
+                    type: string
+                    description: success or fail.
+                  token:
+                    type: string
+                    description: token return.
+
+  /segnalazioni/insert:
+    post:
+      security:
+      - BasicAuth: []
+      tags:
+      - "Segnalazioni"
+      summary: Aggiunge una segnalazione.
+      parameters:
+        - in: header
+          name: Authorization
+          description: bearer Token
+          schema:
+            type: string
+          required: true
+        - in: header
+          name: Content-Type
+          description: application/json
+          schema:
+            type: string
+          required: true  
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              title: Request body descrizione
+              type: object
+              properties:
+                id_esterno:
+                  type: integer
+                  description: ID record tabella esterna
+                PRAUFF_PRIPRA_ID:
+                  type: integer
+                  description: priorita segnalazione
+                PRAUFF_DATA_CREAZIONE:
+                  type: string
+                  description: data della creazione
+                  format: date-time
+                PRAUFF_CONLOC_ID:
+                  type: string
+                  description: codice utente
+                PRAUFF_UNIIMM_CODICE:
+                  type: string
+                  description: matricola alloggio
+                PRAUFF_NOTE:
+                  type: string
+                  description: eventuali note 
+                PRADET_UTENT_ID_ASSEGNA:
+                  type: integer
+                  description: id ragione sociale
+                PRADET_UTENT_ID_ASSEGNATARIO:
+                  type: integer
+                  description: id operatore assegnatario
+                PRADET_TIPPRA_CODICE:
+                  type: string
+                  description: codice tipo segnalazione
+              required:
+                - id_esterno
+                - PRAUFF_PRIPRA_ID
+                - PRAUFF_DATA_CREAZIONE
+                - PRAUFF_CONLOC_ID
+                - PRAUFF_UNIIMM_CODICE
+                - PRADET_UTENT_ID_ASSEGNA
+                - PRADET_UTENT_ID_ASSEGNATARIO
+                - PRADET_TIPPRA_CODICE
+      responses:
+        '201':
+          description: Created success.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    description: true or false.
+                  message:
+                    type: string
+                    description: success or fail.
+                  idPradett:
+                    type: number
+                    description: ID inserito a sistema.
+
+  /segnalazioni/updatestato:
+    post:
+      security:
+      - BasicAuth: []
+      tags:
+      - "Segnalazioni"
+      summary: Aggiona lo stato segnalazione.
+      parameters:
+        - in: header
+          name: Authorization
+          description: bearer Token
+          schema:
+            type: string
+          required: true
+        - in: header
+          name: Content-Type
+          description: application/json
+          schema:
+            type: string
+          required: true  
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              title: Request body descrizione
+              type: object
+              properties:
+                id_esterno:
+                  type: integer
+                  description: ID record tabella esterna
+                PRADET_TIPSLO_CODICE:
+                  type: string
+                  description: Codice dello stato (OPEN,INLAV,FINE)
+              required:
+                - PRADET_TIPSLO_CODICE
+                - id_esterno
+      responses:
+        '200':
+          description: Dato aggiornato success.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    description: true or false.
+                  message:
+                    type: string
+                    description: success or fail.
+  /segnalazioni/detail:
+    post:
+      security:
+      - BasicAuth: []
+      tags:
+      - "Segnalazioni"
+      summary: Recupero segnalazione.
+      parameters:
+        - in: header
+          name: Authorization
+          description: bearer Token
+          schema:
+            type: string
+          required: true
+        - in: header
+          name: Content-Type
+          description: application/json
+          schema:
+            type: string
+          required: true 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              title: Request body descrizione
+              type: object
+              properties:
+                id_esterno:
+                  type: integer
+                  description: Id societa esterna
+              required:
+                - id_esterno
+
+      responses:
+        '200':
+          description: Dato recuperato.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    description: true or false.
+                  message:
+                    type: string
+                    description: success or fail.
+                  idEsterno:
+                    type: integer
+                    description: id recuperato.
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  
