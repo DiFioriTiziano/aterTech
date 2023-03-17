@@ -49,20 +49,26 @@ export enum RulerFactoryOption {
           <table class="table table-sm table-striped mt-2">
             <thead>
               <tr>
-                <th>Username</th>
-                <th>Register</th>
-                <th>Status</th>
+                <th>Matricola</th>
+                <th>Info</th>
+                <th>Data</th>
+                <th>Stato</th>
+                <th></th>
+                <th></th>
+
               </tr>
             </thead>
-            <tbody *ngIf="data?.length != 0">
+            <tbody *ngIf="jobList?.length != 0">
 
-              <tr *ngFor="let item of data  | filterAll:searchText" >
-                <td> {{item.Username}}</td>
-                <td> {{item.registered}}</td>
+              <tr *ngFor="let item of jobList  | filterAll:searchText" >
+                <td> {{item.vpsinf_matricola}}</td>
+                <td> {{item.vpsinf_info}}</td>
+                <td> {{item.vpsinf_dal}}</td>
                 <td><span class="badge badge-success">Active</span></td>
+
+                <td><span class="badge badge-info">Modifica</span></td>
+                <td><span class="badge badge-danger">Annulla</span></td>
               </tr>
-
-
 
             </tbody>
           </table>
@@ -88,58 +94,12 @@ export enum RulerFactoryOption {
 })
 export class DataTablesComponent implements OnInit {
 
+  @Input('jobList') jobList:any;
+
   searchText = '';
   p: number = 1;
 
-
- data =  [
-    {
-      "Username": "Leopold Gáspár",
-      "registered": "2012/01/22",
-      "Role": "Staff",
-      "Status": "Active",
-    },
-    {
-      "Username": "Leopold Gáspár2",
-      "registered": "2012/01/22",
-      "Role": "Staff",
-      "Status": "Active",
-    },
-    {
-      "Username": "Leopold Gáspár3",
-      "registered": "2012/01/21",
-      "Role": "Staff",
-      "Status": "Active",
-    },
-    {
-      "Username": "Leopold Gáspár4",
-      "registered": "2012/01/23",
-      "Role": "Staff",
-      "Status": "Active",
-    },
-    {
-      "Username": "Leopold Gáspár5",
-      "registered": "2012/01/23",
-      "Role": "Staff",
-      "Status": "Active",
-    },
-    {
-      "Username": "Leopold Gáspár6",
-      "registered": "2012/01/21",
-      "Role": "Staff",
-      "Status": "Active",
-    },
-        {
-      "Username": "Leopold Gáspár7",
-      "registered": "2012/01/21",
-      "Role": "Staff",
-      "Status": "Active",
-    },
-]
-
   title:string;
-
-
 
 
   constructor() {

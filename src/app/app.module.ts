@@ -44,6 +44,8 @@ import { AppRoutingModule } from './app.routing';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenApiInterceptor } from './shared/token-api.interceptor';
 
 
 
@@ -53,6 +55,7 @@ import { ChartsModule } from 'ng2-charts';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    HttpClientModule,
     AppAsideModule,
     AppBreadcrumbModule.forRoot(),
     AppFooterModule,
@@ -74,10 +77,13 @@ import { ChartsModule } from 'ng2-charts';
 
 
   ],
-  providers: [{
+  providers: [
+  {
     provide: LocationStrategy,
-    useClass: HashLocationStrategy
-  }],
+    useClass: HashLocationStrategy,
+  },
+  { provide: HTTP_INTERCEPTORS, useClass: TokenApiInterceptor, multi: true }
+],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
   ],
@@ -85,7 +91,7 @@ import { ChartsModule } from 'ng2-charts';
 })
 export class AppModule { }
 
-
+//
 
 // ng g m features/login/login --flat --routing -d && ng g c features/login/container-login --flat  --inlineStyle=true -d
 

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../shared/service/auth/auth.service';
 
 @Component({
   selector: 'ater-container-login',
@@ -12,9 +13,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContainerLoginComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.authService.apiLogin().subscribe( ()=> console.log ) ;
   }
+
+
 
 }
