@@ -5,7 +5,9 @@ import {
   Input,
   Output,
   EventEmitter,
+  ViewChild,
 } from '@angular/core';
+import {ModalDirective} from 'ngx-bootstrap/modal';
 
 
 
@@ -28,6 +30,10 @@ export enum RulerFactoryOption {
       <div class="card">
         <div class="card-header">
           <i class="fa fa-align-justify"></i> {{title}}
+
+          <div class="card-header-actions">
+          <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" (click)="primaryModal.show()"><i class="fa fa-plus-square"></i>&nbsp;Nuovo intervento</button>
+          </div>
         </div>
 
         <div class="card-body">
@@ -89,11 +95,39 @@ export enum RulerFactoryOption {
           </ul>
         </div>
       </div>
+
+
+
+
+
+
+
+      <div bsModal #primaryModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-primary" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Nuovo intervento</h4>
+        <button type="button" class="close" (click)="primaryModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>One fine body&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="primaryModal.hide()">Close</button>
+        <button type="button" class="btn btn-primary">Salva</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
   `,
   styleUrls: ['./data-tables.component.css']
 })
 export class DataTablesComponent implements OnInit {
 
+
+  @ViewChild('primaryModal') public primaryModal: ModalDirective;
   @Input('jobList') jobList:any;
 
   searchText = '';
