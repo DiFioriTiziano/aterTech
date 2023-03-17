@@ -6,8 +6,5 @@
 export const environment = {
   production: false,
 //API
-  BASE_API_URL : 'http://192.168.9.206/v1',
-  api_user: "ater.interno",
-  api_password: "nkgPRW#6u!qDCUmc"
 
 };
