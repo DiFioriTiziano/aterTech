@@ -96,3 +96,11 @@ export class AppModule { }
 // ng g m features/login/login --flat --routing -d && ng g c features/login/container-login --flat  --inlineStyle=true -d
 
 // ng g m shared/ui-kit/ui-kit --flat  -d && ng g c shared/ui-kit/data-tables/data-tables --flat -d
+
+// flag list
+/*
+--inlineStyle=true
+--flat
+--routing
+
+*/

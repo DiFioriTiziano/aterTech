@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FilterAllPipe implements PipeTransform {
 
-    transform(value: any, searchText: any): any {
+     transform(value: any, searchText: any): any {
       if (!searchText) { return value; }
       return value.filter((data: any) => this.matchValue(data, searchText));
     }
@@ -15,6 +15,8 @@ export class FilterAllPipe implements PipeTransform {
         return new RegExp(value, 'gi').test(data[key]);
       }).some(result => result);
     }
+
+
 
 
 }

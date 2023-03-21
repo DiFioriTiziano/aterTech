@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { map } from 'rxjs/operators';
 import { InterventiService } from '../../../../shared/service/interventi/porteAllarmate/porte-allarmate-service.service';
 
 
@@ -6,7 +7,13 @@ import { InterventiService } from '../../../../shared/service/interventi/porteAl
   selector: 'ater-interventi-list-container',
   template: `
 
-    <ater-data-tables [jobList]= "interventiList" ></ater-data-tables>
+    <div class="card">
+      <div class="card-body">
+      <ater-interventi-create-modal></ater-interventi-create-modal>
+      </div>
+    </div>
+
+    <ater-data-tables *ngIf="interventiList" [jobList]= "interventiList" ></ater-data-tables>
   `,
   styles: [
   ]
@@ -20,7 +27,7 @@ export class InterventiListContainerComponent implements OnInit {
 
   ngOnInit(): void {
     let filter = {"matricola":""}
-    this.interventiService.read(filter).subscribe( (res)=> this.interventiList = res.InterventiAter) ;
+    this.interventiService.read(filter).subscribe( (res)=> this.interventiList = res.InterventiAter);
   }
-
+// .subscribe( (res)=> this.interventiList = res.InterventiAter)
 }
