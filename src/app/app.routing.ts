@@ -8,6 +8,7 @@ import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { ContainerLoginComponent } from './features/login/container-login.component';
 import { RegisterComponent } from './views/register/register.component';
+import { LoginComponent } from './views/login/login.component';
 
 export const routes: Routes = [
 /*   {
@@ -34,13 +35,21 @@ export const routes: Routes = [
       title: 'Page 500'
     }
   },
-  {
+   {
     path: 'login',
     component: ContainerLoginComponent,
     data: {
       title: 'Login Page'
     }
   },
+
+/*   {
+    path: 'log',
+    component: LoginComponent,
+    data: {
+      title: 'Login Page'
+    }
+  }, */
   {
     path: 'register',
     component: RegisterComponent,
@@ -73,6 +82,10 @@ export const routes: Routes = [
       },
       {
         path: 'dashboard',
+        loadChildren: () => import('./features/dashboard/dashboard.module').then(m => m.DashboardModule)
+      },
+      {
+        path: 'dash',
         loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule)
       },
       {

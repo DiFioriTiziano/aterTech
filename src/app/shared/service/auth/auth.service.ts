@@ -19,7 +19,7 @@ export class AuthService {
         "password": environment.api_password
       }
 
-        return this.http_client.post<any>(`${environment.BASE_API_URL}/auth/login`,  this.apiUser).pipe(
+        return this.http_client.post<any>(`${environment.BASE_API_URL}/v1/auth/login`,  this.apiUser).pipe(
           tap(res =>  {
             this.setSession(res,environment.api_user)
             } ),

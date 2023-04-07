@@ -11,7 +11,7 @@ export class AssetService {
 
 
   assetAll() {
-    return this.http_client.get<any>(`${environment.BASE_API_URL}/patrimonio/assetAll`)
+    return this.http_client.get<any>(`${environment.BASE_API_URL}/v1/patrimonio/assetAll`)
   }
 
 

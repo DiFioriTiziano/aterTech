@@ -50,6 +50,8 @@ import { TokenApiInterceptor } from './shared/token-api.interceptor';
 
 
 
+
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -74,8 +76,6 @@ import { TokenApiInterceptor } from './shared/token-api.interceptor';
     LoginComponent,
     ContainerLoginComponent,
     RegisterComponent,
-
-
   ],
   providers: [
   {
@@ -99,7 +99,8 @@ export class AppModule { }
 
 // flag list
 /*
---inlineStyle=true
+--inline-Style=true
+--skip-tests
 --flat
 --routing
 

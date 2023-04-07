@@ -7,25 +7,33 @@ import { InterventiListContainerComponent } from './interventi-list/interventi-l
 import { AlertModule } from 'ngx-bootstrap/alert';
 
 // Modal Component
-import { ModalModule } from 'ngx-bootstrap/modal';
+import { PaginationModule, PaginationConfig } from 'ngx-bootstrap/pagination';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { interventiAnnullo_ModalComponent } from './modals/interventi-annullo/interventi-annullo_modal.component';
+import { InterventiCreateModalContainerComponent } from './modals/interventi-create/interventi-create-modal-container.component';
 import { InterventiCreateModalComponent } from './modals/interventi-create/interventi-create-modal.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 
 
 @NgModule({
-  declarations: [InterventiListContainerComponent, InterventiCreateModalComponent],
+  declarations: [
+    InterventiListContainerComponent,
+    interventiAnnullo_ModalComponent,
+    InterventiCreateModalContainerComponent,
+    InterventiCreateModalComponent
+  ],
   imports: [
     HttpClientModule,
     CommonModule,
     InterventiRoutingModule,
     UiKitModule,
-    ModalModule.forRoot(),
-    FormsModule,
-    ReactiveFormsModule,
-    AlertModule.forRoot()
+    AlertModule.forRoot(),
+    PaginationModule.forRoot()
   ],
   providers: [
+    BsModalService,
+    PaginationConfig,
 
   ],
 })

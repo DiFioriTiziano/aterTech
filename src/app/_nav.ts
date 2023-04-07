@@ -31,7 +31,7 @@ export const navItems: INavData[] = [
   },
   {
     name: 'Scarica guida',
-    url: 'http://coreui.io/angular/',
+    url: 'https://www.aterroma.it/',
     icon: 'icon-cloud-download',
     class: 'mt-auto',
     variant: 'success',
