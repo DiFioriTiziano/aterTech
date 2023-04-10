@@ -18,7 +18,7 @@ import { UtilityService } from '../../../../../shared/service/utility/utility.se
           </div>
           <div class="modal-body text-primary">
 
-              <form [formGroup]="Form_update" (ngSubmit)="onSubmit(Form_update)" class="form-horizontal">
+              <form *ngIf="Form_update" [formGroup]="Form_update" (ngSubmit)="onSubmit(Form_update)" class="form-horizontal">
                   <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="vpsinf_matricola">Matricola</label>
                       <div class="col-md-9">
@@ -79,7 +79,7 @@ import { UtilityService } from '../../../../../shared/service/utility/utility.se
 
 
   `,
-  styleUrls: ['./interventi-update.component.css']
+  styles: []
 })
 export class InterventiUpdateComponent implements OnInit {
 
@@ -125,7 +125,6 @@ export class InterventiUpdateComponent implements OnInit {
 
 
 
-
   onSubmit(Form_update): void {
     let datiModificati = Form_update.value
 
@@ -138,10 +137,12 @@ export class InterventiUpdateComponent implements OnInit {
       "data_inizio": this.utilityService.convertDateIso(datiModificati.vpsinf_dal),
       "ora_inizio": '12:03:36',
       "type": '',
-      "utent_id": '425'
+      "utent_id": 425
   }
 
     this.datiModificati.emit(bodyRequest);
+
+    this.bsModalRef.hide()
 
   }
 

@@ -24,7 +24,6 @@ import { RegisterComponent } from './views/register/register.component';
 import { ContainerLoginComponent } from './features/login/container-login.component';
 import { LoginComponent } from './features/login/components/login.component';
 
-
 const APP_CONTAINERS = [
   DefaultLayoutComponent
 ];

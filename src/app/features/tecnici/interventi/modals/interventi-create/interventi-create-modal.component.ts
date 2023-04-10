@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {BsModalRef, ModalDirective} from 'ngx-bootstrap/modal';
 import { InterventiService } from '../../../../../shared/service/interventi/porteAllarmate/porte-allarmate-service.service';
@@ -15,6 +15,8 @@ import { InterventiService } from '../../../../../shared/service/interventi/port
 export class InterventiCreateModalComponent implements OnInit {
 
   @ViewChild('primaryModal') public primaryModal: ModalDirective;
+
+  @Output() datiAdd : EventEmitter<any> = new EventEmitter<any>()
 
   @Input('asset') public assetAter: any;
   @Input('tipologie') public tipologie: any;
@@ -108,38 +110,11 @@ export class InterventiCreateModalComponent implements OnInit {
     this.FormCreate.reset()
   }
 
-/*   saveJob(){
-
-    this.FormCreate.controls['vpsinf_matricola'].enable();
-
-    let obj={
-      "id_esterno": 0,
-      "id_tipologia": this.FormCreate.controls.vpsinf_tipologia.value,
-      "matricola": this.FormCreate.controls.vpsinf_matricola.value,
-      "note": this.FormCreate.controls.vpsinf_info.value,
-      "data_intervento": "2023-09-29T15:00:00.000Z",
-      "ora_intervento": "",
-      "data_fine": "",
-      "utent_id": "466"
-    }
-
-    this.interventiService.create(obj).subscribe( (res)=> {
-      console.log("response create: ", res)
-    });
-
-
-    this.FormCreate.controls['vpsinf_matricola'].disable();
-    this.FormCreate.reset()
-
-  } */
-
-
 
 
   onSubmit(): void {
-    //const newData = this.FormCreate.get('newData').value;
-    console.log(this.FormCreate.value)
 
+    console.log(this.FormCreate.value)
 
     this.FormCreate.controls['vpsinf_matricola'].enable();
 
@@ -151,26 +126,15 @@ export class InterventiCreateModalComponent implements OnInit {
       "data_intervento": "2023-04-07T15:00:00.000Z",
       "ora_intervento": "12:00",
       "data_fine": "2023-04-09T15:00:00.000Z",
-      "utent_id": "466"
+      "utent_id": 425
     }
 
-    this.interventiService.create(this.obj).subscribe(
-      () => {
-        this.obj = '';
-        this.interventiService.emitDataUpdated();
-      },
-      (error) => {
-        console.error(error);
-      }
 
-    );
-
-
-
+    this.datiAdd.emit(this.obj);
 
     this.FormCreate.controls['vpsinf_matricola'].disable();
     this.FormCreate.reset()
-
+    this.bsModalRef.hide()
 
 
   }

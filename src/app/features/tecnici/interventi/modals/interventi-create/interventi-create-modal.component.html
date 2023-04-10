@@ -57,7 +57,7 @@
                 <!--  ------------------------------ -->
 
 
-              <form [formGroup]="FormCreate" (submit)="onSubmit()" class="form-horizontal">
+              <form *ngIf="FormCreate" [formGroup]="FormCreate" (submit)="onSubmit()" class="form-horizontal">
                   <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="vpsinf_matricola">Matricola</label>
                       <div class="col-md-9">
@@ -111,7 +111,7 @@
               </div>
 
 
-                          {{ FormCreate.value | json  }}
+                          {{ FormCreate.value  }}
 
 
                 <div class="modal-footer">

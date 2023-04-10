@@ -11,6 +11,7 @@ import { InterventiService } from '../../../../../shared/service/interventi/port
 
                   [asset]="asset"
                   [tipologie]="tipologie"
+                  (datiAdd)="interventoAggiunto($event)"
               >
           </ater-interventi-create-modal>
 
@@ -36,6 +37,19 @@ export class InterventiCreateModalContainerComponent implements OnInit  {
   }
 
 
+  interventoAggiunto(datiAdd){
+
+    this.interventiService.create(datiAdd).subscribe(
+      (res) => {
+        console.log("create response dati aggiunti", res)
+        this.interventiService.emitDataUpdated()
+      },
+      (error) => {
+        console.error(error);
+      }
+
+    );
+  }
 
 
 
