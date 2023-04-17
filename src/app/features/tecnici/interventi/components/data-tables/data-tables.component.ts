@@ -5,11 +5,11 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { interventiAnnullo_ModalComponent } from '../../modals/interventi-annullo/interventi-annullo_modal.component';
 import { interventiNote_ModalComponent } from '../../modals/interventi-note/interventi-note_modal.component';
 import { InterventiUpdateContainerComponent } from '../../modals/interventi-update/interventi-update-container.component';
-import { interventi } from '../../model/interventi.model';
+import { interventi, InterventiAter } from '../../model/interventi.model';
 import { Observable } from 'rxjs';
 
 
-export interface NumberedPagination {
+/* export interface NumberedPagination {
   index: number;
   maxPages: number;
   pages: number[];
@@ -20,11 +20,12 @@ export enum RulerFactoryOption {
   End = 'END',
   Default = 'DEFAULT',
 }
-
+ */
 
 @Component({
   selector: 'ater-data-tables',
   template: `
+<div class="animated fadeIn">
       <div class="card">
         <div class="card-header">
           <i class="fa fa-align-justify"></i> {{title}}
@@ -70,9 +71,9 @@ export enum RulerFactoryOption {
               </tr>
             </thead>
            <!-- <tbody *ngIf="allJobs?.length != 0">-->
-           <tbody *ngIf="allJobs?.length != 0">
+           <tbody *ngIf="allJobs">
 
-            <tr *ngFor="let item of allJobs" >
+            <tr *ngFor="let item of allJobs.slice(0, 10)" >
               <td> {{item.vpsinf_id}}</td>
                 <td> {{item.vpsinf_matricola}}</td>
                 <td> {{item.tipvps_descrizione}}</td>
@@ -105,16 +106,20 @@ export enum RulerFactoryOption {
             </tbody>
           </table>
 
+<hr>
+<!--           {{allJobs | json }} -->
 
-        <!-- <pagination
+
+         <pagination *ngIf="jobList"
               [boundaryLinks]="showBoundaryLinks"
-              [totalItems]="jobs.length"
+              [totalItems]="jobList.length"
               [itemsPerPage]="10"
               (pageChanged)="pageChanged($event)">
-          </pagination> -->
+          </pagination>
 
         </div>
       </div>
+</div>
   `,
   styleUrls: ['./data-tables.component.css']
 })
@@ -122,15 +127,18 @@ export class DataTablesComponent implements OnInit {
 
   @Output('annullamento') annullamento : EventEmitter<any> = new EventEmitter<any>()
   @Output('valida') valida : EventEmitter<any> = new EventEmitter<any>()
-  @Input('jobList') jobList: interventi;
+  @Input('jobList') jobList: InterventiAter[];
+
+
+
 
   bsModalRef: BsModalRef;
 
-   startItem:any
-   endItem:any
+  startItem:any
+  endItem:any
 
   modeU: string = "U";
-
+  accodaDati : InterventiAter[]
 
 
   searchText = '';
@@ -139,68 +147,64 @@ export class DataTablesComponent implements OnInit {
 
   RecordCount: number;
   jobs:any
-  allJobs :any;
+  allJobs : InterventiAter[];
   data:any
 
 
   constructor(private modalService: BsModalService) {
   this.title = "Lista Interventi"
+
    }
 
 
   ngOnInit(): void {
 
-      console.log("come arriva in dtb...", this.jobList)
-      this.allJobs = this.jobList;
-      this.jobs = this.jobList;
-    //  this.allJobs = this.jobList.slice(0, 10);
+
   }
 
 
-/*     ngOnChanges(changes: SimpleChanges) {
-    let data = changes.jobList.currentValue
-    this.allJobs = data.slice(this.startItem, this.endItem);
-  } */
 
-  public openModal_Update(item) {
-        const initialState = {
-          data: item,
-          title: 'Modifica'
-        };
-    this.bsModalRef = this.modalService.show(InterventiUpdateContainerComponent, {initialState});
-    //this.bsModalRef.content.data= item;
+  ngOnChanges(changes: SimpleChanges) {
+    this.allJobs = changes.jobList.currentValue ;
   }
 
-  public openModal_Annullo(item) {
-        const initialState = {
-          data: [item],
-          title: 'Annullamento'
-        };
-    this.bsModalRef = this.modalService.show(interventiAnnullo_ModalComponent, {initialState});
-    this.bsModalRef.content.data= item;
-  }
+      public openModal_Update(item) {
+            const initialState = {
+              data: item,
+              title: 'Modifica'
+            };
+        this.bsModalRef = this.modalService.show(InterventiUpdateContainerComponent, {initialState});
+        //this.bsModalRef.content.data= item;
+      }
 
-  public openModal_Nota(item) {
-        const initialState = {
-          dati: item,
-          title: 'Note'
-        };
-    this.bsModalRef = this.modalService.show(interventiNote_ModalComponent, {initialState});
-    this.bsModalRef.content.data= item;
-  }
+      public openModal_Annullo(item) {
+            const initialState = {
+              data: [item],
+              title: 'Annullamento'
+            };
+        this.bsModalRef = this.modalService.show(interventiAnnullo_ModalComponent, {initialState});
+        this.bsModalRef.content.data= item;
+      }
+
+      public openModal_Nota(item) {
+            const initialState = {
+              dati: item,
+              title: 'Note'
+            };
+        this.bsModalRef = this.modalService.show(interventiNote_ModalComponent, {initialState});
+        this.bsModalRef.content.data= item;
+      }
 
   search(value: string): void {
-    //this.allJobs = this.jobList.filter((val) => val.vpsinf_matricola.toLowerCase().includes(value));
-    //this.RecordCount = this.allJobs.length;
-   // this.jobs = this.allJobs;
-    //console.log("count ",this.RecordCount)
+    this.allJobs = this.jobList.filter((val) => val.vpsinf_matricola.toLowerCase().includes(value));
+   // this.jobList = this.allJobs.slice(this.startItem, this.endItem);
   }
 
 
-    pageChanged(event: PageChangedEvent): void {
+  pageChanged(event: PageChangedEvent): void {
     this.startItem = (event.page - 1) * event.itemsPerPage;
     this.endItem = event.page * event.itemsPerPage;
-   // this.allJobs = this.jobList.slice(this.startItem, this.endItem);
+    this.allJobs = this.jobList.slice(this.startItem, this.endItem);
   }
 
 

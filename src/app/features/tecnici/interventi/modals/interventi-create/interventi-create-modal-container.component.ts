@@ -1,6 +1,8 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { of, Observable } from 'rxjs';
 import { AssetService } from '../../../../../shared/service/asset/asset.service';
 import { InterventiService } from '../../../../../shared/service/interventi/porteAllarmate/porte-allarmate-service.service';
+import { interventi, InterventiAter } from './../../model/interventi.model';
 
 
 @Component({
@@ -39,16 +41,24 @@ export class InterventiCreateModalContainerComponent implements OnInit  {
 
   interventoAggiunto(datiAdd){
 
-    this.interventiService.create(datiAdd).subscribe(
+    let add$ = this.interventiService.create(datiAdd)
+    add$.subscribe((x)=> {
+      let new$:Observable<InterventiAter[]> = of(x.itemCreato)
+      console.log("item passato",x.itemCreato)
+        this.interventiService.emitDataCreate(new$)
+    })
+
+/*      this.interventiService.create(datiAdd).subscribe(
       (res) => {
-        console.log("create response dati aggiunti", res)
-        this.interventiService.emitDataUpdated()
+          this.interventiService.emitDataCreate()
       },
       (error) => {
         console.error(error);
       }
 
-    );
+    ); */
+
+
   }
 
 

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {BsModalRef, ModalDirective} from 'ngx-bootstrap/modal';
+import { Subject } from 'rxjs';
 import { InterventiService } from '../../../../../shared/service/interventi/porteAllarmate/porte-allarmate-service.service';
 
 
@@ -14,23 +15,25 @@ import { InterventiService } from '../../../../../shared/service/interventi/port
 })
 export class InterventiCreateModalComponent implements OnInit {
 
-  @ViewChild('primaryModal') public primaryModal: ModalDirective;
+//public onClose: Subject<any>;
 
-  @Output() datiAdd : EventEmitter<any> = new EventEmitter<any>()
+    @ViewChild('primaryModal') public primaryModal: ModalDirective;
 
-  @Input('asset') public assetAter: any;
-  @Input('tipologie') public tipologie: any;
+    @Output() datiAdd : EventEmitter<any> = new EventEmitter<any>()
 
-  FormCreate: FormGroup;
-  asset: any
-  page = 1;
-  pageSize :any;
-  filteredItems :any;
-  jobTotali:any;
-  keySearch:string = "";
-  bloccaMatricola: boolean = false
+    @Input('asset') public assetAter: any;
+    @Input('tipologie') public tipologie: any;
 
-  obj:any
+    FormCreate: FormGroup;
+    asset: any
+    page = 1;
+    pageSize :any;
+    filteredItems :any;
+    jobTotali:any;
+    keySearch:string = "";
+    bloccaMatricola: boolean = false
+
+    obj:any
 
 
   constructor(
@@ -55,11 +58,9 @@ export class InterventiCreateModalComponent implements OnInit {
 
   ngOnInit(): void {
 
-     this.asset = this.assetAter
-      console.log(this.asset)
-
+  // this.onClose = new Subject();
+    // this.asset = this.assetAter
       this.filterItems(this.keySearch);
-    console.log(this.tipologie)
 
   }
 
@@ -76,7 +77,7 @@ export class InterventiCreateModalComponent implements OnInit {
         this.FormCreate.reset();
       }
 
-      this.filteredItems = this.asset.filter(item =>{
+      this.filteredItems = this.assetAter.filter(item =>{
         return Object.values(item).some(value => {
           return typeof value === 'string' && value.toLowerCase().includes(filtro);
         });
@@ -107,14 +108,28 @@ export class InterventiCreateModalComponent implements OnInit {
   }
 
   reset(){
+
+    this.obj={
+      "id_esterno": 0,
+      "id_tipologia": this.FormCreate.controls.vpsinf_tipologia.value,
+      "matricola": this.FormCreate.controls.vpsinf_matricola.value,
+      "note": this.FormCreate.controls.vpsinf_info.value,
+      "data_intervento": "2023-04-07T15:00:00.000Z",
+      "ora_intervento": "12:00",
+      "data_fine": "2023-04-09T15:00:00.000Z",
+      "utent_id": 425
+    }
+
+
+    this.bsModalRef.hide();
+
+    //console.log(this.obj)
     this.FormCreate.reset()
   }
 
 
 
   onSubmit(): void {
-
-    console.log(this.FormCreate.value)
 
     this.FormCreate.controls['vpsinf_matricola'].enable();
 

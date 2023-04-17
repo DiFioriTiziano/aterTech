@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'ater-dashboard',
   template: `
-    <div class="animated fadeIn">
+<div class="animated fadeIn">
 
 
     <div class="card border-primary">
@@ -36,7 +36,7 @@ import { Component, OnInit } from '@angular/core';
           <div>	Riconsegna alloggio, installazione allarme</div>
         </div>
         <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
-sdfgsdfgsdfgsdf
+
         </div>
       </div>
     </div><!--/.col-->
@@ -57,7 +57,7 @@ sdfgsdfgsdfgsdf
           <div>Apertura Alloggio</div>
         </div>
         <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
-sdfgsdfgsdfgsdfg
+
         </div>
       </div>
     </div><!--/.col-->

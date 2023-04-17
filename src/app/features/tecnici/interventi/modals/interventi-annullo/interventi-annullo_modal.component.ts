@@ -6,6 +6,7 @@ import { BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 @Component({
   selector: 'ater-modal',
   template: `
+<div class="animated fadeIn">
             <div class="modal-header bg-danger">
                 <h4 class="modal-title">{{title}}</h4>
 
@@ -34,6 +35,7 @@ import { BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
                     </form>
 
                 </div>
+</div>
   `,
   styles: [ ]
 })

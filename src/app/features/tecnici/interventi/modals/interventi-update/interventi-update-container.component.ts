@@ -38,7 +38,7 @@ export class InterventiUpdateContainerComponent implements OnInit {
     console.log(datiModificati)
      this.interventiService.update(datiModificati).subscribe( (res) =>
       {
-        this.interventiService.emitDataUpdated()
+        //this.interventiService.emitDataUpdated()
       },
       (error) => {
         console.error(error);

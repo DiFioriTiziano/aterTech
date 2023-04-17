@@ -9,7 +9,7 @@ import { UtilityService } from '../../../../../shared/service/utility/utility.se
 @Component({
   selector: 'ater-interventi-update',
   template: `
-
+  <div class="animated fadeIn">
           <div class="modal-header bg-primary">
             <h4 class="modal-title">{{title}}</h4>
             <button type="button" class="close" (click)="bsModalRef.hide()" aria-label="Close">
@@ -76,7 +76,7 @@ import { UtilityService } from '../../../../../shared/service/utility/utility.se
            </form>
 
           </div>
-
+  </div>
 
   `,
   styles: []

@@ -4,6 +4,7 @@ import { BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 @Component({
   selector: 'ater-modal-note',
   template: `
+<div class="animated fadeIn">
         <div class="modal-header bg-success">
           <h4 class="modal-title">Note</h4>
           <button type="button" class="close" (click)="bsModalRef.hide()" aria-label="Close">
@@ -25,9 +26,7 @@ import { BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
          </form>
 
         </div>
-
-
-
+</div>
   `,
   styles: []
 })

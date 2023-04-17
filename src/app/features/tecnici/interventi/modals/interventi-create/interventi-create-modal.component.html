@@ -1,128 +1,118 @@
 
+<div class="animated fadeIn">
+    <div class="modal-header bg-primary">
+      <h4 class="modal-title">Nuovo intervento</h4>
+      <button type="button" class="close" (click)="bsModalRef.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body text-primary">
 
+          <!-- RICERCA JOBS -->
+          <div class="card border-primary">
+            <div class="card-body">
 
-<!-- CONDIZIONE SCELTA BOTTONI -->
-<!--
-<button  type="button" class="btn btn-sm btn-primary" data-toggle="modal" (click)="primaryModal.show()"><i class="fa fa-lg fa-plus-square"></i> Nuovo intervento</button>
- -->
-<!--  ----------------------- -->
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-search"></i></span>
+              </div>
+                  <input
+                    name="testCerca"
+                    (keyup)="onSearch($event.target.value)"
+                    placeholder="Cerca..."
+                    class="form-control form-control-sm"
+                    type="text"
+                    id="testCerca"
+                  >
+            </div>
 
-
-
-
-          <div class="modal-header bg-primary">
-            <h4 class="modal-title">Nuovo intervento</h4>
-            <button type="button" class="close" (click)="bsModalRef.hide()" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body text-primary">
-
-                <!-- RICERCA JOBS -->
-                <div class="card border-primary">
-                  <div class="card-body">
-
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fa fa-search"></i></span>
-                    </div>
-                        <input
-                          name="testCerca"
-                          (keyup)="onSearch($event.target.value)"
-                          placeholder="Cerca..."
-                          class="form-control form-control-sm"
-                          type="text"
-                          id="testCerca"
-                        >
-                  </div>
-
-                  <div class="container">
-                    <div class="row">
-                      <div class="col-sm text-left">
-                      <button  *ngFor="let page of [1,2,3,4,5,6]" class="btn btn-sm"  (click)="onPageChange(page)">{{page}}</button>
-                      </div>
-                      <div class="col-sm text-right">
-                        In lista trovati (50) di {{jobTotali}}
-                      </div>
-
-                    </div>
-                  </div>
-
-                    <select (change)="setValore($event.target.value)" id="select1"  name="select1" class="form-control form-control-sm">
-                      <option *ngFor="let job of filteredItems"   value="{{ job.matricola_su_contratto }}" >{{ job.matricola_su_contratto }} ( {{ job.indirizzo }} - {{ job.localizzazione }} )</option>
-                    </select>
-
-                  </div>
+            <div class="container">
+              <div class="row">
+                <div class="col-sm text-left">
+                <button  *ngFor="let page of [1,2,3,4,5,6]" class="btn btn-sm"  (click)="onPageChange(page)">{{page}}</button>
                 </div>
-                <!--  ------------------------------ -->
-
-
-              <form *ngIf="FormCreate" [formGroup]="FormCreate" (submit)="onSubmit()" class="form-horizontal">
-                  <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="vpsinf_matricola">Matricola</label>
-                      <div class="col-md-9">
-                        <input  type="text" formControlName="vpsinf_matricola" value="" id="vpsinf_matricola" name="vpsinf_matricola"  class="form-control form-control-sm" placeholder="">
-                      </div>
-                  </div>
-
-                  <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="vpsinf_tipologia">Intervento</label>
-                      <div class="col-md-9">
-                          <select  formControlName="vpsinf_tipologia"  id="vpsinf_tipologia" name="vpsinf_tipologia" class="form-control form-control-sm">
-                            <option *ngFor="let tipo of tipologie"   value="{{ tipo.tipvps_id }}" >{{ tipo.tipvps_id }} ) {{ tipo.tipvps_descrizione }} </option>
-                          </select>
-                      </div>
-                  </div>
-
-                  <div   class="form-group row">
-                    <div class="col-md-9">
-
-                          <!-- <select    id="select1"  name="select1" class="form-control form-control-sm">
-                            <option *ngFor="let job of asset  | filterAll:searchText" value="{{ job.matricola_su_contratto }}" >{{ job.matricola_su_contratto }} ( {{ job.indirizzo }} )</option>
-                          </select> -->
-
-                    </div>
-                  </div>
-
-                  <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="vpsinf_info">Informazioni</label>
-                    <div class="col-md-9">
-                    <textarea formControlName="vpsinf_info" value="" id="vpsinf_info" name="vpsinf_info" rows="4" class="form-control" placeholder=""></textarea>
-                    </div>
-                  </div>
-
-
-                  <div class="form-group row">
-
-                        <label class="col-md-3 col-form-label" for="vpsinf_dal">Data dal</label>
-                        <div class="col-md-5">
-                          <input  type="date" formControlName="vpsinf_dal" value="" class="form-control form-control-sm" id="vpsinf_dal" name="vpsinf_dal" rows="4">
-                        </div>
-
-                  </div>
-
-                  <div class="form-group row">
-
-                    <label class="col-md-3 col-form-label" for="vpsinf_al">Al</label>
-                    <div class="col-md-5">
-                      <input  type="date" formControlName="vpsinf_al" value="" class="form-control form-control-sm" id="vpsinf_al" name="vpsinf_al" rows="4">
-                    </div>
+                <div class="col-sm text-right">
+                  In lista trovati (50) di {{jobTotali}}
+                </div>
 
               </div>
+            </div>
 
+              <select (change)="setValore($event.target.value)" id="select1"  name="select1" class="form-control form-control-sm">
+                <option *ngFor="let job of filteredItems"   value="{{ job.matricola_su_contratto }}" >{{ job.matricola_su_contratto }} ( {{ job.indirizzo }} - {{ job.localizzazione }} )</option>
+              </select>
 
-                          {{ FormCreate.value  }}
-
-
-                <div class="modal-footer">
-                  <button [disabled]="!FormCreate.valid" type="submit" class="btn btn-primary" >Crea</button>
-                  <button type="button" class="btn btn-secondary" (click)="bsModalRef.hide()" (click)="reset()">Close</button>
-                  <!-- <button [disabled]="!FormCreate.valid" type="submit" (click)="saveJob()" class="btn btn-primary">Crea</button> -->
-                </div>
-           </form>
-
+            </div>
           </div>
+          <!--  ------------------------------ -->
 
+
+        <form *ngIf="FormCreate" [formGroup]="FormCreate" (submit)="onSubmit()" class="form-horizontal">
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="vpsinf_matricola">Matricola</label>
+                <div class="col-md-9">
+                  <input  type="text" formControlName="vpsinf_matricola" value="" id="vpsinf_matricola" name="vpsinf_matricola"  class="form-control form-control-sm" placeholder="">
+                </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="vpsinf_tipologia">Intervento</label>
+                <div class="col-md-9">
+                    <select  formControlName="vpsinf_tipologia"  id="vpsinf_tipologia" name="vpsinf_tipologia" class="form-control form-control-sm">
+                      <option *ngFor="let tipo of tipologie"   value="{{ tipo.tipvps_id }}" >{{ tipo.tipvps_id }} ) {{ tipo.tipvps_descrizione }} </option>
+                    </select>
+                </div>
+            </div>
+
+            <div   class="form-group row">
+              <div class="col-md-9">
+
+                    <!-- <select    id="select1"  name="select1" class="form-control form-control-sm">
+                      <option *ngFor="let job of asset  | filterAll:searchText" value="{{ job.matricola_su_contratto }}" >{{ job.matricola_su_contratto }} ( {{ job.indirizzo }} )</option>
+                    </select> -->
+
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="vpsinf_info">Informazioni</label>
+              <div class="col-md-9">
+              <textarea formControlName="vpsinf_info" value="" id="vpsinf_info" name="vpsinf_info" rows="4" class="form-control" placeholder=""></textarea>
+              </div>
+            </div>
+
+
+            <div class="form-group row">
+
+                  <label class="col-md-3 col-form-label" for="vpsinf_dal">Data dal</label>
+                  <div class="col-md-5">
+                    <input  type="date" formControlName="vpsinf_dal" value="" class="form-control form-control-sm" id="vpsinf_dal" name="vpsinf_dal" rows="4">
+                  </div>
+
+            </div>
+
+            <div class="form-group row">
+
+              <label class="col-md-3 col-form-label" for="vpsinf_al">Al</label>
+              <div class="col-md-5">
+                <input  type="date" formControlName="vpsinf_al" value="" class="form-control form-control-sm" id="vpsinf_al" name="vpsinf_al" rows="4">
+              </div>
+
+        </div>
+
+
+                    {{ FormCreate.value  }}
+
+
+          <div class="modal-footer">
+            <button [disabled]="!FormCreate.valid" type="submit" class="btn btn-primary" >Crea</button>
+            <button type="button" class="btn btn-secondary" (click)="bsModalRef.hide()" (click)="reset()">Close</button>
+            <!-- <button [disabled]="!FormCreate.valid" type="submit" (click)="saveJob()" class="btn btn-primary">Crea</button> -->
+          </div>
+      </form>
+
+    </div>
+</div>
 <!--          <pre>
               <code>
                 status- <b>{{ FormCreate.status }}</b>
