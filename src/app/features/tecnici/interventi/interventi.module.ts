@@ -18,6 +18,8 @@ import { DataTablesComponent } from './components/data-tables/data-tables.compon
 import { PaginationConfig, PaginationModule } from 'ngx-bootstrap/pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+import { interventiAnnullo_ModalContainerComponent } from './modals/interventi-annullo/interventi-annullo_modal-container.component';
+import { NotificationsRoutingModule } from '../../../views/notifications/notifications-routing.module';
 
 
 
@@ -26,6 +28,7 @@ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
   declarations: [
     InterventiListContainerComponent,
     interventiAnnullo_ModalComponent,
+    interventiAnnullo_ModalContainerComponent,
     InterventiCreateModalContainerComponent,
     InterventiCreateModalComponent,
     InterventiUpdateComponent,
@@ -43,6 +46,7 @@ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
     AlertModule.forRoot(),
     PaginationModule.forRoot(),
     ModalModule.forRoot(),
+    NotificationsRoutingModule
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

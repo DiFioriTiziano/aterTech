@@ -14,21 +14,35 @@ export const navItems: INavData[] = [
   {
     name: 'Manutenzioni-Servizi',
     url: '/interventi',
-    icon: 'fa fa-calendar-check-o',
+    icon: 'fa fa-gears',
     children: [
       {
         name: 'Interventi',
-        url: '/interventi/lista',
-        icon: 'fa fa-tasks'
-      },
-      {
-        name: 'Segnalazioni',
-        url: '/interventi/lista',
-        icon: 'fa fa-address-card-o',
-        attributes: { disabled: true },
+        url: '/interventi',
+        icon: 'fa fa-gear',
+        children: [
+          {
+            name: 'Lista',
+            url: '/interventi/lista',
+            icon: 'fa fa-tasks'
+          },
+          {
+            name: 'Validazioni',
+            url: '/interventi/lista',
+            icon: 'fa fa-address-card-o',
+            attributes: { disabled: true },
+          },
+
+        ]
       },
 
     ]
+  },
+  {
+    name: 'Segnalazioni',
+    url: '/interventi',
+    icon: 'fa fa-gears',
+    attributes: { disabled: true },
   },
   {
     name: 'Scarica guida',

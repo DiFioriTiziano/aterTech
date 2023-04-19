@@ -1,10 +1,12 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 
 
+
 @Component({
-  selector: 'ater-modal',
+  selector: 'ater-annullo-modal',
   template: `
 <div class="animated fadeIn">
             <div class="modal-header bg-danger">
@@ -21,16 +23,17 @@ import { BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
                     id <b>({{data.vpsinf_id}})</b>
                     Matricola <b>({{data.vpsinf_matricola}})</b>
                   </p>
-                    <form class="form-horizontal">
+                    <form class="form-horizontal" [formGroup]="Form_update" (ngSubmit)="onSubmit(Form_update)">
                         <div class="form-group row">
                           <label class="col-md-3 col-form-label" for="note">Motivazione</label>
                           <div class="col-md-9">
-                            <textarea value="" id="note" name="note"   class="form-control" placeholder=""> </textarea>
+                            <textarea formControlName="note" value="" id="note" name="note"   class="form-control" placeholder=""> </textarea>
+
                           </div>
                         </div>
 
                           <div class="modal-footer">
-                            <button  type="submit" class="btn btn-danger" >Annulla</button>
+                            <button  type="submit" class="btn btn-danger" >Procedi</button>
                           </div>
                     </form>
 
@@ -41,21 +44,35 @@ import { BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 })
 export class interventiAnnullo_ModalComponent implements OnInit {
 
+  @Input('data') data:any
+  @Input('title') title:any
+  @Output() itemModifica : EventEmitter<any> = new EventEmitter<any>()
 
-  data: any
-  title:string
 
-  constructor(public bsModalRef: BsModalRef) {
+    Form_update: FormGroup;
 
-  }
+  constructor(public bsModalRef: BsModalRef, private fb:FormBuilder) { }
+
 
   ngOnInit(): void {
+
+
+    this.Form_update = this.fb.group({
+      note: [ '', Validators.required],
+    });
+
+
     console.log("Prima ",this.data)
    // this.data = this.options.initialState['datiAnnullati']
 
     console.log("Dopo ",this.data)
   }
 
+
+  onSubmit(Form_update){
+    console.log("submit ",this.Form_update.value)
+    this.itemModifica.emit(Form_update)
+  }
 
 
 }

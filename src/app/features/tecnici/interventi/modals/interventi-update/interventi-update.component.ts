@@ -56,7 +56,7 @@ import { UtilityService } from '../../../../../shared/service/utility/utility.se
 
                   <div class="form-group row">
 
-                        <label class="col-md-3 col-form-label" for="vpsinf_dal">Data inizio</label>
+                        <label class="col-md-3 col-form-label" for="vpsinf_dal">Data/ora inizio</label>
                         <div class="col-md-5">
                           <input  type="date" formControlName="vpsinf_dal" value="{{this.data.vpsinf_dal}}" class="form-control form-control-sm" id="vpsinf_dal" name="vpsinf_dal" rows="4">
                         </div>
@@ -69,7 +69,7 @@ import { UtilityService } from '../../../../../shared/service/utility/utility.se
 
                   <div class="form-group row">
 
-                    <label class="col-md-3 col-form-label" for="vpsinf_al">Data fine</label>
+                    <label class="col-md-3 col-form-label" for="vpsinf_al">Data/ora fine</label>
                     <div class="col-md-5">
                       <input  type="date" formControlName="vpsinf_al" value="" class="form-control form-control-sm" id="vpsinf_al" name="vpsinf_al" rows="4">
                     </div>
