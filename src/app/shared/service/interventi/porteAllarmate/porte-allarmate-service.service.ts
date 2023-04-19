@@ -52,19 +52,17 @@ export class InterventiService {
       return this.interventiUpdated;
     }
 
-    emitDataCreate(obs_data):void {
+    emitDataCreate(obj_creato):void {
+          this.interventiUpdated.next(obj_creato);
+    }
 
-
-    //  let filter = {"matricola":""}
-      //  let resp$ = this.read(filter);
-        //let resp =   resp$.subscribe()
-          this.interventiUpdated.next(obs_data);
+    emitData(obj):void {
+      this.interventiUpdated.next(obj);
     }
 
 
-
-        emitDataUpdated(item):void {
-              this.interventiUpdated.next(item);
+        emitDataUpdated(modifica):void {
+              this.interventiUpdated.next(modifica);
         }
 
 

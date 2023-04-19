@@ -17,6 +17,7 @@ import { InterventiUpdateContainerComponent } from './modals/interventi-update/i
 import { DataTablesComponent } from './components/data-tables/data-tables.component';
 import { PaginationConfig, PaginationModule } from 'ngx-bootstrap/pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 
 
 
@@ -38,6 +39,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     InterventiRoutingModule,
     UiKitModule,
+    TimepickerModule.forRoot(),
     AlertModule.forRoot(),
     PaginationModule.forRoot(),
     ModalModule.forRoot(),

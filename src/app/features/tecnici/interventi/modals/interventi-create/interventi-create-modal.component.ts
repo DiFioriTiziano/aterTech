@@ -34,6 +34,7 @@ export class InterventiCreateModalComponent implements OnInit {
     bloccaMatricola: boolean = false
 
     obj:any
+    time: Date = new Date();
 
 
   constructor(
@@ -108,23 +109,8 @@ export class InterventiCreateModalComponent implements OnInit {
   }
 
   reset(){
-
-    this.obj={
-      "id_esterno": 0,
-      "id_tipologia": this.FormCreate.controls.vpsinf_tipologia.value,
-      "matricola": this.FormCreate.controls.vpsinf_matricola.value,
-      "note": this.FormCreate.controls.vpsinf_info.value,
-      "data_intervento": "2023-04-07T15:00:00.000Z",
-      "ora_intervento": "12:00",
-      "data_fine": "2023-04-09T15:00:00.000Z",
-      "utent_id": 425
-    }
-
-
-    this.bsModalRef.hide();
-
-    //console.log(this.obj)
     this.FormCreate.reset()
+      this.bsModalRef.hide();
   }
 
 
@@ -133,21 +119,10 @@ export class InterventiCreateModalComponent implements OnInit {
 
     this.FormCreate.controls['vpsinf_matricola'].enable();
 
-    this.obj={
-      "id_esterno": 0,
-      "id_tipologia": this.FormCreate.controls.vpsinf_tipologia.value,
-      "matricola": this.FormCreate.controls.vpsinf_matricola.value,
-      "note": this.FormCreate.controls.vpsinf_info.value,
-      "data_intervento": "2023-04-07T15:00:00.000Z",
-      "ora_intervento": "12:00",
-      "data_fine": "2023-04-09T15:00:00.000Z",
-      "utent_id": 425
-    }
-
-
-    this.datiAdd.emit(this.obj);
+    this.datiAdd.emit(this.FormCreate.value);
 
     this.FormCreate.controls['vpsinf_matricola'].disable();
+
     this.FormCreate.reset()
     this.bsModalRef.hide()
 

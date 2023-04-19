@@ -3,6 +3,7 @@ import { of, Observable } from 'rxjs';
 import { AssetService } from '../../../../../shared/service/asset/asset.service';
 import { InterventiService } from '../../../../../shared/service/interventi/porteAllarmate/porte-allarmate-service.service';
 import { interventi, InterventiAter } from './../../model/interventi.model';
+import { UtilityService } from '../../../../../shared/service/utility/utility.service';
 
 
 @Component({
@@ -27,7 +28,8 @@ export class InterventiCreateModalContainerComponent implements OnInit  {
 
   constructor(
     private asset_Service : AssetService,
-    private interventiService: InterventiService
+    private interventiService: InterventiService,
+    private utilityService : UtilityService,
     ) { }
 
   ngOnInit(): void {
@@ -39,24 +41,33 @@ export class InterventiCreateModalContainerComponent implements OnInit  {
   }
 
 
-  interventoAggiunto(datiAdd){
 
-    let add$ = this.interventiService.create(datiAdd)
-    add$.subscribe((x)=> {
-      let new$:Observable<InterventiAter[]> = of(x.itemCreato)
-      console.log("item passato",x.itemCreato)
-        this.interventiService.emitDataCreate(new$)
-    })
 
-/*      this.interventiService.create(datiAdd).subscribe(
-      (res) => {
-          this.interventiService.emitDataCreate()
+
+  interventoAggiunto(FormCreate){
+
+  let bodyRequest={
+          "id_esterno": 0,
+          "id_tipologia":  FormCreate.vpsinf_tipologia,
+          "matricola":  FormCreate.vpsinf_matricola,
+          "note":  FormCreate.vpsinf_info,
+          "data_intervento": this.utilityService.convertDateIso(FormCreate.vpsinf_dal),
+          "ora_intervento": "12:00",
+          "data_fine": this.utilityService.convertDateIso(FormCreate.vpsinf_al),
+          "utent_id": 425
+  }
+
+
+
+     this.interventiService.create(bodyRequest).subscribe((resp)=> {
+          //this.interventiService.emitDataCreate({"data":resp.itemCreato,"operazione":"C"})
+          this.interventiService.emitData({"data":resp.itemCreato,"operazione":"C"})
       },
       (error) => {
         console.error(error);
       }
+    )
 
-    ); */
 
 
   }

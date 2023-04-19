@@ -6,21 +6,8 @@ import { interventiAnnullo_ModalComponent } from '../../modals/interventi-annull
 import { interventiNote_ModalComponent } from '../../modals/interventi-note/interventi-note_modal.component';
 import { InterventiUpdateContainerComponent } from '../../modals/interventi-update/interventi-update-container.component';
 import { interventi, InterventiAter } from '../../model/interventi.model';
-import { Observable } from 'rxjs';
 
 
-/* export interface NumberedPagination {
-  index: number;
-  maxPages: number;
-  pages: number[];
-}
-
-export enum RulerFactoryOption {
-  Start = 'START',
-  End = 'END',
-  Default = 'DEFAULT',
-}
- */
 
 @Component({
   selector: 'ater-data-tables',
@@ -39,7 +26,7 @@ export enum RulerFactoryOption {
 
       <div class="input-group">
         <div class="input-group-prepend">
-          <span class="input-group-text"><i class="fa fa-search"></i></span>
+          <span class="input-group-text  text-primary"><i class="fa fa-search"></i></span>
         </div>
             <input
               name="searchText"
@@ -64,42 +51,44 @@ export enum RulerFactoryOption {
                 <th>Annullamento</th>
                 <th>Autore</th>
                 <th>Modifica</th>
-                <th>Validazione</th>
                 <th>Syncro</th>
-                <th></th>
+                <th>Validazione</th>
                 <th></th>
               </tr>
             </thead>
-           <!-- <tbody *ngIf="allJobs?.length != 0">-->
-           <tbody *ngIf="allJobs">
+           <!-- <tbody *ngIf="allJobs?.length != 0">  .slice(0, 10) -->
+           <tbody *ngIf="jobList">
 
-            <tr *ngFor="let item of allJobs.slice(0, 10)" >
+            <tr *ngFor="let item of jobList.slice(startItem, endItem)" >
               <td> {{item.vpsinf_id}}</td>
                 <td> {{item.vpsinf_matricola}}</td>
                 <td> {{item.tipvps_descrizione}}</td>
                 <td>
-                <a  *ngIf="item.vpsinf_info" href="#/interventi/lista" (click)="openModal_Nota(item)" ><span class="badge badge-success" >Nota</span></a>
+                <a  *ngIf="item.vpsinf_info" href="#/interventi/lista" (click)="openModal_Nota(item)" ><span class="badge animated fadeIn badge-success" >Nota...</span></a>
                 <div  *ngIf="!item.vpsinf_info"  >---</div>
                   <!-- <ater-modal-note [note]="item.vpsinf_info"></ater-modal-note -->
                 </td> <!-- {{item.vpsinf_info}} -->
                 <td> {{item.vpsinf_dal | date: 'dd/MM/yyyy hh:mm a'}}</td>
                 <td> {{item.vpsinf_al | date: 'dd/MM/yyyy hh:mm a'}}</td>
-                <td> {{item.vpsinf_cancellato}}</td>
+
+                <td *ngIf="item.vpsinf_cancellato==='NO'">
+                     {{item.vpsinf_cancellato}} <a href="#/interventi/lista" (click)="openModal_Annullo(item)" class="text-danger animated fadeIn"><i class="fa fa-remove fa-lg"></i></a>
+                </td>
+                <td *ngIf="item.vpsinf_cancellato==='SI'">{{item.vpsinf_cancellato}} </td>
+
                 <td> {{item.utente_creazione}}</td>
                 <td> {{item.utente_aggiornamento}}</td>
                 <td>
-                    <span *ngIf="item.vpsinf_flag_valido==='SI'">Validato</span>
-                    <a href="#/interventi/lista" (click)="validazione(item)"> <span *ngIf="item.vpsinf_flag_valido==='NO'"  class="badge  badge-primary">Validare</span></a>
+                    <span *ngIf="item.vpsinf_id_esterno===0"  class="text-danger">Non sync</span>
+                    <span *ngIf="item.vpsinf_id_esterno > 0" >{{item.vpsinf_id_esterno}}</span>
                 </td>
                 <td>
-                  <span *ngIf="item.vpsinf_id_esterno===0"  class="text-danger">Non sync</span>
-                  <span *ngIf="item.vpsinf_id_esterno > 0" >{{item.vpsinf_id_esterno}}</span>
-
+                    <span  class="animated fadeIn" *ngIf="item.vpsinf_flag_valido==='SI'">Validato</span>
+                    <a href="#/interventi/lista" (click)="validazione(item)"> <span *ngIf="item.vpsinf_flag_valido==='NO'"  class="badge badge-primary animated fadeIn">Validare</span></a>
                 </td>
                 <td class="text-primary">
                 <a href="#/interventi/lista" (click)="openModal_Update(item)" data-toggle="modal"><i class="fa fa-edit fa-lg"></i></a>
                  </td>
-                <td ><a href="#/interventi/lista" (click)="openModal_Annullo(item)" class="text-danger"><i class="fa fa-remove fa-lg"></i></a></td>
 
               </tr>
 
@@ -134,8 +123,8 @@ export class DataTablesComponent implements OnInit {
 
   bsModalRef: BsModalRef;
 
-  startItem:any
-  endItem:any
+  startItem:any = 0
+  endItem:any = 10
 
   modeU: string = "U";
   accodaDati : InterventiAter[]
@@ -158,19 +147,19 @@ export class DataTablesComponent implements OnInit {
 
 
   ngOnInit(): void {
-
-
+    this.allJobs = this.jobList
   }
 
 
 
   ngOnChanges(changes: SimpleChanges) {
-    this.allJobs = changes.jobList.currentValue ;
+  this.jobList = changes.jobList.currentValue ;
+
   }
 
       public openModal_Update(item) {
             const initialState = {
-              data: item,
+              item: item,
               title: 'Modifica'
             };
         this.bsModalRef = this.modalService.show(InterventiUpdateContainerComponent, {initialState});
@@ -196,25 +185,24 @@ export class DataTablesComponent implements OnInit {
       }
 
   search(value: string): void {
-    this.allJobs = this.jobList.filter((val) => val.vpsinf_matricola.toLowerCase().includes(value));
-   // this.jobList = this.allJobs.slice(this.startItem, this.endItem);
+     if(value){
+      this.jobList = this.allJobs.filter((val) => val.vpsinf_matricola.toLowerCase().includes(value));
+    }else{ console.log("niente!")
+      this.jobList = this.allJobs
+    }
+
   }
 
 
   pageChanged(event: PageChangedEvent): void {
     this.startItem = (event.page - 1) * event.itemsPerPage;
     this.endItem = event.page * event.itemsPerPage;
-    this.allJobs = this.jobList.slice(this.startItem, this.endItem);
   }
 
 
 
   validazione(item){
-    let obj = {
-      id_ater: item.vpsinf_id,
-      utent_id: 466
-    }
-    this.valida.emit(obj);
+    this.valida.emit(item);
   }
 
 

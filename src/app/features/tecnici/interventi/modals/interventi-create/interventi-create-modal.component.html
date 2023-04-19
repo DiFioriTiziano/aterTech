@@ -14,7 +14,7 @@
 
             <div class="input-group">
               <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fa fa-search"></i></span>
+                <span class="input-group-text text-primary"><i class="fa fa-search"></i></span>
               </div>
                   <input
                     name="testCerca"
@@ -84,18 +84,27 @@
 
             <div class="form-group row">
 
-                  <label class="col-md-3 col-form-label" for="vpsinf_dal">Data dal</label>
+                  <label class="col-md-3 col-form-label" for="vpsinf_dal">Data inizio</label>
                   <div class="col-md-5">
                     <input  type="date" formControlName="vpsinf_dal" value="" class="form-control form-control-sm" id="vpsinf_dal" name="vpsinf_dal" rows="4">
                   </div>
 
-            </div>
+
+                  <div class="col-md-3">
+                    <input class="form-control form-control-sm" type="time" id="appt" name="appt"  min="09:00" max="18:00">
+                  </div>
+
+              </div>
 
             <div class="form-group row">
 
-              <label class="col-md-3 col-form-label" for="vpsinf_al">Al</label>
+              <label class="col-md-3 col-form-label" for="vpsinf_al">Data fine</label>
               <div class="col-md-5">
                 <input  type="date" formControlName="vpsinf_al" value="" class="form-control form-control-sm" id="vpsinf_al" name="vpsinf_al" rows="4">
+              </div>
+
+              <div class="col-md-3">
+                <input class="form-control form-control-sm" type="time" id="appt" name="appt"  min="09:00" max="18:00">
               </div>
 
         </div>
@@ -106,7 +115,7 @@
 
           <div class="modal-footer">
             <button [disabled]="!FormCreate.valid" type="submit" class="btn btn-primary" >Crea</button>
-            <button type="button" class="btn btn-secondary" (click)="bsModalRef.hide()" (click)="reset()">Close</button>
+            <button type="button" class="btn btn-secondary"  (click)="reset()">Close</button>
             <!-- <button [disabled]="!FormCreate.valid" type="submit" (click)="saveJob()" class="btn btn-primary">Crea</button> -->
           </div>
       </form>

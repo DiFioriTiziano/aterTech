@@ -20,8 +20,8 @@ import { concat, merge, Observable, of, Subject } from 'rxjs';
 
        <!-- {{interventiList$ | async | json }}-->
       <ater-data-tables
-      *ngIf="interventiList$ | async"
-          [jobList]= "(interventiList$ | async)"
+      *ngIf="interventiLista"
+          [jobList]= "interventiLista"
           (annullamento)="datiAnnullati($event)"
           (valida)="valida($event)"
       >
@@ -34,6 +34,7 @@ import { concat, merge, Observable, of, Subject } from 'rxjs';
 export class InterventiListContainerComponent implements OnInit {
 
   interventiList$:Observable<InterventiAter[]>;
+  interventiLista:InterventiAter[];
   tipologie:any;
 
   bsModalRef: BsModalRef;
@@ -49,25 +50,38 @@ export class InterventiListContainerComponent implements OnInit {
     ngOnInit(): void {
 
         // recupera tutti interventi vps
-        let filter = {"matricola":""}
-        this.interventiList$ =  this.interventiService.read(filter);
+      let filter = {"matricola":""}
+      this.interventiService.read(filter).subscribe(  (resp)=>{ this.interventiLista = resp  } )
+
+
 
             this.interventiService.getSubjectInterventiUpdated().subscribe((res) => {
-              res.subscribe((x)=> console.log("item arrivato...",x))
-              this.newData$ = res
 
-            // console.log("quin invece...",newData$)
-            this.newData$ = merge(this.newData$,this.interventiList$)
-            this.interventiList$ = this.newData$
+                  switch(res.operazione) {
+                    case "U": { //aggiorna
+                      console.log("modifica da apportare!",res.data)
+                      let Index = this.interventiLista.findIndex(lista => lista.vpsinf_id === res.data.vpsinf_id);
+                           this.interventiLista[Index] = res.data;
+                      break;
+                    }
+                    case "C": { //crea
+                      this.interventiLista  = [res.data[0], ...this.interventiLista]
+                      break;
+                    }
+                    case "V": { //validazione
+                      console.log("modifica da apportare!",res.data)
+                      let Index = this.interventiLista.findIndex(lista => lista.vpsinf_id === res.data.vpsinf_id);
+                        this.interventiLista[Index] = res.data;
+                      break;
+                    }
+                    default: {
+                      //statements;
+                      break;
+                    }
+                }
 
-             this.interventiList$.subscribe((x)=> console.log("uniti...",x))
 
        })
-
-
-
-
-
 
     }
 
@@ -80,18 +94,23 @@ export class InterventiListContainerComponent implements OnInit {
 
 
 
-    valida(objValida){
-      console.log("dati da validare", objValida)
+    valida(item){
 
-      this.interventiService.valida(objValida).subscribe( (res) =>
-      {
-        console.log(res)
-       // this.interventiService.emitDataUpdated();
-        },
-        (error) => {
-          console.error(error);
+        let request = {
+            id_ater: item.vpsinf_id,
+            utent_id: 425
         }
-      );
+
+        let itemModificato = {...item,"vpsinf_flag_valido": "SI"};
+
+            this.interventiService.valida(request).subscribe( (res) =>
+              {
+                this.interventiService.emitData({"data":itemModificato,"operazione":"V"});
+              },
+                (error) => {
+                  console.error(error);
+                }
+              );
     }
 
 

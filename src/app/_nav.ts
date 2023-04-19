@@ -22,10 +22,11 @@ export const navItems: INavData[] = [
         icon: 'fa fa-tasks'
       },
       {
-        name: '----',
-        url: '/base/carousels',
-        icon: 'icon-puzzle'
-      }
+        name: 'Segnalazioni',
+        url: '/interventi/lista',
+        icon: 'fa fa-address-card-o',
+        attributes: { disabled: true },
+      },
 
     ]
   },

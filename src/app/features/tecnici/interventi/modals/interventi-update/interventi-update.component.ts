@@ -29,9 +29,11 @@ import { UtilityService } from '../../../../../shared/service/utility/utility.se
                   <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="vpsinf_tipologia">Intervento</label>
                       <div class="col-md-9">
-                          <select  formControlName="vpsinf_tipologia"  id="vpsinf_tipologia" name="vpsinf_tipologia" class="form-control form-control-sm">
+                      <input  type="text" formControlName="vpsinf_tipologia" value="" id="vpsinf_tipologia" name="vpsinf_tipologia"  class="form-control form-control-sm" placeholder="">
+
+                        <!--  <select  formControlName="vpsinf_tipologia"  id="vpsinf_tipologia" name="vpsinf_tipologia" class="form-control form-control-sm">
                             <option *ngFor="let tipo of tipologie"   value="{{ tipo.tipvps_id }}" >{{ tipo.tipvps_id }} ) {{ tipo.tipvps_descrizione }} </option>
-                          </select>
+                          </select> -->
 
                       </div>
                   </div>
@@ -54,19 +56,28 @@ import { UtilityService } from '../../../../../shared/service/utility/utility.se
 
                   <div class="form-group row">
 
-                        <label class="col-md-3 col-form-label" for="vpsinf_dal">Data dal</label>
+                        <label class="col-md-3 col-form-label" for="vpsinf_dal">Data inizio</label>
                         <div class="col-md-5">
                           <input  type="date" formControlName="vpsinf_dal" value="{{this.data.vpsinf_dal}}" class="form-control form-control-sm" id="vpsinf_dal" name="vpsinf_dal" rows="4">
                         </div>
+
+                        <div class="col-md-3">
+                        <input class="form-control form-control-sm" type="time" id="appt" name="appt"  min="09:00" max="18:00">
+                      </div>
 
                   </div>
 
                   <div class="form-group row">
 
-                    <label class="col-md-3 col-form-label" for="vpsinf_al">Al</label>
+                    <label class="col-md-3 col-form-label" for="vpsinf_al">Data fine</label>
                     <div class="col-md-5">
                       <input  type="date" formControlName="vpsinf_al" value="" class="form-control form-control-sm" id="vpsinf_al" name="vpsinf_al" rows="4">
                     </div>
+
+                    <div class="col-md-3">
+                    <input class="form-control form-control-sm" type="time" id="appt" name="appt"  min="09:00" max="18:00">
+                  </div>
+
 
               </div>
 
@@ -107,14 +118,14 @@ export class InterventiUpdateComponent implements OnInit {
   ngOnInit(): void {
 
    let matricola = this.data.vpsinf_matricola
-   let tipologia = this.data.tipvps_id
+   let tipologia = this.data.tipvps_descrizione
    let note = this.data.vpsinf_info
    let dataDal = this.utilityService.convertIsoDate(this.data.vpsinf_dal)
    let dataAl = this.utilityService.convertIsoDate(this.data.vpsinf_al)
 
       this.Form_update = this.fb.group({
-        vpsinf_matricola: [{ value: matricola, disabled: false}, Validators.required],
-        vpsinf_tipologia: [{ value: tipologia, disabled: false}, Validators.required],
+        vpsinf_matricola: [{ value: matricola, disabled: true}, Validators.required],
+        vpsinf_tipologia: [{ value: tipologia, disabled: true}, Validators.required],
         vpsinf_info: [{ value: note, disabled: false}, Validators.required],
         vpsinf_dal: [{ value: dataDal, disabled: false}, Validators.required] ,
         vpsinf_al: [{ value: dataAl, disabled: false}, Validators.required]
@@ -126,21 +137,7 @@ export class InterventiUpdateComponent implements OnInit {
 
 
   onSubmit(Form_update): void {
-    let datiModificati = Form_update.value
-
-    let bodyRequest =  {
-      "id_ater": this.data.vpsinf_id,
-      "id_esterno": this.data.vpsinf_id_esterno,
-      "id_tipologia": datiModificati.vpsinf_tipologia,
-      "data_fine": '',
-      "note": datiModificati.vpsinf_info,
-      "data_inizio": this.utilityService.convertDateIso(datiModificati.vpsinf_dal),
-      "ora_inizio": '12:03:36',
-      "type": '',
-      "utent_id": 425
-  }
-
-    this.datiModificati.emit(bodyRequest);
+    this.datiModificati.emit(Form_update.value);
 
     this.bsModalRef.hide()
 
