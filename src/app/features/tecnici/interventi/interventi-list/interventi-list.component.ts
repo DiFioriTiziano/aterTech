@@ -2,15 +2,16 @@ import {  Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from '
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { interventiDettaglio_ModalComponent } from '../../modals/interventi-dettaglio/interventi-dettaglio_modal.component';
-import { InterventiUpdateContainerComponent } from '../../modals/interventi-update/interventi-update-container.component';
-import { interventi, InterventiAter } from '../../model/interventi.model';
-import { interventiAnnullo_ModalContainerComponent } from '../../modals/interventi-annullo/interventi-annullo_modal-container.component';
+import { interventiDettaglio_ModalComponent } from '../modals/interventi-dettaglio/interventi-dettaglio_modal.component';
+import { InterventiUpdateContainerComponent } from '../modals/interventi-update/interventi-update-container.component';
+import { interventi, InterventiAter } from '../model/interventi.model';
+import { interventiAnnullo_ModalContainerComponent } from '../modals/interventi-annullo/interventi-annullo_modal-container.component';
+import { InterventiFileContainerComponent } from '../modals/interventi-file/interventi-file-container.component';
 
 
 
 @Component({
-  selector: 'ater-data-tables',
+  selector: 'ater-interventi-list',
   template: `
 <div class="animated fadeIn">
       <div class="card">
@@ -95,7 +96,7 @@ import { interventiAnnullo_ModalContainerComponent } from '../../modals/interven
                  </td>
                  <td >
 
-                 <a href="#/interventi/lista"> <span class="badge badge-warning animated fadeIn"><i class="fa fa-upload"></i></span></a>
+                 <a href="#/interventi/lista" (click)="openModal_File(item)" > <span class="badge badge-warning animated fadeIn"><i class="fa fa-upload"></i></span></a>
                  </td>
               </tr>
 
@@ -118,9 +119,9 @@ import { interventiAnnullo_ModalContainerComponent } from '../../modals/interven
       </div>
 </div>
   `,
-  styleUrls: ['./data-tables.component.css']
+  styleUrls: ['./interventi-list.component.css']
 })
-export class DataTablesComponent implements OnInit {
+export class InterventiListComponent implements OnInit {
 
   @Output('annullamento') annullamento : EventEmitter<any> = new EventEmitter<any>()
   @Output('valida') valida : EventEmitter<any> = new EventEmitter<any>()
@@ -165,6 +166,9 @@ export class DataTablesComponent implements OnInit {
 
   }
 
+
+  //  ************************* GESTIONE APERTURE MODALI  *******************************************
+
       public openModal_Update(item) {
             const initialState = {
               item: item,
@@ -191,6 +195,14 @@ export class DataTablesComponent implements OnInit {
         this.bsModalRef = this.modalService.show(interventiDettaglio_ModalComponent, {initialState});
         this.bsModalRef.content.data= item;
       }
+
+      public openModal_File(item) {
+        this.bsModalRef = this.modalService.show(InterventiFileContainerComponent);
+      }
+
+
+
+
 
   search(value: string): void {
      if(value){

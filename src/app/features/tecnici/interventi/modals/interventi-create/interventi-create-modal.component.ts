@@ -15,8 +15,6 @@ import { InterventiService } from '../../../../../shared/service/interventi/port
 })
 export class InterventiCreateModalComponent implements OnInit {
 
-//public onClose: Subject<any>;
-
     @ViewChild('primaryModal') public primaryModal: ModalDirective;
 
     @Output() datiAdd : EventEmitter<any> = new EventEmitter<any>()
@@ -31,6 +29,8 @@ export class InterventiCreateModalComponent implements OnInit {
     filteredItems :any;
     jobTotali:any;
     keySearch:string = "";
+
+
     bloccaMatricola: boolean = false
 
     obj:any

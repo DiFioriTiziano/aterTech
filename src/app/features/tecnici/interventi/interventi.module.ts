@@ -14,12 +14,14 @@ import { InterventiCreateModalComponent } from './modals/interventi-create/inter
 
 import { InterventiUpdateComponent } from './modals/interventi-update/interventi-update.component';
 import { InterventiUpdateContainerComponent } from './modals/interventi-update/interventi-update-container.component';
-import { DataTablesComponent } from './components/data-tables/data-tables.component';
+import { InterventiListComponent } from './interventi-list/interventi-list.component';
 import { PaginationConfig, PaginationModule } from 'ngx-bootstrap/pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { interventiAnnullo_ModalContainerComponent } from './modals/interventi-annullo/interventi-annullo_modal-container.component';
 import { NotificationsRoutingModule } from '../../../views/notifications/notifications-routing.module';
+import { InterventiFileComponent } from './modals/interventi-file/interventi-file.component';
+import { InterventiFileContainerComponent } from './modals/interventi-file/interventi-file-container.component';
 
 
 
@@ -33,7 +35,9 @@ import { NotificationsRoutingModule } from '../../../views/notifications/notific
     InterventiCreateModalComponent,
     InterventiUpdateComponent,
     InterventiUpdateContainerComponent,
-    DataTablesComponent
+    InterventiListComponent,
+    InterventiFileComponent,
+    InterventiFileContainerComponent
   ],
   imports: [
     HttpClientModule,

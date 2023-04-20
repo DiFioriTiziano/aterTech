@@ -19,13 +19,13 @@ import { concat, merge, Observable, of, Subject } from 'rxjs';
     </div>
 
        <!-- {{interventiList$ | async | json }}-->
-      <ater-data-tables
+      <ater-interventi-list
       *ngIf="interventiLista"
           [jobList]= "interventiLista"
           (annullamento)="datiAnnullati($event)"
           (valida)="valida($event)"
       >
-      </ater-data-tables>
+      </ater-interventi-list>
   </div>
   `,
   styles: [
