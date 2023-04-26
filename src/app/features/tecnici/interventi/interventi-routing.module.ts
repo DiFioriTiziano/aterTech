@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { InterventiListContainerComponent } from './interventi-list/interventi-list-container.component';
+import { InterventiValidaListContainerComponent } from './interventi-valida-list/interventi-valida-list-container.component';
 
 
 const routes: Routes = [
@@ -19,6 +20,13 @@ const routes: Routes = [
         component: InterventiListContainerComponent,
         data: {
           title: 'lista'
+        }
+      },
+      {
+        path: 'validazioni',
+        component: InterventiValidaListContainerComponent,
+        data: {
+          title: 'validazioni'
         }
       }
     ]

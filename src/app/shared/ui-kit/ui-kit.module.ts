@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
-import { FilterAllPipe } from './pipes/filter-all.pipe';
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
 
 @NgModule({
   declarations: [
-   FilterAllPipe
+   FileUploadComponent
   ],
   imports: [
 
@@ -12,7 +12,7 @@ import { FilterAllPipe } from './pipes/filter-all.pipe';
 
   ],
   exports: [
-    FilterAllPipe,
+    FileUploadComponent
   ]
 })
 export class UiKitModule { }

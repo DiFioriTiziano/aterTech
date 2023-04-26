@@ -28,9 +28,9 @@ export const navItems: INavData[] = [
           },
           {
             name: 'Validazioni',
-            url: '/interventi/lista',
+            url: '/interventi/validazioni',
             icon: 'fa fa-address-card-o',
-            attributes: { disabled: true },
+            attributes: { disabled: false },
           },
 
         ]

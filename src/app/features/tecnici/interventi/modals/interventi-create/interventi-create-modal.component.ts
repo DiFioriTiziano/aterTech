@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {BsModalRef, ModalDirective} from 'ngx-bootstrap/modal';
 import { Subject } from 'rxjs';
 import { InterventiService } from '../../../../../shared/service/interventi/porteAllarmate/porte-allarmate-service.service';
+import { HttpClient } from '@angular/common/http';
 
 
 
@@ -11,7 +12,7 @@ import { InterventiService } from '../../../../../shared/service/interventi/port
   selector: 'ater-interventi-create-modal',
   templateUrl: './interventi-create-modal.component.html',
 
-  styles: []
+  styles: [ ` ` ]
 })
 export class InterventiCreateModalComponent implements OnInit {
 
@@ -21,6 +22,10 @@ export class InterventiCreateModalComponent implements OnInit {
 
     @Input('asset') public assetAter: any;
     @Input('tipologie') public tipologie: any;
+
+    isCollapsed: boolean = true;
+    fileName = '';
+
 
     FormCreate: FormGroup;
     asset: any
@@ -40,7 +45,8 @@ export class InterventiCreateModalComponent implements OnInit {
   constructor(
     private fb:FormBuilder,
     private interventiService: InterventiService,
-    public bsModalRef: BsModalRef
+    public bsModalRef: BsModalRef,
+    private http_client:HttpClient
   ) {
       this.pageSize = 50;
 
@@ -48,9 +54,17 @@ export class InterventiCreateModalComponent implements OnInit {
       this.FormCreate = this.fb.group({
         vpsinf_matricola: [{value:'', disabled:true}, [Validators.required]],
         vpsinf_tipologia: ['', Validators.required],
+        vpsinf_stato_id: ['', Validators.required],
+        vpsinf_flag_verbale_tecnico: [''],
+        vpsinf_flag_sequestro: [''],
         vpsinf_info: ['', Validators.required],
         vpsinf_dal: ['', Validators.required] ,
-        vpsinf_al: ['', Validators.required]
+        vpsinf_al: ['', Validators.required],
+        ora_dal: ['', Validators.required],
+        ora_al: [''],
+        file1: [''],
+        file2: [''],
+        file3: ['']
       });
 
   }
@@ -58,11 +72,7 @@ export class InterventiCreateModalComponent implements OnInit {
 
 
   ngOnInit(): void {
-
-  // this.onClose = new Subject();
-    // this.asset = this.assetAter
       this.filterItems(this.keySearch);
-
   }
 
 
@@ -106,6 +116,7 @@ export class InterventiCreateModalComponent implements OnInit {
 
   setValore(matricola){
     this.FormCreate.controls['vpsinf_matricola'].setValue(matricola);
+    this.isCollapsed = !this.isCollapsed
   }
 
   reset(){
@@ -116,7 +127,6 @@ export class InterventiCreateModalComponent implements OnInit {
 
 
   onSubmit(): void {
-
     this.FormCreate.controls['vpsinf_matricola'].enable();
 
     this.datiAdd.emit(this.FormCreate.value);
@@ -126,11 +136,47 @@ export class InterventiCreateModalComponent implements OnInit {
     this.FormCreate.reset()
     this.bsModalRef.hide()
 
-
   }
 
 
 
 
+  collapsed(event: any): void {
+    // console.log(event);
+  }
+
+  expanded(event: any): void {
+    // console.log(event);
+  }
+
+
+
+  onFileSelected(event) {
+
+
+    console.log(event.target.files)
+    const file:File = event.target.files[0];
+
+    if (file) {
+
+        this.fileName = file.name;
+
+        const formData = new FormData();
+
+        formData.append("thumbnail", file);
+
+        const dataFile = {
+          "source": "U:/apiGft/FileFlussi/XmlOrig/@BO01EUR20190131OT004.xml",
+          "dest": "U:/apiGft/FileFlussi/3786/@BO01EUR20190131OT004.xml"
+          }
+
+/*        const upload$ = this.http_client.post("http://localhost:4000/v1/file/movefile", dataFile);
+
+        upload$.subscribe( (r) =>  {
+          console.log(r)
+        } ); */
+
+    }
+}
 
 }

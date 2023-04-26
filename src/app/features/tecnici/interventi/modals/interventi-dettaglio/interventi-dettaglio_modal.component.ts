@@ -23,9 +23,9 @@ export function getAlertConfig(): AlertConfig {
             <div class="card border-secondary">
                 <div class="card-body">
 
-                  <alert type="success">
+
                     <strong>Autore - {{dati.utente_creazione}} </strong>
-                  </alert>
+
 
                 <div class="row">
 

@@ -22,6 +22,9 @@ import { interventiAnnullo_ModalContainerComponent } from './modals/interventi-a
 import { NotificationsRoutingModule } from '../../../views/notifications/notifications-routing.module';
 import { InterventiFileComponent } from './modals/interventi-file/interventi-file.component';
 import { InterventiFileContainerComponent } from './modals/interventi-file/interventi-file-container.component';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { InterventiValidaListComponent } from './interventi-valida-list/interventi-valida-list.component';
+import { InterventiValidaListContainerComponent } from './interventi-valida-list/interventi-valida-list-container.component';
 
 
 
@@ -37,7 +40,9 @@ import { InterventiFileContainerComponent } from './modals/interventi-file/inter
     InterventiUpdateContainerComponent,
     InterventiListComponent,
     InterventiFileComponent,
-    InterventiFileContainerComponent
+    InterventiFileContainerComponent,
+    InterventiValidaListComponent,
+    InterventiValidaListContainerComponent
   ],
   imports: [
     HttpClientModule,
@@ -50,6 +55,7 @@ import { InterventiFileContainerComponent } from './modals/interventi-file/inter
     AlertModule.forRoot(),
     PaginationModule.forRoot(),
     ModalModule.forRoot(),
+    CollapseModule.forRoot(),
     NotificationsRoutingModule
   ],
   schemas: [

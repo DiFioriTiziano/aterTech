@@ -52,21 +52,21 @@ export class InterventiCreateModalContainerComponent implements OnInit  {
           "matricola":  FormCreate.vpsinf_matricola,
           "note":  FormCreate.vpsinf_info,
           "data_intervento": this.utilityService.convertDateIso(FormCreate.vpsinf_dal),
-          "ora_intervento": "12:00",
+          "ora_intervento": FormCreate.ora_dal,
           "data_fine": this.utilityService.convertDateIso(FormCreate.vpsinf_al),
           "utent_id": 425
   }
 
+console.log(FormCreate)
 
-
-     this.interventiService.create(bodyRequest).subscribe((resp)=> {
+   /*   this.interventiService.create(bodyRequest).subscribe((resp)=> {
           //this.interventiService.emitDataCreate({"data":resp.itemCreato,"operazione":"C"})
           this.interventiService.emitData({"data":resp.itemCreato,"operazione":"C"})
       },
       (error) => {
         console.error(error);
       }
-    )
+    ) */
 
 
 
