@@ -18,7 +18,7 @@ export class TokenApiInterceptor implements HttpInterceptor {
 
       intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-        let token = localStorage.getItem('id_token')
+        let token = localStorage.getItem('api_token')
 
         const authReq = request.clone({
           headers: request.headers.set('Authorization', `Bearer ${token}`)
@@ -29,16 +29,16 @@ export class TokenApiInterceptor implements HttpInterceptor {
           catchError((error: HttpErrorResponse) => {
             if (error.status === 401) {
               // Unauthorized error
-              return this.authService.refreshToken().pipe(
+              return this.authService.refreshApiToken().pipe(
                 switchMap(() => {
-                  let newtoken = localStorage.getItem('id_token')
+                  let newtoken = localStorage.getItem('api_token')
                   let refreshToken = request.clone({
                     headers: request.headers.set('Authorization', `Bearer ${newtoken}`)
                   });
                   return next.handle(refreshToken);
                 }),
                 catchError((error) => {
-                  this.authService.logout();
+                  this.authService.apiLogout();
                   return throwError(error);
                 })
               );

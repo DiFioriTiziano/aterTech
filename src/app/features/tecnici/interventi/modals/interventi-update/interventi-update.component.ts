@@ -29,25 +29,37 @@ import { UtilityService } from '../../../../../shared/service/utility/utility.se
                   <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="vpsinf_tipologia">Intervento</label>
                       <div class="col-md-9">
-                      <input  type="text" formControlName="vpsinf_tipologia" value="" id="vpsinf_tipologia" name="vpsinf_tipologia"  class="form-control form-control-sm" placeholder="">
-
-                        <!--  <select  formControlName="vpsinf_tipologia"  id="vpsinf_tipologia" name="vpsinf_tipologia" class="form-control form-control-sm">
-                            <option *ngFor="let tipo of tipologie"   value="{{ tipo.tipvps_id }}" >{{ tipo.tipvps_id }} ) {{ tipo.tipvps_descrizione }} </option>
-                          </select> -->
-
+                          <input  type="text" formControlName="vpsinf_tipologia" value="" id="vpsinf_tipologia" name="vpsinf_tipologia"  class="form-control form-control-sm" placeholder="">
                       </div>
                   </div>
 
+
+
                   <div   class="form-group row">
-                    <div class="col-md-9">
+                      <label class="col-md-3 col-form-label" for="vpsinf_tipologia">Stato</label>
+                        <div class="col-md-3">
+                          <select  formControlName="vpsstato_descrizione"  id="vpsstato_descrizione" name="vpsstato_descrizione" class="form-control form-control-sm">
+                            <option *ngFor="let item of stati"  >{{item.vpssta_descrizione}}</option>
+                          </select>
+                        </div>
 
+                        <div class="col-md-6 col-form-label">
 
+                          <div class="form-check form-check-inline mr-1">
+                            <input formControlName="vpsinf_flag_verbale_tecnico" class="form-check-input" type="checkbox" name="vpsinf_flag_verbale_tecnico" id="vpsinf_flag_verbale_tecnico" value="">
+                            <label class="form-check-label" for="inline-checkbox1">VerbaleTecnico</label>
+                          </div>
+                          <div class="form-check form-check-inline mr-1">
+                            <input formControlName="vpsinf_flag_sequestro" class="form-check-input" type="checkbox" name="vpsinf_flag_sequestro" id="vpsinf_flag_sequestro" value="">
+                            <label class="form-check-label" for="inline-checkbox2">Sequestro</label>
+                          </div>
 
-                    </div>
+                        </div>
                   </div>
 
+
                   <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="vpsinf_info">Informazioni</label>
+                    <label class="col-md-3 col-form-label" for="vpsinf_info">Note</label>
                     <div class="col-md-9">
                     <textarea formControlName="vpsinf_info" value="" id="vpsinf_info" name="vpsinf_info" rows="4" class="form-control" placeholder=""></textarea>
                     </div>
@@ -81,6 +93,21 @@ import { UtilityService } from '../../../../../shared/service/utility/utility.se
 
               </div>
 
+              <div class="card border-warning">
+                  <div class="card-body">
+
+                    <div class="form-group row">
+                        <input type="file"  class="form-control-sm" id="file1" name="file1" (change)="onFileSelected($event)" #file1 aria-label="File browser example">
+                        <input type="file"  class="form-control-sm" id="file2" name="file2" (change)="onFileSelected($event)" #file2 aria-label="File browser example">
+                        <input type="file"  class="form-control-sm" id="file3" name="file3" (change)="onFileSelected($event)" #file3 aria-label="File browser example">
+                    </div>
+
+                  </div>
+              </div>
+
+
+
+
                 <div class="modal-footer">
                   <button [disabled]="!Form_update.dirty" type="submit" class="btn btn-primary" >Modifica</button>
                 </div>
@@ -106,6 +133,13 @@ export class InterventiUpdateComponent implements OnInit {
 
   Form_update: FormGroup;
 
+  stati: any =[
+    { "vpssta_id": "0","vpssta_descrizione": "Non assegnabile" },
+    { "vpssta_id": "1","vpssta_descrizione": "Requisiti minimi" },
+    { "vpssta_id": "2","vpssta_descrizione": "Requisiti medi" },
+    { "vpssta_id": "3","vpssta_descrizione": "Requisiti buoni" }
+  ]
+
 
   constructor(
     private fb:FormBuilder,
@@ -117,20 +151,26 @@ export class InterventiUpdateComponent implements OnInit {
 
   ngOnInit(): void {
 
-   let matricola = this.data.vpsinf_matricola
-   let tipologia = this.data.tipvps_descrizione
-   let note = this.data.vpsinf_info
-   let dataDal = this.utilityService.convertIsoDate(this.data.vpsinf_dal)
-   let dataAl = this.utilityService.convertIsoDate(this.data.vpsinf_al)
+    console.log(this.data)
+    let matricola = this.data.vpsinf_matricola
+    let tipologia = this.data.tipvps_descrizione
+    let vpsstato_descrizione = this.data.vpsstato_descrizione
+    let vpsinf_flag_verbale_tecnico = this.data.vpsinf_flag_verbale_tecnico
+    let vpsinf_flag_sequestro = this.data.vpsinf_flag_sequestro
+    let note = this.data.vpsinf_info
+    let dataDal = this.utilityService.convertIsoDate(this.data.vpsinf_dal)
+    let dataAl = this.utilityService.convertIsoDate(this.data.vpsinf_al)
 
       this.Form_update = this.fb.group({
         vpsinf_matricola: [{ value: matricola, disabled: true}, Validators.required],
         vpsinf_tipologia: [{ value: tipologia, disabled: true}, Validators.required],
+        vpsstato_descrizione: [''],
+        vpsinf_flag_verbale_tecnico: [{ value: vpsinf_flag_verbale_tecnico, disabled: false}],
+        vpsinf_flag_sequestro: [{ value: vpsinf_flag_sequestro, disabled: false}],
         vpsinf_info: [{ value: note, disabled: false}, Validators.required],
         vpsinf_dal: [{ value: dataDal, disabled: false}, Validators.required] ,
         vpsinf_al: [{ value: dataAl, disabled: false}, Validators.required]
       });
-
 
   }
 
@@ -143,6 +183,12 @@ export class InterventiUpdateComponent implements OnInit {
 
   }
 
+
+  onFileSelected(event) {
+    console.log(event.target.files)
+    const file:File = event.target.files[0];
+
+    }
 
 
 

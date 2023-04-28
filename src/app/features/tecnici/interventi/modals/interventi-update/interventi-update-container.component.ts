@@ -61,6 +61,8 @@ export class InterventiUpdateContainerComponent implements OnInit {
               "utent_id": 425
           }
 
+
+
         let itemModificato = {...this.item, ...datiModificati}
            this.interventiService.update(bodyRequest).subscribe( (res) => {
             console.log(res)
