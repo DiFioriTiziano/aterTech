@@ -17,6 +17,8 @@ export class InterventiService {
 
      interventiUpdated = new Subject<any>();
 
+     interventiData = new Subject<any>();
+
 
     read(filter:any) {
         return this.http_client.post<interventi>(`${environment.BASE_API_URL}/v0/dwh/manutenzioni/interventi/read`, filter)
@@ -50,6 +52,40 @@ export class InterventiService {
 
     getSubjectInterventiUpdated(): Observable<any> {
       return this.interventiUpdated;
+    }
+
+        getSubjectInterventi(): Observable<any> {
+          return this.interventiData.asObservable();
+        }
+
+/*     readData():void {
+      let filter = {"matricola":""}
+       this.read(filter).subscribe((data)=>{
+          this.interventiData.next(data);
+      })
+    } */
+
+
+    readData():void {
+      let filter = {"matricola":""}
+       this.read(filter).pipe(
+        map(val => val.filter((item)=> item.vpsinf_flag_valido === 'NO') )
+      ).subscribe( resp=> this.interventiData.next(resp) )
+    }
+
+    readDataTutti():void {
+      let filter = {"matricola":""}
+       this.read(filter).subscribe( resp=> this.interventiData.next(resp) )
+    }
+
+
+
+
+
+    delData():void {
+
+          this.interventiData.next([]);
+
     }
 
     emitDataCreate(obj_creato):void {

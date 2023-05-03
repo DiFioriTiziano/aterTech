@@ -54,9 +54,9 @@ import { InterventiFileContainerComponent } from '../modals/interventi-file/inte
                 <th>Autore</th>
                 <th>Modifica</th>
                 <th>Syncro</th>
-                <th>Valida</th>
+                <th>Validazione</th>
                 <th></th>
-                <th>File</th>
+
               </tr>
             </thead>
            <!-- <tbody *ngIf="allJobs?.length != 0">  .slice(0, 10) -->
@@ -76,9 +76,7 @@ import { InterventiFileContainerComponent } from '../modals/interventi-file/inte
                 <td> {{item.vpsinf_dal | date: 'dd/MM/yyyy hh:mm'}}</td>
                 <td> {{item.vpsinf_al | date: 'dd/MM/yyyy hh:mm'}}</td>
 
-                <td *ngIf="item.vpsinf_cancellato==='NO'">
-                <a href="#/interventi/lista" (click)="openModal_Annullo(item)" class="badge badge-danger animated fadeIn"><i class="fa fa-remove"></i> Annulla</a>
-                </td>
+                <td *ngIf="item.vpsinf_cancellato==='NO'"> No</td>
                 <td *ngIf="item.vpsinf_cancellato==='SI'">Annullato</td>
 
                 <td> {{item.utente_creazione}}</td>
@@ -89,15 +87,12 @@ import { InterventiFileContainerComponent } from '../modals/interventi-file/inte
                 </td>
                 <td>
                     <span  class="animated fadeIn" *ngIf="item.vpsinf_flag_valido==='SI'">Validato</span>
-                    <a href="#/interventi/lista" (click)="validazione(item)"> <span *ngIf="item.vpsinf_flag_valido==='NO'"  class="badge badge-primary animated fadeIn">Validare</span></a>
+                    <span *ngIf="item.vpsinf_flag_valido==='NO'" class="text-danger" >Validare</span>
                 </td>
                 <td class="text-primary">
-                <a href="#/interventi/lista" (click)="openModal_Update(item)" data-toggle="modal"><i class="fa fa-edit fa-lg"></i></a>
+                    <a href="#/interventi/lista" (click)="openModal_Update(item)" data-toggle="modal"><i class="fa fa-edit fa-lg"></i></a>
                  </td>
-                 <td >
 
-                 <a href="#/interventi/lista" (click)="openModal_File(item)" > <span class="badge badge-warning animated fadeIn"><i class="fa fa-upload"></i></span></a>
-                 </td>
               </tr>
 
             </tbody>

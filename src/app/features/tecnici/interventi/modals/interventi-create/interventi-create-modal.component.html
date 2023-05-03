@@ -40,17 +40,17 @@
             <div class="container">
               <div class="row">
                 <div class="col-sm text-left">
-                <button *ngFor="let page of [1,2,3,4,5,6]" class="btn btn-sm"  (click)="onPageChange(page)">{{page}}</button>
+                <button *ngFor="let page of [1,2,3,4,5,6,7]" class="btn btn-sm"  (click)="onPageChange(page)">{{page}}</button>
                 </div>
                 <div class="col-sm text-right">
-                  In lista trovati (50) di {{jobTotali}}
+                  Trovati (50) di {{jobTotali}}
                 </div>
 
               </div>
             </div>
 
               <select  (change)="setValore($event.target.value)" id="select1"  name="select1" class="form-control form-control-sm">
-                <option *ngFor="let job of filteredItems"   value="{{ job.matricola_su_contratto }}" >{{ job.matricola_su_contratto }} ( {{ job.indirizzo }} - {{ job.localizzazione }} )</option>
+                <option *ngFor="let job of filteredItems"   value="{{ job.matricola_su_contratto }}" > {{ job.matricola_su_contratto }} ( {{ job.indirizzo }} - {{ job.localizzazione }} ) [ {{job.tipologia_unita_immobiliare}} ]</option>
               </select>
 
             </div>
