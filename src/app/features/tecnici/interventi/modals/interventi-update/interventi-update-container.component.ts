@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { InterventiService } from '../../../../../shared/service/interventi/porteAllarmate/porte-allarmate-service.service';
 import { InterventiAter } from '../../model/interventi.model';
 import { UtilityService } from '../../../../../shared/service/utility/utility.service';
+import { InterventiStoreService } from '../../../../../shared/service/store/interventi-store.service';
+import { DefaultLayoutComponent } from '../../../../../containers/default-layout/default-layout.component';
 
 @Component({
   selector: 'ater-interventi-update-container',
@@ -26,10 +28,18 @@ export class InterventiUpdateContainerComponent implements OnInit {
   item:any
   title:any
 
+  intervento:any
+  interventi:any
+
   constructor(
       private interventiService: InterventiService,
       private utilityService : UtilityService,
-  ) { }
+      private store:InterventiStoreService
+  ) {
+    this.store.intervento$.subscribe(intervento => this.intervento = intervento );
+
+    this.store.interventi$.subscribe(interventi => this.interventi = interventi )
+  }
 
   ngOnInit(): void {
     //recupera tipologie interventi
@@ -43,19 +53,27 @@ export class InterventiUpdateContainerComponent implements OnInit {
   interventoModificato(datiForm){
     console.log(this.item)
 
+    console.log(datiForm)
+
+    let dal = this.utilityService.convertDateIso(datiForm.vpsinf_dal)
+    let al = this.utilityService.convertDateIso(datiForm.vpsinf_al)
+
+    console.log("dal", dal?dal:null)
+    console.log("al", al?al:null)
+
       let datiModificati = {
           "vpsinf_info":  datiForm.vpsinf_info,
-          "vpsinf_dal": this.utilityService.convertDateIso(datiForm.vpsinf_dal),
-          "vpsinf_al": this.utilityService.convertDateIso(datiForm.vpsinf_al)
+          "vpsinf_dal": dal?dal:null,
+          "vpsinf_al": al?al:null
       }
 
       let bodyRequest =  {
               "id_ater": this.item.vpsinf_id,
               "id_esterno": this.item.vpsinf_id_esterno,
               "id_tipologia": this.item.tipvps_id,
-              "data_fine": this.utilityService.convertDateIso(datiForm.vpsinf_al),
+              "data_fine": al?al:null,
               "note": datiForm.vpsinf_info,
-              "data_inizio": this.utilityService.convertDateIso(datiForm.vpsinf_dal),
+              "data_inizio": dal?dal:null,
               "ora_inizio": '12:03:36',
               "type": '',
               "utent_id": 425
@@ -63,12 +81,16 @@ export class InterventiUpdateContainerComponent implements OnInit {
 
 
 
-        let itemModificato = {...this.item, ...datiModificati}
-           this.interventiService.update(bodyRequest).subscribe( (res) => {
-            console.log(res)
-           // this.interventiService.emitDataUpdated({"data":itemModificato,"operazione":"U"})
-            this.interventiService.emitData({"data":itemModificato,"operazione":"U"})
-           })
+        let interventoModificato = {...this.intervento, ...datiModificati}
+           //this.interventiService.update(bodyRequest).subscribe( (res) => {
+
+          // });
+
+           // this.interventiService.emitData({"data":itemModificato,"operazione":"U"})
+
+           let Index = this.interventi.findIndex(lista => lista.vpsinf_id === this.intervento.vpsinf_id);
+           this.interventi[Index] = interventoModificato;
+           this.store.getInterventi(this.interventi)
 
    }
 

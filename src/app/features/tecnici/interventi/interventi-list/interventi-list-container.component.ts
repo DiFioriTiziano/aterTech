@@ -4,6 +4,7 @@ import { InterventiService } from '../../../../shared/service/interventi/porteAl
 import { InterventiCreateModalContainerComponent } from '../modals/interventi-create/interventi-create-modal-container.component';
 import { interventi, InterventiAter } from '../model/interventi.model';
 import { concat, merge, Observable, of, Subject } from 'rxjs';
+import { InterventiStoreService } from '../../../../shared/service/store/interventi-store.service';
 
 
 
@@ -11,6 +12,7 @@ import { concat, merge, Observable, of, Subject } from 'rxjs';
 @Component({
   selector: 'ater-interventi-list-container',
   template: `
+  <button (click)="test()">testa store</button>
   <div class="animated fadeIn">
     <div class="card">
       <div class="card-body">
@@ -39,12 +41,25 @@ export class InterventiListContainerComponent implements OnInit {
 
   bsModalRef: BsModalRef;
   newData$ : Observable<InterventiAter[]>
+testStore:any
+
 
 
   constructor(
     private interventiService: InterventiService,
-    private modalService: BsModalService
-    ) { }
+    private modalService: BsModalService,
+    private store:InterventiStoreService
+    ) {
+      this.store.interventi$.subscribe(data => this.testStore = data);
+     }
+
+
+    test(){
+      //this.store.interventi$.subscribe(data => console.log(data));
+      console.log(this.testStore)
+
+    }
+
 
 
     ngOnInit(): void {

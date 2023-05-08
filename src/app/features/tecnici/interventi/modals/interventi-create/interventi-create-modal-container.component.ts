@@ -34,7 +34,10 @@ export class InterventiCreateModalContainerComponent implements OnInit  {
 
   ngOnInit(): void {
         //recupera asset completo
-        this.asset_Service.assetAll().subscribe( (res)=> this.asset = res.asset);
+        this.asset_Service.assetAll().subscribe( (res)=> {
+          this.asset = res.asset,
+          console.log(res.asset)
+        });
 
         //recupera tipologie interventi
         this.interventiService.tipologie().subscribe( (res)=> this.tipologie = res.tipologie);

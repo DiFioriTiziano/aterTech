@@ -50,6 +50,7 @@
             </div>
 
               <select  (change)="setValore($event.target.value)" id="select1"  name="select1" class="form-control form-control-sm">
+                <option value="NO MATRICOLA" > --- NO MATRICOLA --- </option>
                 <option *ngFor="let job of filteredItems"   value="{{ job.matricola_su_contratto }}" > {{ job.matricola_su_contratto }} ( {{ job.indirizzo }} - {{ job.localizzazione }} ) [ {{job.tipologia_unita_immobiliare}} ]</option>
               </select>
 

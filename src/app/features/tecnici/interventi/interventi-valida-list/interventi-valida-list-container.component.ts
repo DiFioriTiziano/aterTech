@@ -3,18 +3,19 @@ import { InterventiAter } from '../model/interventi.model';
 import { InterventiService } from '../../../../shared/service/interventi/porteAllarmate/porte-allarmate-service.service';
 import { filter, map } from 'rxjs/operators';
 import { NgIf } from '@angular/common';
+import { InterventiStoreService } from '../../../../shared/service/store/interventi-store.service';
 
 @Component({
   selector: 'ater-interventi-valida-list-container',
   template: `
   <div class="animated fadeIn">
-<button (click)="tutti()">tutti</button>
-<button (click)="filtro()">filtra</button>
+
     <ater-interventi-valida-list
-      *ngIf="interventiLista"
-        [interventiLista] = "interventiLista"
+      *ngIf="interventi"
+        [interventiLista] = "interventi"
         (annullamento)="datiAnnullati($event)"
         (valida)="valida($event)"
+        (intervento)="set_Intervento_Store($event)"
 
     ></ater-interventi-valida-list>
 
@@ -25,87 +26,75 @@ import { NgIf } from '@angular/common';
 })
 export class InterventiValidaListContainerComponent implements OnInit {
 
-  interventiLista:InterventiAter[];
-  test:any
+ // interventiLista:InterventiAter[];
 
-  constructor(private interventiService: InterventiService,) {
+  interventi:InterventiAter[];
 
+  constructor(private interventiService: InterventiService, private store:InterventiStoreService) {
+      // mi sottoscrivo al mio subject e rimango in ascolto
+      this.store.interventi$.subscribe(data => this.interventi = data);
+     // this.store.intervento$.subscribe(intervento => console.log("ascolto il container valida: ",intervento));
   }
 
-    tutti(){
-      this.interventiService.readDataTutti()
-    }
-
-   filtro(){
-      this.interventiService.readData()
-    }
 
   ngOnInit(): void {
-
-
-
-/*     this.interventiService.getSubjectInterventi().subscribe(
-      data => {
-        this.test = data;
-        console.log("dati della subject ",this.test)
-      }
-    ) */
-
-
-    this.interventiService.getSubjectInterventi().subscribe( resp=> this.interventiLista = resp  )
-
-  this.interventiService.readData()
-
-
+    //this.interventiService.getSubjectInterventi().subscribe( resp=> this.interventiLista = resp  )
+     // this.interventiService.readData()
 
       // recupera tutti interventi vps
       let filtro = {"matricola":""}
-          this.interventiService.read(filtro).pipe(
+          this.interventiService.read(filtro).pipe( // recupero interventi da api
             map(val => val.filter((item)=> item.vpsinf_flag_valido === 'NO') )
-          ).subscribe( resp=> this.interventiLista = resp  )
+          ).subscribe(
+            resp => { this.store.getInterventi(resp) } //passo gli interventi allo store
+            )
 
 
 
-          this.interventiService.getSubjectInterventiUpdated().subscribe((res) => {
+/*                 this.interventiService.getSubjectInterventiUpdated().subscribe((res) => {
 
-            switch(res.operazione) {
-              case "R": { //crea
-                //this.interventiLista  = [res.data[0], ...this.interventiLista]
-                break;
-              }
+                  switch(res.operazione) {
+                    case "R": { //crea
+                      //this.interventiLista  = [res.data[0], ...this.interventiLista]
+                      break;
+                    }
 
-              case "U": { //aggiorna
-                console.log("modifica da apportare!",res.data)
-                let Index = this.interventiLista.findIndex(lista => lista.vpsinf_id === res.data.vpsinf_id);
-                     this.interventiLista[Index] = res.data;
-                break;
-              }
-              case "C": { //crea
-                this.interventiLista  = [res.data[0], ...this.interventiLista]
-                break;
-              }
-              case "V": { //validazione
-                console.log("modifica da apportare!",res.data)
-  /*               let Index = this.interventiLista.findIndex(lista => lista.vpsinf_id === res.data.vpsinf_id);
-                  this.interventiLista[Index] = res.data; */
-                  this.interventiLista = this.interventiLista.filter(lista => lista.vpsinf_id !== res.data.vpsinf_id);
-                 // this.interventiLista[Index] = res.data;
-                break;
-              }
-              default: {
-                //statements;
-                break;
-              }
-          }
+                    case "U": { //aggiorna
+                      console.log("modifica da apportare!",res.data)
+                      let Index = this.interventiLista.findIndex(lista => lista.vpsinf_id === res.data.vpsinf_id);
+                          this.interventiLista[Index] = res.data;
+                      break;
+                    }
+                    case "C": { //crea
+                      this.interventiLista  = [res.data[0], ...this.interventiLista]
+                      break;
+                    }
+                    case "V": { //validazione
+                      console.log("modifica da apportare!",res.data)
+                        this.interventiLista = this.interventiLista.filter(lista => lista.vpsinf_id !== res.data.vpsinf_id);
+                      break;
+                    }
+                    default: {
+                      //statements;
+                      break;
+                    }
+                  }
 
 
- })
+                }) */
+
+
 
   }
 
 
 
-  valida(item){
+  set_Intervento_Store(intervento){
+    this.store.set_Intervento(intervento)
+  }
+
+
+/*   valida(item){
 
     let request = {
         id_ater: item.vpsinf_id,
@@ -122,17 +111,17 @@ export class InterventiValidaListContainerComponent implements OnInit {
               console.error(error);
             }
           );
-}
+} */
 
 
-datiAnnullati(datoAnnullato){
+/* datiAnnullati(datoAnnullato){
 
   let annullato = {
     "id_ater":datoAnnullato.vpsinf_id,
     "note":datoAnnullato.vpsinf_id,
     "utent_id":datoAnnullato.vpsinf_id,
   }
-}
+} */
 
 
 }

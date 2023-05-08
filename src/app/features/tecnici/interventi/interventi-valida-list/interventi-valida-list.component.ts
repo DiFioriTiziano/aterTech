@@ -122,6 +122,8 @@ export class InterventiValidaListComponent implements OnInit {
 
   @Input('interventiLista') interventiLista: InterventiAter[]
 
+  @Output('intervento') intervento : EventEmitter<any> = new EventEmitter<any>()
+
   @Output('annullamento') annullamento : EventEmitter<any> = new EventEmitter<any>()
   @Output('valida') valida : EventEmitter<any> = new EventEmitter<any>()
 
@@ -169,6 +171,9 @@ export class InterventiValidaListComponent implements OnInit {
   //  ************************* GESTIONE APERTURE MODALI  *******************************************
 
       public openModal_Update(item) {
+
+        this.intervento.emit(item);
+
             const initialState = {
               item: item,
               title: 'Modifica'
