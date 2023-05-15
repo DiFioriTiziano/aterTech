@@ -8,14 +8,15 @@ import { InterventiAter,interventi } from '../../../features/tecnici/interventi/
 })
 export class InterventiStoreService {
 
-  interventi:InterventiAter[] = []
+ // interventi:InterventiAter[] = []
+ // MyInterventi:InterventiAter[] = []
 
 
   private interventiSubject = new BehaviorSubject<InterventiAter[]>(null);
           interventi$ = this.interventiSubject.asObservable();
-  // singolo
- /*  private interventoSubject = new BehaviorSubject<InterventiAter>(null);
-          intervento$ = this.interventoSubject.asObservable(); */
+
+   private myInterventoSubject = new BehaviorSubject<InterventiAter[]>(null);
+          myIntervento$ = this.myInterventoSubject.asObservable();
 
   constructor() { }
 
@@ -24,10 +25,8 @@ export class InterventiStoreService {
       this.interventiSubject.next(interventi);
     }
 
-    //??
-/*     set_Intervento(intervento) {
-      this.interventoSubject.next(intervento);
+    myInterventi(MyInterventi) {
+      console.log("dati passati allo store:", MyInterventi)
+      this.myInterventoSubject.next(MyInterventi);
     }
- */
-
 }

@@ -22,17 +22,21 @@ export const navItems: INavData[] = [
         icon: 'fa fa-gear',
         children: [
           {
-            name: 'Lista',
-            url: '/interventi/lista',
-            icon: 'fa fa-tasks'
+            name: 'programmazione',
+            url: '/interventi/programmazione',
+            icon: 'fa fa-calendar-plus-o'
           },
           {
             name: 'Validazioni',
             url: '/interventi/validazioni',
-            icon: 'fa fa-address-card-o',
+            icon: 'fa fa-check-circle-o',
             attributes: { disabled: false },
           },
-
+          {
+            name: 'Lista',
+            url: '/interventi/lista',
+            icon: 'fa fa-tasks'
+          }
         ]
       },
 
@@ -41,8 +45,8 @@ export const navItems: INavData[] = [
   {
     name: 'Segnalazioni',
     url: '/interventi',
-    icon: 'fa fa-gears',
-    attributes: { disabled: true },
+    icon: 'fa fa-bullhorn',
+    attributes: { disabled: true }
   },
   {
     name: 'Scarica guida',

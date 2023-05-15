@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { InterventiListContainerComponent } from './interventi-list/interventi-list-container.component';
 import { InterventiValidaListContainerComponent } from './interventi-valida-list/interventi-valida-list-container.component';
 import { AuthGuard } from '../../../shared/service/auth/auth.guard';
+import { InterventiProgrammaContainerComponent } from './interventi-programma/interventi-programma-container.component';
 
 
 const routes: Routes = [
@@ -30,6 +31,14 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: {
           title: 'validazioni'
+        }
+      },
+      {
+        path: 'programmazione',
+        component: InterventiProgrammaContainerComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'Programmazione'
         }
       }
     ]

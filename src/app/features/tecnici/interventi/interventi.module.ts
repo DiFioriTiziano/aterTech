@@ -23,6 +23,8 @@ import { InterventiFileContainerComponent } from './modals/interventi-file/inter
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { InterventiValidaListComponent } from './interventi-valida-list/interventi-valida-list.component';
 import { InterventiValidaListContainerComponent } from './interventi-valida-list/interventi-valida-list-container.component';
+import { InterventiProgrammaComponent } from './interventi-programma/interventi-programma.component';
+import { InterventiProgrammaContainerComponent } from './interventi-programma/interventi-programma-container.component';
 
 
 
@@ -38,7 +40,9 @@ import { InterventiValidaListContainerComponent } from './interventi-valida-list
     InterventiFileComponent,
     InterventiFileContainerComponent,
     InterventiValidaListComponent,
-    InterventiValidaListContainerComponent
+    InterventiValidaListContainerComponent,
+    InterventiProgrammaComponent,
+    InterventiProgrammaContainerComponent
   ],
   imports: [
     HttpClientModule,

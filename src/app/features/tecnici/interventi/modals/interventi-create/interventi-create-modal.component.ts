@@ -46,7 +46,7 @@ export class InterventiCreateModalComponent implements OnInit {
     private fb:FormBuilder,
     private interventiService: InterventiService,
     public bsModalRef: BsModalRef,
-    private http_client:HttpClient
+
   ) {
       this.pageSize = 50;
 
@@ -54,12 +54,12 @@ export class InterventiCreateModalComponent implements OnInit {
       this.FormCreate = this.fb.group({
         vpsinf_matricola: [{value:'', disabled:true}, [Validators.required]],
         vpsinf_tipologia: ['', Validators.required],
-        vpsinf_stato_id: ['', Validators.required],
-        vpsinf_flag_verbale_tecnico: [''],
-        vpsinf_flag_sequestro: [''],
+      //  vpsinf_stato_id: ['', Validators.required],
+       // vpsinf_flag_verbale_tecnico: [''],
+      //  vpsinf_flag_sequestro: [''],
         vpsinf_info: ['', Validators.required],
         vpsinf_dal: ['', Validators.required] ,
-        vpsinf_al: ['', Validators.required],
+        vpsinf_al: [''],
         ora_dal: ['', Validators.required],
         ora_al: [''],
         file1: [''],

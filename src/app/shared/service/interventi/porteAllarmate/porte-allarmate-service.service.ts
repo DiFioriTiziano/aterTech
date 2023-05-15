@@ -15,12 +15,14 @@ import { UtilityService } from '../../utility/utility.service';
 export class InterventiService {
 
   interventi: InterventiAter[]
+  myInterventi: InterventiAter[]
 
   constructor(private http_client:HttpClient,
     private store:InterventiStoreService,
     private utilityService : UtilityService,
   ) {
     this.store.interventi$.subscribe(data => {this.interventi = data });
+    this.store.myIntervento$.subscribe(data => { this.myInterventi = data });
     }
 
      interventiUpdated = new Subject<any>();
@@ -47,6 +49,15 @@ export class InterventiService {
               )
     }
 
+    validati(filtro:any) {
+      return this.http_client.post<interventi>(`${environment.BASE_API_URL}/v0/dwh/manutenzioni/interventi/read`, filtro)
+        .pipe( // recupero interventi da api
+              map(val => val.InterventiAter.filter((item)=> item.vpsinf_flag_valido === 'SI') )
+            ).subscribe(
+              resp => { this.store.getInterventi(resp) } //passo gli interventi allo store
+              )
+    }
+
     create(FormCreate:any) {
 
       let bodyRequest={
@@ -57,13 +68,24 @@ export class InterventiService {
         "data_intervento": this.utilityService.convertDateIso(FormCreate.vpsinf_dal),
         "ora_intervento": FormCreate.ora_dal,
         "data_fine": this.utilityService.convertDateIso(FormCreate.vpsinf_al),
-        "utent_id": 425
+        "utent_id": 466
       }
 
         return this.http_client.post<any>(`${environment.BASE_API_URL}/v0/dwh/manutenzioni/interventi/create`,bodyRequest)
           .subscribe( (intervento) => {
+
+            if(this.interventi){
               let interventi = [intervento.itemCreato[0], ...this.interventi]
-                  this.store.getInterventi(interventi)
+              this.store.getInterventi(interventi)
+            }
+
+            console.log("da Api tutti PRIMA", intervento.itemCreato[0])
+
+              let myIntervento = this.myInterventi?[...this.myInterventi, intervento.itemCreato[0]]:[intervento.itemCreato[0]]
+
+              console.log("da Api tutti DOPO", myIntervento)
+              //console.log("da Api tutti ", myIntervento)
+                  this.store.myInterventi(myIntervento)
             }
           )
     }
@@ -92,7 +114,7 @@ export class InterventiService {
           "data_inizio": dal?dal:null,
           "ora_inizio": '12:03:36',
           "type": '',
-          "utent_id": 425,
+          "utent_id": 466,
           "annullamento" : datiForm.vpsinf_cancellato === true? "1" : "0"
       }
       console.log(bodyRequest)
@@ -115,6 +137,9 @@ export class InterventiService {
     delete(object:any): Observable<any> {
       return this.http_client.post<any>(`${environment.BASE_API_URL}/v1/interventi/prtall/delete`,object)
     }
+
+
+
 
 
 

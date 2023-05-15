@@ -13,11 +13,11 @@ import { InterventiStoreService } from '../../../../shared/service/store/interve
   selector: 'ater-interventi-list-container',
   template: `
   <div class="animated fadeIn">
-    <div class="card">
+<!--     <div class="card">
       <div class="card-body">
            <button  type="button" (click)="openModal_Create()" class="btn btn-sm btn-primary" data-toggle="modal" ><i class="fa fa-lg fa-plus-square"></i> Nuovo intervento</button>
       </div>
-    </div>
+    </div> -->
 
        <!-- {{interventiList$ | async | json }}-->
       <ater-interventi-list
@@ -64,10 +64,10 @@ testStore:any
   /*     let filter = {"matricola":""}
       this.interventiService.read(filter).subscribe(  (resp)=>{ this.interventiLista = resp  } ) */
 
-      this.interventiService.read({"matricola":""})
+      this.interventiService.validati({"matricola":""})
 
 
-            this.interventiService.getSubjectInterventiUpdated().subscribe((res) => {
+/*             this.interventiService.getSubjectInterventiUpdated().subscribe((res) => {
 
                   switch(res.operazione) {
                     case "U": { //aggiorna
@@ -93,7 +93,7 @@ testStore:any
                 }
 
 
-       })
+       }) */
 
     }
 
