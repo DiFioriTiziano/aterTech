@@ -152,9 +152,6 @@ export class InterventiCreateModalComponent implements OnInit {
 
 
   onFileSelected(event) {
-
-
-    console.log(event.target.files)
     const file:File = event.target.files[0];
 
     if (file) {

@@ -12,7 +12,6 @@ import { InterventiStoreService } from '../../../../shared/service/store/interve
 @Component({
   selector: 'ater-interventi-list-container',
   template: `
-  <button (click)="test()">testa store</button>
   <div class="animated fadeIn">
     <div class="card">
       <div class="card-body">
@@ -22,8 +21,8 @@ import { InterventiStoreService } from '../../../../shared/service/store/interve
 
        <!-- {{interventiList$ | async | json }}-->
       <ater-interventi-list
-      *ngIf="interventiLista"
-          [jobList]= "interventiLista"
+      *ngIf="interventi"
+          [jobList]= "interventi"
           (annullamento)="datiAnnullati($event)"
           (valida)="valida($event)"
       >
@@ -37,6 +36,8 @@ export class InterventiListContainerComponent implements OnInit {
 
   interventiList$:Observable<InterventiAter[]>;
   interventiLista:InterventiAter[];
+
+  interventi:InterventiAter[];
   tipologie:any;
 
   bsModalRef: BsModalRef;
@@ -50,31 +51,27 @@ testStore:any
     private modalService: BsModalService,
     private store:InterventiStoreService
     ) {
-      this.store.interventi$.subscribe(data => this.testStore = data);
+      this.store.interventi$.subscribe(data => {this.interventi = data});
      }
 
 
-    test(){
-      //this.store.interventi$.subscribe(data => console.log(data));
-      console.log(this.testStore)
-
-    }
 
 
 
     ngOnInit(): void {
 
         // recupera tutti interventi vps
-      let filter = {"matricola":""}
-      this.interventiService.read(filter).subscribe(  (resp)=>{ this.interventiLista = resp  } )
+  /*     let filter = {"matricola":""}
+      this.interventiService.read(filter).subscribe(  (resp)=>{ this.interventiLista = resp  } ) */
 
+      this.interventiService.read({"matricola":""})
 
 
             this.interventiService.getSubjectInterventiUpdated().subscribe((res) => {
 
                   switch(res.operazione) {
                     case "U": { //aggiorna
-                      console.log("modifica da apportare!",res.data)
+
                       let Index = this.interventiLista.findIndex(lista => lista.vpsinf_id === res.data.vpsinf_id);
                            this.interventiLista[Index] = res.data;
                       break;
@@ -84,7 +81,7 @@ testStore:any
                       break;
                     }
                     case "V": { //validazione
-                      console.log("modifica da apportare!",res.data)
+
                       let Index = this.interventiLista.findIndex(lista => lista.vpsinf_id === res.data.vpsinf_id);
                         this.interventiLista[Index] = res.data;
                       break;
@@ -109,7 +106,7 @@ testStore:any
 
 
 
-    valida(item){
+/*     valida(item){
 
         let request = {
             id_ater: item.vpsinf_id,
@@ -126,7 +123,7 @@ testStore:any
                   console.error(error);
                 }
               );
-    }
+    } */
 
 
     datiAnnullati(datoAnnullato){

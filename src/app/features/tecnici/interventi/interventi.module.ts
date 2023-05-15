@@ -8,7 +8,6 @@ import { AlertModule } from 'ngx-bootstrap/alert';
 
 // Modal Component
 import { BsModalService, ModalModule } from 'ngx-bootstrap/modal';
-import { interventiAnnullo_ModalComponent } from './modals/interventi-annullo/interventi-annullo_modal.component';
 import { InterventiCreateModalContainerComponent } from './modals/interventi-create/interventi-create-modal-container.component';
 import { InterventiCreateModalComponent } from './modals/interventi-create/interventi-create-modal.component';
 
@@ -18,7 +17,6 @@ import { InterventiListComponent } from './interventi-list/interventi-list.compo
 import { PaginationConfig, PaginationModule } from 'ngx-bootstrap/pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
-import { interventiAnnullo_ModalContainerComponent } from './modals/interventi-annullo/interventi-annullo_modal-container.component';
 import { NotificationsRoutingModule } from '../../../views/notifications/notifications-routing.module';
 import { InterventiFileComponent } from './modals/interventi-file/interventi-file.component';
 import { InterventiFileContainerComponent } from './modals/interventi-file/interventi-file-container.component';
@@ -32,8 +30,6 @@ import { InterventiValidaListContainerComponent } from './interventi-valida-list
 @NgModule({
   declarations: [
     InterventiListContainerComponent,
-    interventiAnnullo_ModalComponent,
-    interventiAnnullo_ModalContainerComponent,
     InterventiCreateModalContainerComponent,
     InterventiCreateModalComponent,
     InterventiUpdateComponent,

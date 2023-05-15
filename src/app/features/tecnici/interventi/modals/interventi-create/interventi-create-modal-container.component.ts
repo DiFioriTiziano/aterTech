@@ -9,15 +9,13 @@ import { UtilityService } from '../../../../../shared/service/utility/utility.se
 @Component({
   selector: 'ater-interventi-create-modal-container',
   template: `
-           <ater-interventi-create-modal
-                *ngIf="asset && tipologie"
-
-                  [asset]="asset"
-                  [tipologie]="tipologie"
-                  (datiAdd)="interventoAggiunto($event)"
-              >
-          </ater-interventi-create-modal>
-
+    <ater-interventi-create-modal
+        *ngIf="asset && tipologie"
+          [asset]="asset"
+          [tipologie]="tipologie"
+          (datiAdd)="create($event)"
+      >
+  </ater-interventi-create-modal>
   `,
   styles: []
 })
@@ -35,8 +33,7 @@ export class InterventiCreateModalContainerComponent implements OnInit  {
   ngOnInit(): void {
         //recupera asset completo
         this.asset_Service.assetAll().subscribe( (res)=> {
-          this.asset = res.asset,
-          console.log(res.asset)
+          this.asset = res.asset
         });
 
         //recupera tipologie interventi
@@ -47,32 +44,8 @@ export class InterventiCreateModalContainerComponent implements OnInit  {
 
 
 
-  interventoAggiunto(FormCreate){
-
-  let bodyRequest={
-          "id_esterno": 0,
-          "id_tipologia":  FormCreate.vpsinf_tipologia,
-          "matricola":  FormCreate.vpsinf_matricola,
-          "note":  FormCreate.vpsinf_info,
-          "data_intervento": this.utilityService.convertDateIso(FormCreate.vpsinf_dal),
-          "ora_intervento": FormCreate.ora_dal,
-          "data_fine": this.utilityService.convertDateIso(FormCreate.vpsinf_al),
-          "utent_id": 425
-  }
-
-console.log(FormCreate)
-
-   /*   this.interventiService.create(bodyRequest).subscribe((resp)=> {
-          //this.interventiService.emitDataCreate({"data":resp.itemCreato,"operazione":"C"})
-          this.interventiService.emitData({"data":resp.itemCreato,"operazione":"C"})
-      },
-      (error) => {
-        console.error(error);
-      }
-    ) */
-
-
-
+  create(FormCreate){
+    this.interventiService.create(FormCreate)
   }
 
 

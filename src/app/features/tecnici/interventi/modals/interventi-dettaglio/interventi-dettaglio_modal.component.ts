@@ -74,7 +74,6 @@ export class interventiDettaglio_ModalComponent implements OnInit {
   constructor(public bsModalRef: BsModalRef, public options: ModalOptions) { }
 
   ngOnInit(): void {
-    console.log(this.dati)
    // this.dati = this.options.initialState['datiAnnullati']
   }
 

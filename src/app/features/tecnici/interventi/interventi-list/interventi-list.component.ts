@@ -5,7 +5,6 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { interventiDettaglio_ModalComponent } from '../modals/interventi-dettaglio/interventi-dettaglio_modal.component';
 import { InterventiUpdateContainerComponent } from '../modals/interventi-update/interventi-update-container.component';
 import { interventi, InterventiAter } from '../model/interventi.model';
-import { interventiAnnullo_ModalContainerComponent } from '../modals/interventi-annullo/interventi-annullo_modal-container.component';
 import { InterventiFileContainerComponent } from '../modals/interventi-file/interventi-file-container.component';
 
 
@@ -76,8 +75,8 @@ import { InterventiFileContainerComponent } from '../modals/interventi-file/inte
                 <td> {{item.vpsinf_dal | date: 'dd/MM/yyyy hh:mm'}}</td>
                 <td> {{item.vpsinf_al | date: 'dd/MM/yyyy hh:mm'}}</td>
 
-                <td *ngIf="item.vpsinf_cancellato==='NO'"> No</td>
-                <td *ngIf="item.vpsinf_cancellato==='SI'">Annullato</td>
+                <td *ngIf="item.vpsinf_cancellato==='NO'"><span class="text-success">Attivo</span></td>
+                <td *ngIf="item.vpsinf_cancellato==='SI'"><span class="text-danger">Annullato</span></td>
 
                 <td> {{item.utente_creazione}}</td>
                 <td> {{item.utente_aggiornamento}}</td>
@@ -173,14 +172,6 @@ export class InterventiListComponent implements OnInit {
         //this.bsModalRef.content.data= item;
       }
 
-      public openModal_Annullo(item) {
-            const initialState = {
-              data: item,
-              title: 'Annullamento'
-            };
-        this.bsModalRef = this.modalService.show(interventiAnnullo_ModalContainerComponent, {initialState});
-        this.bsModalRef.content.data= item;
-      }
 
       public openModal_Nota(item) {
             const initialState = {
@@ -202,7 +193,7 @@ export class InterventiListComponent implements OnInit {
   search(value: string): void {
      if(value){
       this.jobList = this.allJobs.filter((val) => val.vpsinf_matricola.toLowerCase().includes(value));
-    }else{ console.log("niente!")
+    }else{
       this.jobList = this.allJobs
     }
 
@@ -222,7 +213,7 @@ export class InterventiListComponent implements OnInit {
 
 
   edit(item){
-    console.log(item)
+
   }
 
 

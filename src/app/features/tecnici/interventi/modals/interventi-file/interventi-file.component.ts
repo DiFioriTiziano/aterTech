@@ -74,7 +74,6 @@ onChange(event) {
 // OnClick of button Upload
 onUpload() {
   this.loading = !this.loading;
-  console.log(this.file);
 /*   this.fileUploadService.upload(this.file).subscribe(
       (event: any) => {
           if (typeof (event) === 'object') {

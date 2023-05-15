@@ -19,6 +19,23 @@ import { UtilityService } from '../../../../../shared/service/utility/utility.se
           <div class="modal-body text-primary">
 
               <form *ngIf="Form_update" [formGroup]="Form_update" (ngSubmit)="onSubmit(Form_update)" class="form-horizontal">
+
+              <div class="card border-danger">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-3"> </div>
+                      <div class="col-md-6">
+                        <div class="form-check form-check-inline mr-1">
+                          <input formControlName="vpsinf_cancellato" class="form-check-input" type="checkbox" name="vpsinf_cancellato" id="vpsinf_cancellato" value="">
+                          <label class="form-check-label" for="inline-checkbox2">Annulla Intervento</label>
+                        </div>
+                      </div>
+                    <div class="col-md-3"> </div>
+                  </div>
+                </div>
+              </div>
+
+
                   <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="vpsinf_matricola">Matricola</label>
                       <div class="col-md-9">
@@ -32,7 +49,6 @@ import { UtilityService } from '../../../../../shared/service/utility/utility.se
                           <input  type="text" formControlName="vpsinf_tipologia" value="" id="vpsinf_tipologia" name="vpsinf_tipologia"  class="form-control form-control-sm" placeholder="">
                       </div>
                   </div>
-
 
 
                   <div   class="form-group row">
@@ -151,9 +167,13 @@ export class InterventiUpdateComponent implements OnInit {
 
   ngOnInit(): void {
 
-    console.log(this.data)
+
     let matricola = this.data.vpsinf_matricola
     let tipologia = this.data.tipvps_descrizione
+
+    let annullamento:Boolean = this.data.vpsinf_cancellato === "SI"?true:false
+
+
     let vpsstato_descrizione = this.data.vpsstato_descrizione
     let vpsinf_flag_verbale_tecnico = this.data.vpsinf_flag_verbale_tecnico
     let vpsinf_flag_sequestro = this.data.vpsinf_flag_sequestro
@@ -164,6 +184,7 @@ export class InterventiUpdateComponent implements OnInit {
       this.Form_update = this.fb.group({
         vpsinf_matricola: [{ value: matricola, disabled: true}, Validators.required],
         vpsinf_tipologia: [{ value: tipologia, disabled: true}, Validators.required],
+        vpsinf_cancellato: [{ value: annullamento, disabled: false}],
         vpsstato_descrizione: [''],
         vpsinf_flag_verbale_tecnico: [{ value: vpsinf_flag_verbale_tecnico, disabled: false}],
         vpsinf_flag_sequestro: [{ value: vpsinf_flag_sequestro, disabled: false}],
@@ -185,7 +206,6 @@ export class InterventiUpdateComponent implements OnInit {
 
 
   onFileSelected(event) {
-    console.log(event.target.files)
     const file:File = event.target.files[0];
 
     }
