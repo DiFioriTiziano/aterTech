@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { of, Observable } from 'rxjs';
 import { AssetService } from '../../../../../shared/service/asset/asset.service';
-import { InterventiService } from '../../../../../shared/service/interventi/porteAllarmate/porte-allarmate-service.service';
+import { InterventiService } from '../../../../../shared/service/interventi/interventi.service';
 import { interventi, InterventiAter } from './../../model/interventi.model';
 import { UtilityService } from '../../../../../shared/service/utility/utility.service';
 
@@ -29,6 +29,8 @@ export class InterventiCreateModalContainerComponent implements OnInit  {
     private interventiService: InterventiService,
     private utilityService : UtilityService,
     ) { }
+
+
 
   ngOnInit(): void {
         //recupera asset completo

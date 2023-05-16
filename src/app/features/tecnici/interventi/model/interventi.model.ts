@@ -7,6 +7,7 @@ export interface interventi {
   export interface InterventiAter {
       vpsinf_id_esterno: number;
       vpsinf_flag_valido: string;
+      vpsinf_flag_convalida: any;
       vpsinf_id: number;
       vpsinf_matricola: string;
       vpsinf_info: string;

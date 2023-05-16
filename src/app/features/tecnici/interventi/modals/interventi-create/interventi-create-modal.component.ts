@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {BsModalRef, ModalDirective} from 'ngx-bootstrap/modal';
 import { Subject } from 'rxjs';
-import { InterventiService } from '../../../../../shared/service/interventi/porteAllarmate/porte-allarmate-service.service';
+import { InterventiService } from '../../../../../shared/service/interventi/interventi.service';
 import { HttpClient } from '@angular/common/http';
 
 
@@ -62,9 +62,9 @@ export class InterventiCreateModalComponent implements OnInit {
         vpsinf_al: [''],
         ora_dal: ['', Validators.required],
         ora_al: [''],
-        file1: [''],
-        file2: [''],
-        file3: ['']
+        //file1: [''],
+        //file2: [''],
+        //file3: ['']
       });
 
   }
@@ -134,7 +134,7 @@ export class InterventiCreateModalComponent implements OnInit {
     this.FormCreate.controls['vpsinf_matricola'].disable();
 
     this.FormCreate.reset()
-    this.bsModalRef.hide()
+    //this.bsModalRef.hide()
 
   }
 

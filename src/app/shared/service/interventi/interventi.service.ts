@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, of } from 'rxjs';
-import { environment } from '../../../../../environments/environment';
-import { interventi, InterventiAter } from '../../../../features/tecnici/interventi/model/interventi.model';
+import { environment } from '../../../../environments/environment';
+import { interventi, InterventiAter } from '../../../features/tecnici/interventi/model/interventi.model';
 import { map } from 'rxjs/operators';
-import { InterventiStoreService } from '../../store/interventi-store.service';
-import { UtilityService } from '../../utility/utility.service';
+import { InterventiStoreService } from '../store/interventi-store.service';
+import { UtilityService } from '../utility/utility.service';
 
 
 
@@ -39,25 +39,6 @@ export class InterventiService {
         )
     }
 
-
-    daValidare(filtro:any) {
-      return this.http_client.post<interventi>(`${environment.BASE_API_URL}/v0/dwh/manutenzioni/interventi/read`, filtro)
-        .pipe( // recupero interventi da api
-              map(val => val.InterventiAter.filter((item)=> item.vpsinf_flag_valido === 'NO') )
-            ).subscribe(
-              resp => { this.store.getInterventi(resp) } //passo gli interventi allo store
-              )
-    }
-
-    validati(filtro:any) {
-      return this.http_client.post<interventi>(`${environment.BASE_API_URL}/v0/dwh/manutenzioni/interventi/read`, filtro)
-        .pipe( // recupero interventi da api
-              map(val => val.InterventiAter.filter((item)=> item.vpsinf_flag_valido === 'SI') )
-            ).subscribe(
-              resp => { this.store.getInterventi(resp) } //passo gli interventi allo store
-              )
-    }
-
     create(FormCreate:any) {
 
       let bodyRequest={
@@ -74,24 +55,16 @@ export class InterventiService {
         return this.http_client.post<any>(`${environment.BASE_API_URL}/v0/dwh/manutenzioni/interventi/create`,bodyRequest)
           .subscribe( (intervento) => {
 
-            if(this.interventi){
-              let interventi = [intervento.itemCreato[0], ...this.interventi]
-              this.store.getInterventi(interventi)
-            }
+              if(this.interventi){
+                let interventi = [intervento.itemCreato[0], ...this.interventi]
+                  this.store.getInterventi(interventi)
+              }
 
-            console.log("da Api tutti PRIMA", intervento.itemCreato[0])
-
-              let myIntervento = this.myInterventi?[...this.myInterventi, intervento.itemCreato[0]]:[intervento.itemCreato[0]]
-
-              console.log("da Api tutti DOPO", myIntervento)
-              //console.log("da Api tutti ", myIntervento)
-                  this.store.myInterventi(myIntervento)
+                let myIntervento = this.myInterventi?[...this.myInterventi, intervento.itemCreato[0]]:[intervento.itemCreato[0]]
+                    this.store.myInterventi(myIntervento)
             }
           )
     }
-
-
-
 
     update(datiForm:any, item:any) {
 
@@ -126,22 +99,47 @@ export class InterventiService {
                 this.interventi[Index] = interventoModificato;
                   this.store.getInterventi(this.interventi)
           })
-        }
-
-
-
-
-
-
+    }
 
     delete(object:any): Observable<any> {
       return this.http_client.post<any>(`${environment.BASE_API_URL}/v1/interventi/prtall/delete`,object)
     }
 
+    convalida(item, tipo) {
+
+      let bodyRequest =  {
+          "id_ater": item.vpsinf_id,
+          "utent_id": item.vpsinf_utent_id_creazione,
+          "tipo" : tipo
+      }
+      console.log(item, bodyRequest)
+        return this.http_client.post<any>(`${environment.BASE_API_URL}/v0/dwh/manutenzioni/interventi/convalida`,bodyRequest)
+          .subscribe( (resp)=> {
+              let nuovaListaInterventi = this.myInterventi.filter(lista => lista.vpsinf_id !== item.vpsinf_id);
+              console.log("service data... ",nuovaListaInterventi)
+                  this.store.myInterventi(nuovaListaInterventi)
+          })
+    }
 
 
 
+    daValidare(filtro:any) {
+      return this.http_client.post<interventi>(`${environment.BASE_API_URL}/v0/dwh/manutenzioni/interventi/read`, filtro)
+        .pipe( // recupero interventi da api
+              map(val =>  val.InterventiAter.filter(item => item.vpsinf_flag_valido === 'NO'  ) ) // && item.vpsinf_flag_convalida === null
+            ).subscribe(
+              resp => { this.store.getInterventi(resp) } //passo gli interventi allo store
+              )
+    }
 
+    validati(filtro:any) {
+      return this.http_client.post<interventi>(`${environment.BASE_API_URL}/v0/dwh/manutenzioni/interventi/read`, filtro)
+        .pipe( // recupero interventi da api
+              map(val => val.InterventiAter.filter((item)=> item.vpsinf_flag_valido === 'SI') )
+            ).subscribe(
+              resp => { this.store.getInterventi(resp) } //passo gli interventi allo store
+              )
+    }
 
     valida(itemModificato)  {
       let request = {
@@ -159,8 +157,6 @@ export class InterventiService {
           )
     }
 
-
-
     tipologie() {
       return this.http_client.get<any>(`${environment.BASE_API_URL}/v1/interventi/prtall/tipologie/read`)
     }
@@ -174,26 +170,7 @@ export class InterventiService {
           return this.interventiData.asObservable();
         }
 
-/*     readData():void {
-      let filter = {"matricola":""}
-       this.read(filter).subscribe((data)=>{
-          this.interventiData.next(data);
-      })
-    } */
 
-
-/*     readData():void {
-      let filter = {"matricola":""}
-       this.read(filter).pipe(
-        map(val => val.filter((item)=> item.vpsinf_flag_valido === 'NO') )
-      ).subscribe( resp=> this.interventiData.next(resp) )
-    }
- */
-/*     readDataTutti():void {
-      let filter = {"matricola":""}
-       this.read(filter).subscribe( resp=> this.interventiData.next(resp) )
-    }
- */
 
 
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { InterventiAter } from '../model/interventi.model';
-import { InterventiService } from '../../../../shared/service/interventi/porteAllarmate/porte-allarmate-service.service';
+import { InterventiService } from '../../../../shared/service/interventi/interventi.service';
 import { filter, map } from 'rxjs/operators';
 import { NgIf } from '@angular/common';
 import { InterventiStoreService } from '../../../../shared/service/store/interventi-store.service';

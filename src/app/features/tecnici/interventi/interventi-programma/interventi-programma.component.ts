@@ -1,8 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { InterventiCreateModalContainerComponent } from '../modals/interventi-create/interventi-create-modal-container.component';
 import { InterventiAter } from '../model/interventi.model';
 import { InterventiUpdateContainerComponent } from '../modals/interventi-update/interventi-update-container.component';
+import { interventiDettaglio_ModalComponent } from '../modals/interventi-dettaglio/interventi-dettaglio_modal.component';
+import { VpsInterventiService } from '../../../../shared/service/interventi/vps-interventi.service';
+
 
 @Component({
   selector: 'ater-interventi-programma',
@@ -15,7 +18,7 @@ import { InterventiUpdateContainerComponent } from '../modals/interventi-update/
             <div class="col-12 text-center">
               <button  type="button" (click)="openModal_Create()" class="btn btn-sm btn-primary" data-toggle="modal" ><i class="fa fa-lg fa-plus-square"></i> Nuovo intervento</button>
             </div>
-
+            <button  type="button" (click)="testvps()" class="btn btn-sm btn-primary"   > test vps</button>
         </div>
       </div>
     </div>
@@ -39,6 +42,7 @@ import { InterventiUpdateContainerComponent } from '../modals/interventi-update/
             <thead>
               <tr>
                <!-- <th><i class="fa fa-file-text  text-success"></i> </th>-->
+                <th><i class="fa fa-file-text  text-success"></i> </th>
                 <th>id_Ater</th>
                 <th>Matricola</th>
                 <th>Intervento</th>
@@ -48,9 +52,9 @@ import { InterventiUpdateContainerComponent } from '../modals/interventi-update/
                 <th>Annullo</th>
                 <th>Autore</th>
                 <th>Modifica</th>
-                <th>Syncro</th>
                 <th>Validazione</th>
-                <th></th>
+                <th>Modifica</th>
+                <th>Conferma</th>
 
               </tr>
             </thead>
@@ -58,11 +62,11 @@ import { InterventiUpdateContainerComponent } from '../modals/interventi-update/
            <tbody >
 
             <tr *ngFor="let item of myInterventi" >
-               <!-- <td>
-                  <a href="#/interventi/lista" (click)="openModal_Nota(item)" >
+                <td>
+                  <a href="#/interventi/programmazione" (click)="openModal_Nota(item)" >
                       <i class="fa fa-tasks animated fadeIn text-success"></i>
                   </a>
-                </td> -->
+                </td>
 
                 <td> {{item.vpsinf_id}}</td>
                 <td> {{item.vpsinf_matricola}}</td>
@@ -76,16 +80,17 @@ import { InterventiUpdateContainerComponent } from '../modals/interventi-update/
 
                 <td> {{item.utente_creazione}}</td>
                 <td> {{item.utente_aggiornamento}}</td>
-                <td>
-                    <span *ngIf="item.vpsinf_id_esterno===0"  class="text-danger">Non sync</span>
-                    <span *ngIf="item.vpsinf_id_esterno > 0" >{{item.vpsinf_id_esterno}}</span>
-                </td>
+
                 <td>
                     <span  class="animated fadeIn" *ngIf="item.vpsinf_flag_valido==='SI'">Validato</span>
                     <span *ngIf="item.vpsinf_flag_valido==='NO'" class="text-danger" >Validare</span>
                 </td>
                 <td class="text-primary">
                     <a href="#/interventi/programmazione" (click)="openModal_Update(item)" data-toggle="modal"><i class="fa fa-edit fa-lg"></i></a>
+                 </td>
+
+                 <td>
+                 <a href="#/interventi/programmazione" (click)="conferma(item)"> <span class="badge badge-primary animated fadeIn">Conferma</span></a>
                  </td>
 
               </tr>
@@ -114,10 +119,10 @@ export class InterventiProgrammaComponent implements OnInit {
 
   bsModalRef: BsModalRef;
   @Input('myInterventi') myInterventi: InterventiAter[]
+  @Output('convalida') convalida : EventEmitter<any> = new EventEmitter<any>()
 
 
-
-  constructor(private modalService: BsModalService) { }
+  constructor(private modalService: BsModalService, private vpsInterventiService : VpsInterventiService) { }
 
   ngOnInit(): void {
   }
@@ -139,5 +144,24 @@ export class InterventiProgrammaComponent implements OnInit {
   //this.bsModalRef.content.data= item;
   }
 
+
+  public openModal_Nota(item) {
+    const initialState = {
+      dati: item,
+      title: 'Note'
+    };
+    this.bsModalRef = this.modalService.show(interventiDettaglio_ModalComponent, {initialState});
+    this.bsModalRef.content.data= item;
+    }
+
+
+  conferma(item){
+    this.convalida.emit(item)
+  }
+
+
+  testvps(){
+    this.vpsInterventiService.vps_Crea()
+  }
 
 }

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { InterventiService } from '../../../../../shared/service/interventi/porteAllarmate/porte-allarmate-service.service';
+import { InterventiService } from '../../../../../shared/service/interventi/interventi.service';
 import { InterventiAter } from '../../model/interventi.model';
 import { UtilityService } from '../../../../../shared/service/utility/utility.service';
 import { InterventiStoreService } from '../../../../../shared/service/store/interventi-store.service';

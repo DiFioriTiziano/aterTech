@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, TemplateRef,ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { InterventiService } from '../../../../shared/service/interventi/porteAllarmate/porte-allarmate-service.service';
+import { InterventiService } from '../../../../shared/service/interventi/interventi.service';
 import { InterventiCreateModalContainerComponent } from '../modals/interventi-create/interventi-create-modal-container.component';
 import { interventi, InterventiAter } from '../model/interventi.model';
 import { concat, merge, Observable, of, Subject } from 'rxjs';
