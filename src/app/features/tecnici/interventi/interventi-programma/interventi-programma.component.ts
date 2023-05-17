@@ -14,11 +14,9 @@ import { VpsInterventiService } from '../../../../shared/service/interventi/vps-
     <div class="card">
       <div class="card-body">
         <div class="row text-center">
-
             <div class="col-12 text-center">
               <button  type="button" (click)="openModal_Create()" class="btn btn-sm btn-primary" data-toggle="modal" ><i class="fa fa-lg fa-plus-square"></i> Nuovo intervento</button>
             </div>
-            <button  type="button" (click)="testvps()" class="btn btn-sm btn-primary"   > test vps</button>
         </div>
       </div>
     </div>
@@ -98,18 +96,12 @@ import { VpsInterventiService } from '../../../../shared/service/interventi/vps-
             </tbody>
           </table>
 
-
-
-
-
         </div>
       </div>
 
 
       </div>
     </div>
-
-
 
   </div>
   `,
@@ -161,7 +153,7 @@ export class InterventiProgrammaComponent implements OnInit {
 
 
   testvps(){
-    this.vpsInterventiService.vps_Crea()
+   // this.vpsInterventiService.vps_Crea()
   }
 
 }

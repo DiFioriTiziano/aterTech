@@ -6,6 +6,7 @@ import { interventi, InterventiAter } from '../../../features/tecnici/interventi
 import { map } from 'rxjs/operators';
 import { InterventiStoreService } from '../store/interventi-store.service';
 import { UtilityService } from '../utility/utility.service';
+import { VpsInterventiService } from './vps-interventi.service';
 
 
 
@@ -20,6 +21,7 @@ export class InterventiService {
   constructor(private http_client:HttpClient,
     private store:InterventiStoreService,
     private utilityService : UtilityService,
+    private vps_interventiService : VpsInterventiService
   ) {
     this.store.interventi$.subscribe(data => {this.interventi = data });
     this.store.myIntervento$.subscribe(data => { this.myInterventi = data });
@@ -116,8 +118,8 @@ export class InterventiService {
         return this.http_client.post<any>(`${environment.BASE_API_URL}/v0/dwh/manutenzioni/interventi/convalida`,bodyRequest)
           .subscribe( (resp)=> {
               let nuovaListaInterventi = this.myInterventi.filter(lista => lista.vpsinf_id !== item.vpsinf_id);
-              console.log("service data... ",nuovaListaInterventi)
                   this.store.myInterventi(nuovaListaInterventi)
+                   this.vps_interventiService.vps_Crea(item).subscribe(console.log)
           })
     }
 
@@ -126,7 +128,7 @@ export class InterventiService {
     daValidare(filtro:any) {
       return this.http_client.post<interventi>(`${environment.BASE_API_URL}/v0/dwh/manutenzioni/interventi/read`, filtro)
         .pipe( // recupero interventi da api
-              map(val =>  val.InterventiAter.filter(item => item.vpsinf_flag_valido === 'NO'  ) ) // && item.vpsinf_flag_convalida === null
+              map(val =>  val.InterventiAter.filter(item => item.vpsinf_flag_valido === 'NO'  ) ) // && item.vpsinf_flag_convalida === '1'
             ).subscribe(
               resp => { this.store.getInterventi(resp) } //passo gli interventi allo store
               )
