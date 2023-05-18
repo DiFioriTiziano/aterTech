@@ -169,11 +169,10 @@ export class InterventiValidaListComponent implements OnInit {
 
       public openModal_Update(item) {
 
-      //  this.intervento.emit(item);
-
             const initialState = {
               item: item,
-              title: 'Modifica'
+              title: 'Modifica',
+              type: 'Validazione'
             };
         this.bsModalRef = this.modalService.show(InterventiUpdateContainerComponent, {initialState});
         //this.bsModalRef.content.data= item;

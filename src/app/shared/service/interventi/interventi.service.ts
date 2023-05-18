@@ -68,7 +68,7 @@ export class InterventiService {
           )
     }
 
-    update(datiForm:any, item:any) {
+    update(datiForm:any, item:any, type:string) {
 
       let dal = this.utilityService.convertDateIso(datiForm.vpsinf_dal)
       let al = this.utilityService.convertDateIso(datiForm.vpsinf_al)
@@ -92,15 +92,19 @@ export class InterventiService {
           "utent_id": 466,
           "annullamento" : datiForm.vpsinf_cancellato === true? "1" : "0"
       }
-      console.log(bodyRequest)
 
-        return this.http_client.post<any>(`${environment.BASE_API_URL}/v0/dwh/manutenzioni/interventi/update`,bodyRequest)
+
+      let funzione = type === 'Validazione'?'update_valida':'update';
+
+        return this.http_client.post<any>(`${environment.BASE_API_URL}/v0/dwh/manutenzioni/interventi/${funzione}`,bodyRequest)
           .subscribe( (resp)=> {
             let interventoModificato = {...item, ...datiModificati}
               let Index = this.interventi.findIndex(lista => lista.vpsinf_id === item.vpsinf_id);
                 this.interventi[Index] = interventoModificato;
                   this.store.getInterventi(this.interventi)
           })
+
+
     }
 
     delete(object:any): Observable<any> {

@@ -14,6 +14,7 @@ import { InterventiStoreService } from '../../../../../shared/service/store/inte
           [dati]="item"
           [tipologie]="tipologie"
           (datiModificati)="update($event)"
+          [type]="type"
         >
       </ater-interventi-update>
   `,
@@ -27,6 +28,7 @@ export class InterventiUpdateContainerComponent implements OnInit {
   // initialState modale
   item:any
   title:any
+  type:any
 
   intervento:any
   interventi:any
@@ -47,7 +49,7 @@ export class InterventiUpdateContainerComponent implements OnInit {
    }
 
    update(datiForm){
-      this.interventiService.update(datiForm, this.item)
+      this.interventiService.update(datiForm, this.item, this.type)
    }
 
 }

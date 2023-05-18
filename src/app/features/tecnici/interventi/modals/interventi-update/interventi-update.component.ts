@@ -52,7 +52,7 @@ import { UtilityService } from '../../../../../shared/service/utility/utility.se
 
 
                   <div   class="form-group row">
-                      <label class="col-md-3 col-form-label" for="vpsinf_tipologia">Stato</label>
+                      <label class="col-md-3 col-form-label" for="vpsinf_tipologia">Requisiti</label>
                         <div class="col-md-3">
                           <select  formControlName="vpsstato_descrizione"  id="vpsstato_descrizione" name="vpsstato_descrizione" class="form-control form-control-sm">
                             <option *ngFor="let item of stati"  >{{item.vpssta_descrizione}}</option>
@@ -141,6 +141,7 @@ export class InterventiUpdateComponent implements OnInit {
 
   @Input('dati') data: any
   @Input('title') title: any
+  @Input('type') tipo: any
   @Input('tipologie') tipologie: any
 
   @Output() datiModificati : EventEmitter<any> = new EventEmitter<any>()
@@ -167,6 +168,7 @@ export class InterventiUpdateComponent implements OnInit {
 
   ngOnInit(): void {
 
+    let abilita = this.tipo === "Validazione"?false:true
 
     let matricola = this.data.vpsinf_matricola
     let tipologia = this.data.tipvps_descrizione
@@ -189,7 +191,7 @@ export class InterventiUpdateComponent implements OnInit {
         vpsinf_flag_verbale_tecnico: [{ value: vpsinf_flag_verbale_tecnico, disabled: false}],
         vpsinf_flag_sequestro: [{ value: vpsinf_flag_sequestro, disabled: false}],
         vpsinf_info: [{ value: note, disabled: false}, Validators.required],
-        vpsinf_dal: [{ value: dataDal, disabled: false}, Validators.required] ,
+        vpsinf_dal: [{ value: dataDal, disabled: abilita}, Validators.required] ,
         vpsinf_al: [{ value: dataAl, disabled: false}, Validators.required]
       });
 
