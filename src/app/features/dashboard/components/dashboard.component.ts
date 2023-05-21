@@ -21,18 +21,16 @@ import { Component, OnInit } from '@angular/core';
 
     <i class="fa fa-tasks fa-lg"></i>Interventi  </div>
 
-    <div class="card-body">
+<div class="card-body">
+  <div class="row">
 
-
-
-      <div class="row">
-    <div class="col-sm-6 col-lg-3">
+    <div class="col-sm-3 col-lg-3">
       <div class="card text-white bg-info">
         <div class="card-body pb-0">
           <button type="button" class="btn btn-transparent p-0 float-right">
           <i class="icon-settings"></i>
           </button>
-          <div class="text-value">983</div>
+          <div class="text-value">103</div>
           <div>	Riconsegna alloggio, installazione allarme</div>
         </div>
         <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
@@ -40,7 +38,7 @@ import { Component, OnInit } from '@angular/core';
         </div>
       </div>
     </div><!--/.col-->
-    <div class="col-sm-6 col-lg-3">
+    <div class="col-sm-3 col-lg-3">
       <div class="card text-white bg-primary">
         <div class="card-body pb-0">
           <div class="btn-group float-right" dropdown>
@@ -53,7 +51,7 @@ import { Component, OnInit } from '@angular/core';
               <a class="dropdown-item" href="#">Annuale</a>
             </div>
           </div>
-          <div class="text-value">385</div>
+          <div class="text-value">78</div>
           <div>Apertura Alloggio</div>
         </div>
         <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
@@ -61,6 +59,54 @@ import { Component, OnInit } from '@angular/core';
         </div>
       </div>
     </div><!--/.col-->
+
+    <div class="col-sm-3 col-lg-3">
+      <div class="card text-white bg-success">
+        <div class="card-body pb-0">
+          <div class="btn-group float-right" dropdown>
+            <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
+            <i class="fa fa-filter "></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+              <a class="dropdown-item" href="#">Ultimo mese</a>
+              <a class="dropdown-item" href="#">Semestrale</a>
+              <a class="dropdown-item" href="#">Annuale</a>
+            </div>
+          </div>
+          <div class="text-value">103</div>
+          <div>Liberi</div>
+        </div>
+        <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
+
+        </div>
+      </div>
+    </div><!--/.col-->
+
+
+    <div class="col-sm-3 col-lg-3">
+      <div class="card text-white bg-danger">
+        <div class="card-body pb-0">
+          <div class="btn-group float-right" dropdown>
+            <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
+              <i class="icon-settings"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </div>
+          <div class="text-value">24</div>
+          <div>Alloggio occupato</div>
+        </div>
+        <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
+        </div>
+      </div>
+    </div><!--/.col-->
+
+
+
+
   </div>
 </div>
 

@@ -12,10 +12,21 @@ export class DefaultLayoutComponent {
   public navItems = navItems;
 
   isLoggedIn : Observable<boolean>;
+  nominativoDwh:string
 
   constructor(private authService: AuthService) {
 
     this.isLoggedIn = this.authService.isLoggedIn();
+      this.isLoggedIn.subscribe(
+        (resp)=>{
+          this.nominativoDwh = localStorage.getItem('nominativoDwh')
+        }
+      )
+
+
+
+
+
   }
 
   toggleMinimize(e) {
