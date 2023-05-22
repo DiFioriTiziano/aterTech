@@ -88,7 +88,7 @@ import { InterventiFileContainerComponent } from '../modals/interventi-file/inte
                     <span  class="animated fadeIn" *ngIf="item.vpsinf_flag_valido==='SI'">Validato</span>
                     <span *ngIf="item.vpsinf_flag_valido==='NO'" class="text-danger" >Validare</span>
                 </td>
-                <td class="text-primary">
+                <td *ngIf="livello !== 2" class="text-primary">
                     <a href="#/interventi/lista" (click)="openModal_Update(item)" data-toggle="modal"><i class="fa fa-edit fa-lg"></i></a>
                  </td>
 
@@ -141,10 +141,12 @@ export class InterventiListComponent implements OnInit {
   jobs:any
   allJobs : InterventiAter[];
   data:any
-
+  livello:any
 
   constructor(private modalService: BsModalService) {
   this.title = "Lista Interventi"
+
+  this.livello  = JSON.parse(localStorage.getItem('authLevelDwh')); // faccio il parse perche nello storage salva solo stringa ma i volori sono diversi alla fonte.
 
    }
 

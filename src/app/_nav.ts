@@ -1,4 +1,31 @@
+
 import { INavData } from '@coreui/angular';
+
+
+
+
+let livello  = JSON.parse(localStorage.getItem('authLevelDwh')); // faccio il parse perche nello storage salva solo stringa ma i volori sono diversi alla fonte.
+let livello1 = true
+let livello2 = true
+let livello3 = true
+
+switch(livello) {
+  case 1:
+    livello1 = false;
+    break;
+  case 2:
+    livello2 = false;
+    break;
+  case 3:
+    livello3 = false;
+    break;
+  default:
+     livello1 = true
+     livello2 = true
+     livello3 = true
+}
+
+
 
 export const navItems: INavData[] = [
   {
@@ -15,6 +42,7 @@ export const navItems: INavData[] = [
     name: 'Manutenzioni-Servizi',
     url: '/interventi',
     icon: 'fa fa-gears',
+    attributes: { class: 'text-warning'},
     children: [
       {
         name: 'Interventi',
@@ -24,18 +52,20 @@ export const navItems: INavData[] = [
           {
             name: 'programmazione',
             url: '/interventi/programmazione',
-            icon: 'fa fa-calendar-plus-o'
+            icon: 'fa fa-calendar-plus-o',
+            attributes: { disabled: (livello1 && livello2)},
           },
           {
             name: 'Validazioni',
             url: '/interventi/validazioni',
             icon: 'fa fa-check-circle-o',
-            attributes: { disabled: false },
+            attributes: { disabled: livello1 },
           },
           {
             name: 'Lista',
             url: '/interventi/lista',
-            icon: 'fa fa-tasks'
+            icon: 'fa fa-tasks',
+            attributes: { disabled: false },
           }
         ]
       },
