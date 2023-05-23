@@ -4,6 +4,7 @@ import { InterventiListContainerComponent } from './interventi-list/interventi-l
 import { InterventiValidaListContainerComponent } from './interventi-valida-list/interventi-valida-list-container.component';
 import { AuthGuard } from '../../../shared/service/auth/auth.guard';
 import { InterventiProgrammaContainerComponent } from './interventi-programma/interventi-programma-container.component';
+import { InterventiConvalidaContainerComponent } from './interventi-convalida/interventi-convalida-container.component';
 
 
 const routes: Routes = [
@@ -23,6 +24,14 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: {
           title: 'lista'
+        }
+      },
+      {
+        path: 'convalida',
+        component: InterventiConvalidaContainerComponent,
+        canActivate: [AuthGuard],
+        data: {
+          title: 'Convalida'
         }
       },
       {

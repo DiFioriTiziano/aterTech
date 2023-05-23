@@ -7,8 +7,9 @@ import { InterventiService } from '../../../../shared/service/interventi/interve
   selector: 'ater-interventi-programma-container',
   template: `
     <ater-interventi-programma
+    *ngIf="myInterventi"
       [myInterventi]="myInterventi"
-      (convalida)="convalida($event)"
+      (conferma)="conferma($event)"
 
     >
     </ater-interventi-programma>
@@ -20,19 +21,17 @@ export class InterventiProgrammaContainerComponent implements OnInit {
   myInterventi: InterventiAter[]
 
   constructor(private store:InterventiStoreService,private interventiService: InterventiService,) {
-
-    this.store.myIntervento$.subscribe(data => {
-      this.myInterventi = data
-      console.log("my interventi aggiornati!", this.myInterventi)
-    });
-
+    this.store.interventi$.subscribe(data => {this.myInterventi = data, console.log("MY INTERVENTI", this.myInterventi)});
    }
 
   ngOnInit(): void {
+   this.interventiService.daConfermare({"matricola":""})
   }
 
-  convalida(item){
-    this.interventiService.convalida(item, "i")
+
+
+  conferma(item){
+    this.interventiService.conferma(item)
   }
 
 }

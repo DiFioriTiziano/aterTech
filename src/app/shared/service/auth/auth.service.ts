@@ -73,7 +73,8 @@ export class AuthService {
           }
 
       this.http_client.post<responseLoginDwh>(`${environment.BASE_API_URL}/v0/dwh/auth/login`, request).subscribe(
-        (resp) =>{
+        (resp) =>{ //
+          localStorage.setItem('userID_Dwh', resp.user.UTENT_ID);
           localStorage.setItem('userDwh', resp.user.UTENT_UTENTE_LOGIN);
           localStorage.setItem('nominativoDwh', `${resp.user.UTENT_NOME} ${resp.user.UTENT_COGNOME}`);
           localStorage.setItem('mailDwh', resp.user.UTENT_EMAIL);
@@ -85,22 +86,12 @@ export class AuthService {
         }
       )
 
-
-
-
-
-/*       if (dataForm.user === 'tdifiori' && dataForm.password === 'tdifiori'){
-
-          localStorage.setItem('userLogin', dataForm.user);
-          this.isLoginSubject.next(true);
-          this.router.navigate(['/dashboard']);
-      } */
-
     }
 
     logout() : void {
       localStorage.removeItem('userLogin');
 
+        localStorage.removeItem('userID_Dwh');
         localStorage.removeItem('userDwh');
         localStorage.removeItem('nominativoDwh');
         localStorage.removeItem('mailDwh');

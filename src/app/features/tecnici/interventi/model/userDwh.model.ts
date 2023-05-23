@@ -8,6 +8,7 @@ export interface responseLoginDwh {
 
 
 export interface utenteDwh {
+  UTENT_ID: any;
   UTENT_UTENTE_LOGIN: string;
   UTENT_EMAIL: string;
   UTENT_NOME: string;

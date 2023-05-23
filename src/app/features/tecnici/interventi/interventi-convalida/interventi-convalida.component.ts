@@ -1,33 +1,20 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { InterventiCreateModalContainerComponent } from '../modals/interventi-create/interventi-create-modal-container.component';
-import { InterventiAter } from '../model/interventi.model';
 import { InterventiUpdateContainerComponent } from '../modals/interventi-update/interventi-update-container.component';
 import { interventiDettaglio_ModalComponent } from '../modals/interventi-dettaglio/interventi-dettaglio_modal.component';
-import { VpsInterventiService } from '../../../../shared/service/interventi/vps-interventi.service';
-
+import { InterventiAter } from '../model/interventi.model';
 
 @Component({
-  selector: 'ater-interventi-programma',
+  selector: 'ater-intervento-convalida',
   template: `
-  <div class="animated fadeIn">
-    <div class="card">
-      <div class="card-body">
-        <div class="row text-center">
-            <div class="col-12 text-center">
-              <button  type="button" (click)="openModal_Create()" class="btn btn-sm btn-primary" data-toggle="modal" ><i class="fa fa-lg fa-plus-square"></i> Nuovo intervento</button>
-            </div>
-        </div>
-      </div>
-    </div>
-
+    <div class="animated fadeIn">
 
     <div class="card border-info">
       <div class="card-body">
 
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-align-justify"></i> Interventi creati
+          <i class="fa fa-align-justify"></i> Interventi da convalidare
 
           <div class="card-header-actions">
 
@@ -52,14 +39,14 @@ import { VpsInterventiService } from '../../../../shared/service/interventi/vps-
                 <th>Modifica</th>
                 <th>Validazione</th>
                 <th>Modifica</th>
-                <th>Conferma</th>
+                <th>Convalida</th>
 
               </tr>
             </thead>
 
            <tbody >
 
-            <tr *ngFor="let item of myInterventi" >
+            <tr *ngFor="let item of interventi" >
                 <td>
                   <a href="#/interventi/programmazione" (click)="openModal_Nota(item)" >
                       <i class="fa fa-tasks animated fadeIn text-success"></i>
@@ -88,7 +75,7 @@ import { VpsInterventiService } from '../../../../shared/service/interventi/vps-
                  </td>
 
                  <td>
-                 <a href="#/interventi/programmazione" (click)="conferma_(item)"> <span class="badge badge-primary animated fadeIn">Conferma</span></a>
+                 <a href="#/interventi/programmazione" (click)="convalida(item)"> <span class="badge badge-success animated fadeIn">Convalida</span></a>
                  </td>
 
               </tr>
@@ -105,54 +92,41 @@ import { VpsInterventiService } from '../../../../shared/service/interventi/vps-
 
   </div>
   `,
-  styles: []
+  styles: [
+  ]
 })
-export class InterventiProgrammaComponent implements OnInit {
+export class InterventiConvalidaComponent implements OnInit {
 
   bsModalRef: BsModalRef;
-  @Input('myInterventi') myInterventi: InterventiAter[]
-  @Output('conferma') conferma : EventEmitter<any> = new EventEmitter<any>()
+  @Input('interventi') interventi: InterventiAter[]
 
-
-  constructor(private modalService: BsModalService, private vpsInterventiService : VpsInterventiService) { }
+  constructor(private modalService: BsModalService) { }
 
   ngOnInit(): void {
   }
 
-
-
-  public openModal_Create() {
-    this.bsModalRef = this.modalService.show(InterventiCreateModalContainerComponent);
-  }
-
-
- public openModal_Update(item) {
-  const initialState = {
-    item: item,
-    title: 'Modifica'
-  };
-  this.bsModalRef = this.modalService.show(InterventiUpdateContainerComponent, {initialState});
-  //this.bsModalRef.content.data= item;
-  }
-
-
-  public openModal_Nota(item) {
+  public openModal_Update(item) {
     const initialState = {
-      dati: item,
-      title: 'Note'
+      item: item,
+      title: 'Modifica'
     };
-    this.bsModalRef = this.modalService.show(interventiDettaglio_ModalComponent, {initialState});
-    this.bsModalRef.content.data= item;
+    this.bsModalRef = this.modalService.show(InterventiUpdateContainerComponent, {initialState});
+    //this.bsModalRef.content.data= item;
     }
 
 
-    conferma_(item){
-    this.conferma.emit(item)
-  }
+    public openModal_Nota(item) {
+      const initialState = {
+        dati: item,
+        title: 'Note'
+      };
+      this.bsModalRef = this.modalService.show(interventiDettaglio_ModalComponent, {initialState});
+      this.bsModalRef.content.data= item;
+      }
 
+      conferma_(item){
+        console.log(item)
+      }
 
-  testvps(){
-   // this.vpsInterventiService.vps_Crea()
-  }
 
 }

@@ -56,6 +56,12 @@ export const navItems: INavData[] = [
             attributes: { disabled: (livello1 && livello2)},
           },
           {
+            name: 'Convalidazione',
+            url: '/interventi/convalida',
+            icon: 'fa fa-check-circle-o',
+            attributes: { disabled: livello1 },
+          },
+          {
             name: 'Validazioni',
             url: '/interventi/validazioni',
             icon: 'fa fa-check-circle-o',

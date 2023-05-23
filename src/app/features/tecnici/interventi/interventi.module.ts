@@ -25,6 +25,9 @@ import { InterventiValidaListComponent } from './interventi-valida-list/interven
 import { InterventiValidaListContainerComponent } from './interventi-valida-list/interventi-valida-list-container.component';
 import { InterventiProgrammaComponent } from './interventi-programma/interventi-programma.component';
 import { InterventiProgrammaContainerComponent } from './interventi-programma/interventi-programma-container.component';
+import { InterventiConvalidaComponent } from './interventi-convalida/interventi-convalida.component';
+import { InterventiConvalidaContainerComponent } from './interventi-convalida/interventi-convalida-container.component';
+
 
 
 
@@ -42,7 +45,9 @@ import { InterventiProgrammaContainerComponent } from './interventi-programma/in
     InterventiValidaListComponent,
     InterventiValidaListContainerComponent,
     InterventiProgrammaComponent,
-    InterventiProgrammaContainerComponent
+    InterventiProgrammaContainerComponent,
+    InterventiConvalidaComponent,
+    InterventiConvalidaContainerComponent
   ],
   imports: [
     HttpClientModule,

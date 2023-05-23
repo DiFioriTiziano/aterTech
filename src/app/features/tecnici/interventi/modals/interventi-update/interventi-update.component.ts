@@ -181,7 +181,7 @@ export class InterventiUpdateComponent implements OnInit {
     let vpsinf_flag_sequestro = this.data.vpsinf_flag_sequestro
     let note = this.data.vpsinf_info
     let dataDal = this.utilityService.convertIsoDate(this.data.vpsinf_dal)
-    let dataAl = this.utilityService.convertIsoDate(this.data.vpsinf_al)
+    let dataAl = this.data.vpsinf_al?this.utilityService.convertIsoDate(this.data.vpsinf_al): null //0000-00-00 00:00:00
 
       this.Form_update = this.fb.group({
         vpsinf_matricola: [{ value: matricola, disabled: true}, Validators.required],

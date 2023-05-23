@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 import { InterventiStoreService } from '../store/interventi-store.service';
 import { UtilityService } from '../utility/utility.service';
 import { VpsInterventiService } from './vps-interventi.service';
+import { NotificationsModule } from './../../../views/notifications/notifications.module';
 
 
 
@@ -51,7 +52,7 @@ export class InterventiService {
         "data_intervento": this.utilityService.convertDateIso(FormCreate.vpsinf_dal),
         "ora_intervento": FormCreate.ora_dal,
         "data_fine": this.utilityService.convertDateIso(FormCreate.vpsinf_al),
-        "utent_id": 466
+        "utent_id": +localStorage.getItem('userID_Dwh')
       }
 
         return this.http_client.post<any>(`${environment.BASE_API_URL}/v0/dwh/manutenzioni/interventi/create`,bodyRequest)
@@ -70,16 +71,23 @@ export class InterventiService {
 
     update(datiForm:any, item:any, type:string) {
 
+      console.log("dati form", datiForm)
+
+      //localStorage.getItem('userID_Dwh');
+
       let dal = this.utilityService.convertDateIso(datiForm.vpsinf_dal)
-      let al = this.utilityService.convertDateIso(datiForm.vpsinf_al)
+      let al = datiForm.vpsinf_al ? this.utilityService.convertDateIso(datiForm.vpsinf_al) : null
+
       let datiModificati = {
           "vpsinf_info":  datiForm.vpsinf_info,
           "vpsinf_dal": dal?dal:null,
           "vpsinf_al": al?al:null,
-          "vpsinf_cancellato": datiForm.vpsinf_cancellato === true?"SI":"NO"
-         // "vpsinf_utent_id_aggiornamento":""   !!! aggiungere dopo aver sistematop autenticazione!!!!
+          "vpsinf_cancellato": datiForm.vpsinf_cancellato === true?"SI":"NO",
+          "vpsinf_utent_id_aggiornamento": localStorage.getItem('userID_Dwh')
       }
-      console.log(datiModificati)
+
+      console.log("datiModificati", datiModificati)
+
       let bodyRequest =  {
           "id_ater": item.vpsinf_id,
           "id_esterno": item.vpsinf_id_esterno === null? 0 :item.vpsinf_id_esterno,
@@ -89,14 +97,16 @@ export class InterventiService {
           "data_inizio": dal?dal:null,
           "ora_inizio": '12:03:36',
           "type": '',
-          "utent_id": 466,
+          "utent_id": localStorage.getItem('userID_Dwh'),
           "annullamento" : datiForm.vpsinf_cancellato === true? "1" : "0"
       }
 
+      console.log("bodyRequest",bodyRequest)
 
+      // due aggiornamenti differenti ( una con invio mail l'altro senza in caso di validazione )
       let funzione = type === 'Validazione'?'update_valida':'update';
 
-        return this.http_client.post<any>(`${environment.BASE_API_URL}/v0/dwh/manutenzioni/interventi/${funzione}`,bodyRequest)
+         return this.http_client.post<any>(`${environment.BASE_API_URL}/v0/dwh/manutenzioni/interventi/${funzione}`,bodyRequest)
           .subscribe( (resp)=> {
             let interventoModificato = {...item, ...datiModificati}
               let Index = this.interventi.findIndex(lista => lista.vpsinf_id === item.vpsinf_id);
@@ -127,12 +137,50 @@ export class InterventiService {
           })
     }
 
+    conferma(item) {
+      let bodyRequest =  {
+          "id_ater": item.vpsinf_id
+      }
+
+        return this.http_client.post<any>(`${environment.BASE_API_URL}/v0/dwh/manutenzioni/interventi/conferma`,bodyRequest)
+          .subscribe( (resp)=> {
+              let nuovaListaInterventi = this.interventi.filter(lista => lista.vpsinf_id !== item.vpsinf_id);
+                  this.store.getInterventi(nuovaListaInterventi)
+          })
+    }
+
+
+    daConfermare(filtro:any) {
+      return this.http_client.post<interventi>(`${environment.BASE_API_URL}/v0/dwh/manutenzioni/interventi/read`, filtro)
+        .pipe( // recupero interventi da api
+              map(val =>  val.InterventiAter.filter(item => (item.vpsinf_flag_valido === 'SI' && item.vpsinf_utent_id_creazione === +localStorage.getItem('userID_Dwh') && item.vpsinf_flag_convalida === null)  ) ) //
+            ).subscribe(
+              resp => {
+                console.log("my interventi!", resp)
+                this.store.getInterventi(resp)
+              } //passo gli interventi allo store
+              )
+    }
+
+
+     // ****************** DA RAGGRUPPARE SOLO DA CONVALIDARE !!!!!
+    daConvalidare(filtro:any) {
+      return this.http_client.post<interventi>(`${environment.BASE_API_URL}/v0/dwh/manutenzioni/interventi/read`, filtro)
+        .pipe(
+              map(val =>  val.InterventiAter.filter( (item) => (item.vpsinf_flag_valido === 'SI') ))
+              ).subscribe(
+              resp => {
+                console.log("my interventi!", resp)
+                this.store.getInterventi(resp)
+              }
+              )
+    }
 
 
     daValidare(filtro:any) {
       return this.http_client.post<interventi>(`${environment.BASE_API_URL}/v0/dwh/manutenzioni/interventi/read`, filtro)
         .pipe( // recupero interventi da api
-              map(val =>  val.InterventiAter.filter(item => item.vpsinf_flag_valido === 'NO'  ) ) // && item.vpsinf_flag_convalida === '1'
+              map(val =>  val.InterventiAter.filter(item => (item.vpsinf_flag_valido === 'NO' && item.vpsinf_utent_id_creazione === 466)  ) ) // && item.vpsinf_flag_convalida === '1'
             ).subscribe(
               resp => { this.store.getInterventi(resp) } //passo gli interventi allo store
               )
@@ -141,7 +189,7 @@ export class InterventiService {
     validati(filtro:any) {
       return this.http_client.post<interventi>(`${environment.BASE_API_URL}/v0/dwh/manutenzioni/interventi/read`, filtro)
         .pipe( // recupero interventi da api
-              map(val => val.InterventiAter.filter((item)=> item.vpsinf_flag_valido === 'SI') )
+              map(val => val.InterventiAter.filter((item)=> item.vpsinf_flag_valido === 'SI') ) // item.vpsinf_flag_valido === 'SI'
             ).subscribe(
               resp => { this.store.getInterventi(resp) } //passo gli interventi allo store
               )
