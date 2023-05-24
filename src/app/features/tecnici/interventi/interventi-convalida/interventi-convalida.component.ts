@@ -23,7 +23,7 @@ import { InterventiAter } from '../model/interventi.model';
 
         <div class="card-body">
 
-          <table *ngIf="myInterventi" class="table table-sm table-striped mt-2">
+          <table *ngIf="interventi" class="table table-sm table-striped mt-2">
             <thead>
               <tr>
                <!-- <th><i class="fa fa-file-text  text-success"></i> </th>-->
