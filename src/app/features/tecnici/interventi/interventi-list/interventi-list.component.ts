@@ -158,7 +158,7 @@ export class InterventiListComponent implements OnInit {
 
 
   ngOnChanges(changes: SimpleChanges) {
-  this.jobList = changes.jobList.currentValue ;
+  //this.jobList = changes.jobList.currentValue ;
 
   }
 
@@ -193,10 +193,14 @@ export class InterventiListComponent implements OnInit {
 
 
   search(value: string): void {
-     if(value){
+    console.log(value)
+
+     if(value || value == null){
       this.jobList = this.allJobs.filter((val) => val.vpsinf_matricola.toLowerCase().includes(value));
+        console.log("if ", this.jobList)
     }else{
-      this.jobList = this.allJobs
+      this.jobList = this.allJobs.filter((val) => val.vpsinf_matricola.toLowerCase().includes(""));
+        console.log("else", this.jobList)
     }
 
   }

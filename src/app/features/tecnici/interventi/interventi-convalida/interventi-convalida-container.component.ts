@@ -19,11 +19,13 @@ export class InterventiConvalidaContainerComponent implements OnInit {
   interventi: InterventiAter[]
 
   constructor(private store:InterventiStoreService,private interventiService: InterventiService) {
+    this.interventiService.daConvalidare({"matricola":""})
     this.store.interventi$.subscribe(data => {this.interventi = data, console.log("INTERVENTI CONVALIDARE>", this.interventi)});
    }
 
   ngOnInit(): void {
-    this.interventiService.daConvalidare({"matricola":""})
+
+
   }
 
 }

@@ -37,12 +37,12 @@ export class InterventiListContainerComponent implements OnInit {
   interventiList$:Observable<InterventiAter[]>;
   interventiLista:InterventiAter[];
 
-  interventi:InterventiAter[];
+  interventi:InterventiAter[] = [];
   tipologie:any;
 
   bsModalRef: BsModalRef;
   newData$ : Observable<InterventiAter[]>
-testStore:any
+  testStore:any
 
 
 
@@ -51,6 +51,7 @@ testStore:any
     private modalService: BsModalService,
     private store:InterventiStoreService
     ) {
+      this.interventiService.validati({"matricola":""})
       this.store.interventi$.subscribe(data => {this.interventi = data});
      }
 
@@ -64,43 +65,13 @@ testStore:any
   /*     let filter = {"matricola":""}
       this.interventiService.read(filter).subscribe(  (resp)=>{ this.interventiLista = resp  } ) */
 
-      this.interventiService.validati({"matricola":""})
-
-
-/*             this.interventiService.getSubjectInterventiUpdated().subscribe((res) => {
-
-                  switch(res.operazione) {
-                    case "U": { //aggiorna
-
-                      let Index = this.interventiLista.findIndex(lista => lista.vpsinf_id === res.data.vpsinf_id);
-                           this.interventiLista[Index] = res.data;
-                      break;
-                    }
-                    case "C": { //crea
-                      this.interventiLista  = [res.data[0], ...this.interventiLista]
-                      break;
-                    }
-                    case "V": { //validazione
-
-                      let Index = this.interventiLista.findIndex(lista => lista.vpsinf_id === res.data.vpsinf_id);
-                        this.interventiLista[Index] = res.data;
-                      break;
-                    }
-                    default: {
-                      //statements;
-                      break;
-                    }
-                }
-
-
-       }) */
+     // this.interventiService.validati({"matricola":""})
 
     }
 
 
 
     public openModal_Create() {
-
          this.bsModalRef = this.modalService.show(InterventiCreateModalContainerComponent);
       }
 

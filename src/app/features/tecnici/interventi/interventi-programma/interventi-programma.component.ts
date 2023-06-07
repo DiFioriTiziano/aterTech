@@ -114,7 +114,7 @@ export class InterventiProgrammaComponent implements OnInit {
   @Output('conferma') conferma : EventEmitter<any> = new EventEmitter<any>()
 
 
-  constructor(private modalService: BsModalService, private vpsInterventiService : VpsInterventiService) { }
+  constructor(private modalService: BsModalService) { }
 
   ngOnInit(): void {
   }

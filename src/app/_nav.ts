@@ -75,14 +75,18 @@ export const navItems: INavData[] = [
           }
         ]
       },
+      {
+        name: 'Segnalazioni',
+        url: '/interventi',
+        icon: 'fa fa-bullhorn',
+        children: [
+
+        ],
+        attributes: { disabled: true },
+      }
+
 
     ]
-  },
-  {
-    name: 'Segnalazioni',
-    url: '/interventi',
-    icon: 'fa fa-bullhorn',
-    attributes: { disabled: true }
   },
   {
     name: 'Scarica guida',

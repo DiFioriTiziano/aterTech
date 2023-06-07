@@ -102,8 +102,7 @@ export class InterventiConvalidaComponent implements OnInit {
 
   constructor(private modalService: BsModalService) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   public openModal_Update(item) {
     const initialState = {

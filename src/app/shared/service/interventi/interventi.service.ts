@@ -153,7 +153,7 @@ export class InterventiService {
     daConfermare(filtro:any) {
       return this.http_client.post<interventi>(`${environment.BASE_API_URL}/v0/dwh/manutenzioni/interventi/read`, filtro)
         .pipe( // recupero interventi da api
-              map(val =>  val.InterventiAter.filter(item => (item.vpsinf_flag_valido === 'SI' && item.vpsinf_utent_id_creazione === +localStorage.getItem('userID_Dwh') && item.vpsinf_flag_convalida === null)  ) ) //
+              map(val =>  val.InterventiAter.filter(item => (item.vpsinf_flag_valido === 'SI' && item.vpsinf_utent_id_creazione === +localStorage.getItem('userID_Dwh') )  ) ) //
             ).subscribe(
               resp => {
                 console.log("my interventi!", resp)
@@ -167,15 +167,14 @@ export class InterventiService {
     daConvalidare(filtro:any) {
       return this.http_client.post<interventi>(`${environment.BASE_API_URL}/v0/dwh/manutenzioni/interventi/read`, filtro)
         .pipe(
-              map(val =>  val.InterventiAter.filter( (item) => (item.vpsinf_flag_valido === 'SI') ))
-              ).subscribe(
-              resp => {
-                console.log("my interventi!", resp)
-                this.store.getInterventi(resp)
-              }
-              )
+              map(val =>  val.InterventiAter.filter( (item) => item.vpsinf_flag_valido === 'SI' && item.vpsinf_flag_convalida === 1 )  )
+        ).subscribe(
+        resp => {
+          this.store.getInterventi(resp)
+        }
+        )
     }
-
+//
 
     daValidare(filtro:any) {
       return this.http_client.post<interventi>(`${environment.BASE_API_URL}/v0/dwh/manutenzioni/interventi/read`, filtro)
