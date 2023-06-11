@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject, of } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { interventi, InterventiAter } from '../../../features/tecnici/interventi/model/interventi.model';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { InterventiStoreService } from '../store/interventi-store.service';
 import { UtilityService } from '../utility/utility.service';
 import { VpsInterventiService } from './vps-interventi.service';
@@ -153,7 +153,7 @@ export class InterventiService {
     daConfermare(filtro:any) {
       return this.http_client.post<interventi>(`${environment.BASE_API_URL}/v0/dwh/manutenzioni/interventi/read`, filtro)
         .pipe( // recupero interventi da api
-              map(val =>  val.InterventiAter.filter(item => (item.vpsinf_flag_valido === 'SI' && item.vpsinf_utent_id_creazione === +localStorage.getItem('userID_Dwh') )  ) ) //
+              map(val =>  val.InterventiAter.filter(item => (item.vpsinf_flag_valido === 'SI' && item.vpsinf_flag_convalida !== 1 && item.vpsinf_utent_id_creazione === +localStorage.getItem('userID_Dwh') )  ) ) //
             ).subscribe(
               resp => {
                 console.log("my interventi!", resp)
@@ -168,8 +168,9 @@ export class InterventiService {
       return this.http_client.post<interventi>(`${environment.BASE_API_URL}/v0/dwh/manutenzioni/interventi/read`, filtro)
         .pipe(
               map(val =>  val.InterventiAter.filter( (item) => item.vpsinf_flag_valido === 'SI' && item.vpsinf_flag_convalida === 1 )  )
-        ).subscribe(
+              ).subscribe(
         resp => {
+          console.log("da service... ",resp)
           this.store.getInterventi(resp)
         }
         )

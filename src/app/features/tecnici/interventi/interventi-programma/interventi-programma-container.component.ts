@@ -21,12 +21,11 @@ export class InterventiProgrammaContainerComponent implements OnInit {
   myInterventi: InterventiAter[]
 
   constructor(private store:InterventiStoreService,private interventiService: InterventiService,) {
-    this.myInterventi = [];
-    this.store.interventi$.subscribe(data => {this.myInterventi = data, console.log("MY INTERVENTI", this.myInterventi)});
+      this.store.interventi$.subscribe(data => {this.myInterventi = data, console.log("MY INTERVENTI", this.myInterventi)});
    }
 
   ngOnInit(): void {
-   this.interventiService.daConfermare({"matricola":""})
+    this.interventiService.daConfermare({"matricola":""})
   }
 
 

@@ -60,7 +60,7 @@ import { InterventiFileContainerComponent } from '../modals/interventi-file/inte
 
            <tbody *ngIf="interventiLista">
 
-            <tr *ngFor="let item of interventiLista.slice(startItem, endItem)" >
+            <tr *ngFor="let item of interventiLista" > <!-- .slice(startItem, endItem) -->
                 <td>
                   <a href="#/interventi/validazioni" (click)="openModal_Nota(item)" >
                       <i class="fa fa-tasks animated fadeIn text-success"></i>
@@ -199,11 +199,18 @@ export class InterventiValidaListComponent implements OnInit {
 
   search(value: string): void {
 
-     if(value){
+
+      this.interventiLista = this.allJobs.filter((val) => val.vpsinf_matricola.toLowerCase().includes(value));
+
+    //  this.interventiLista = this.allJobs
+
+
+
+ /*     if(value){
       this.interventiLista = this.allJobs.filter((val) => val.vpsinf_matricola.toLowerCase().includes(value));
     }else{
       this.interventiLista = this.allJobs
-    }
+    } */
 
   }
 
