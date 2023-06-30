@@ -50,17 +50,18 @@ import { InterventiFileContainerComponent } from '../modals/interventi-file/inte
                 <th>Al</th>
                 <th>Annullo</th>
                 <th>Autore</th>
-                <th>Modifica</th>
+                <th>Aggiornamento</th>
                 <th>Syncro</th>
+                <th>Modifica</th>
                 <th>Valida</th>
-                <th></th>
+
 
               </tr>
             </thead>
 
            <tbody *ngIf="interventiLista">
 
-            <tr *ngFor="let item of interventiLista" > <!-- .slice(startItem, endItem) -->
+            <tr *ngFor="let item of interventiLista.slice(startItem, endItem)" > <!-- .slice(startItem, endItem) -->
                 <td>
                   <a href="#/interventi/validazioni" (click)="openModal_Nota(item)" >
                       <i class="fa fa-tasks animated fadeIn text-success"></i>
@@ -84,12 +85,12 @@ import { InterventiFileContainerComponent } from '../modals/interventi-file/inte
                     <span *ngIf="item.vpsinf_id_esterno > 0" >{{item.vpsinf_id_esterno}}</span>
                 </td>
                 <td>
-                    <span  class="animated fadeIn" *ngIf="item.vpsinf_flag_valido==='SI'">Validato</span>
-                    <a href="#/interventi/validazioni" (click)="validazione(item)"> <span *ngIf="item.vpsinf_flag_valido==='NO'"  class="badge badge-primary animated fadeIn">Validare</span></a>
+                  <a href="#/interventi/validazioni" (click)="openModal_Update(item)" data-toggle="modal"><i class="fa fa-edit fa-lg"></i></a>
                 </td>
                 <td class="text-primary">
-                    <a href="#/interventi/validazioni" (click)="openModal_Update(item)" data-toggle="modal"><i class="fa fa-edit fa-lg"></i></a>
-                 </td>
+                  <a href="#/interventi/validazioni" (click)="validazione(item)"> <span *ngIf="item.vpsinf_flag_valido==='NO'"  class="badge badge-primary animated fadeIn">Validare</span></a>
+
+                </td>
 
               </tr>
 
@@ -120,8 +121,7 @@ export class InterventiValidaListComponent implements OnInit {
   @Input('interventiLista') interventiLista: InterventiAter[]
 
   @Output('intervento') intervento : EventEmitter<any> = new EventEmitter<any>()
-
-  @Output('annullamento') annullamento : EventEmitter<any> = new EventEmitter<any>()
+ // @Output('annullamento') annullamento : EventEmitter<any> = new EventEmitter<any>()
   @Output('valida') valida : EventEmitter<any> = new EventEmitter<any>()
 
 
@@ -175,7 +175,6 @@ export class InterventiValidaListComponent implements OnInit {
               type: 'Validazione'
             };
         this.bsModalRef = this.modalService.show(InterventiUpdateContainerComponent, {initialState});
-        //this.bsModalRef.content.data= item;
       }
 
 
@@ -198,19 +197,7 @@ export class InterventiValidaListComponent implements OnInit {
 
 
   search(value: string): void {
-
-
       this.interventiLista = this.allJobs.filter((val) => val.vpsinf_matricola.toLowerCase().includes(value));
-
-    //  this.interventiLista = this.allJobs
-
-
-
- /*     if(value){
-      this.interventiLista = this.allJobs.filter((val) => val.vpsinf_matricola.toLowerCase().includes(value));
-    }else{
-      this.interventiLista = this.allJobs
-    } */
 
   }
 
@@ -226,15 +213,10 @@ export class InterventiValidaListComponent implements OnInit {
     this.valida.emit(item);
   }
 
-
-  edit(item){
-
-  }
-
-
+/*
   annulla(item){
     this.annullamento.emit(item);
-  }
+  } */
 
 
 

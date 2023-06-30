@@ -4,6 +4,7 @@ import { InterventiService } from '../../../../shared/service/interventi/interve
 import { filter, map } from 'rxjs/operators';
 import { NgIf } from '@angular/common';
 import { InterventiStoreService } from '../../../../shared/service/store/interventi-store.service';
+import { SharingInterventiService } from '../../../../shared/service/interventi/sharing-interventi.service';
 
 @Component({
   selector: 'ater-interventi-valida-list-container',
@@ -13,10 +14,7 @@ import { InterventiStoreService } from '../../../../shared/service/store/interve
     <ater-interventi-valida-list
       *ngIf="interventi"
         [interventiLista] = "interventi"
-        (annullamento)="datiAnnullati($event)"
         (valida)="validazione($event)"
-
-
     ></ater-interventi-valida-list>
 
   </div>
@@ -26,47 +24,39 @@ import { InterventiStoreService } from '../../../../shared/service/store/interve
 })
 export class InterventiValidaListContainerComponent implements OnInit {
 
- // interventiLista:InterventiAter[];
-
   interventi:InterventiAter[];
 
-  constructor(private interventiService: InterventiService, private store:InterventiStoreService) {
-      // mi sottoscrivo al mio subject e rimango in ascolto
-      this.store.interventi$.subscribe(data => {this.interventi = data});
+  constructor(private interventiService: InterventiService, private store:InterventiStoreService, private sharingInterventiService : SharingInterventiService) {
 
+    this.sharingInterventiService.update_interventi$.subscribe( (itemAggiornato) =>{
+      let Index = this.interventi.findIndex(lista => lista.vpsinf_id === itemAggiornato.vpsinf_id);
+                this.interventi[Index] = itemAggiornato;
+    })
 
-     // this.store.intervento$.subscribe(intervento => console.log("ascolto il container valida: ",intervento));
   }
 
 
   ngOnInit(): void {
-      this.interventiService.daValidare({"matricola":""});
+      this.interventiService.daValidare({"matricola":""})
+      .pipe(
+          map(val =>  val.InterventiAter.filter(item => (item.vpsinf_flag_valido === 'NO' && item.vpsinf_utent_id_creazione === 466)  ) ) // && item.vpsinf_flag_convalida === '1'
+      ).subscribe( resp => { this.interventi = resp /* this.store.getInterventi(resp) */ }   )
   }
-
-
-
- /*  set_Intervento_Store(intervento){
-    //this.store.set_Intervento(intervento)
-  } */
 
 
   validazione(item){
     let itemModificato = {...item,"vpsinf_flag_valido": "SI"};
     this.interventiService.valida(itemModificato)
+    .subscribe( resp => {
+          let nuovaLista = this.interventi.filter(lista => lista.vpsinf_id !== itemModificato.vpsinf_id);
+            this.interventi = nuovaLista;
+/*               let validati = this.interventi.filter((item)=> item.vpsinf_flag_valido === 'NO')
+                this.store.getInterventi(validati) //passo gli interventi allo store */
+      }
+    )
+
   }
 
-
-
-
-
-/* datiAnnullati(datoAnnullato){
-
-  let annullato = {
-    "id_ater":datoAnnullato.vpsinf_id,
-    "note":datoAnnullato.vpsinf_id,
-    "utent_id":datoAnnullato.vpsinf_id,
-  }
-} */
 
 
 }

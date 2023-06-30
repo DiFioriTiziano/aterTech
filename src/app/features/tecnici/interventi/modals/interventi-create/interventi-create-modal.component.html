@@ -143,25 +143,12 @@
                 <input formControlName="ora_al" class="form-control form-control-sm" type="time" id="ora_al" name="ora_al"  min="09:00" max="18:00">
               </div>
 
-        </div>
+            </div>
 
 
-<!--     <div class="card border-warning">
-      <div class="card-body">
-
-        <div   class="form-group row">
-
-        <input type="file" formControlName="file1" class="form-control-sm" id="file1" name="file1" (change)="onFileSelected($event)" #file1 aria-label="File browser example">
-        <input type="file" formControlName="file2" class="form-control-sm" id="file2" name="file2" (change)="onFileSelected($event)" #file2 aria-label="File browser example">
-        <input type="file" formControlName="file3" class="form-control-sm" id="file3" name="file3" (change)="onFileSelected($event)" #file3 aria-label="File browser example">
-
-        </div>
 
 
-      </div>
-    </div> -->
-
-        <!-- {{ FormCreate.value | json }} -->
+        {{ FormCreate.value | json }}
 
           <div class="modal-footer">
             <button [disabled]="!FormCreate.valid" type="submit" class="btn btn-primary" >Crea</button>

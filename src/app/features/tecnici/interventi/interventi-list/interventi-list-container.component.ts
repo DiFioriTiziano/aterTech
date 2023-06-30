@@ -5,7 +5,8 @@ import { InterventiCreateModalContainerComponent } from '../modals/interventi-cr
 import { interventi, InterventiAter } from '../model/interventi.model';
 import { concat, merge, Observable, of, Subject } from 'rxjs';
 import { InterventiStoreService } from '../../../../shared/service/store/interventi-store.service';
-import { take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
+import { SharingInterventiService } from '../../../../shared/service/interventi/sharing-interventi.service';
 
 
 
@@ -50,24 +51,23 @@ export class InterventiListContainerComponent implements OnInit {
   constructor(
     private interventiService: InterventiService,
     private modalService: BsModalService,
-    private store:InterventiStoreService
+    private store:InterventiStoreService,
+    private sharingInterventiService : SharingInterventiService
     ) {
-      this.interventiService.validati({"matricola":""})
-      this.store.interventi$.subscribe(data => {this.interventi = data});
+
+      this.sharingInterventiService.update_interventi$.subscribe( (itemAggiornato) =>{
+        let Index = this.interventi.findIndex(lista => lista.vpsinf_id === itemAggiornato.vpsinf_id);
+                  this.interventi[Index] = itemAggiornato;
+      })
+
      }
 
 
-
-
-
     ngOnInit(): void {
-
-        // recupera tutti interventi vps
-  /*     let filter = {"matricola":""}
-      this.interventiService.read(filter).subscribe(  (resp)=>{ this.interventiLista = resp  } ) */
-
-     // this.interventiService.validati({"matricola":""})
-
+      this.interventiService.read({"matricola":""})
+      .pipe(
+        map( (resp:interventi) => resp.InterventiAter.filter(item => (item.vpsinf_flag_valido === 'SI' && item.vpsinf_utent_id_creazione !== 466)))
+      ).subscribe(  (resp)=>{ this.interventi = resp  } )
     }
 
 
@@ -76,26 +76,6 @@ export class InterventiListContainerComponent implements OnInit {
          this.bsModalRef = this.modalService.show(InterventiCreateModalContainerComponent);
       }
 
-
-
-/*     valida(item){
-
-        let request = {
-            id_ater: item.vpsinf_id,
-            utent_id: 425
-        }
-
-        let itemModificato = {...item,"vpsinf_flag_valido": "SI"};
-
-            this.interventiService.valida(request).subscribe( (res) =>
-              {
-                this.interventiService.emitData({"data":itemModificato,"operazione":"V"});
-              },
-                (error) => {
-                  console.error(error);
-                }
-              );
-    } */
 
 
     datiAnnullati(datoAnnullato){

@@ -6,6 +6,7 @@ import { UiKitModule } from '../../../shared/ui-kit/ui-kit.module';
 import { InterventiListContainerComponent } from './interventi-list/interventi-list-container.component';
 import { AlertModule } from 'ngx-bootstrap/alert';
 
+
 // Modal Component
 import { BsModalService, ModalModule } from 'ngx-bootstrap/modal';
 import { InterventiCreateModalContainerComponent } from './modals/interventi-create/interventi-create-modal-container.component';
@@ -17,6 +18,7 @@ import { InterventiListComponent } from './interventi-list/interventi-list.compo
 import { PaginationConfig, PaginationModule } from 'ngx-bootstrap/pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+
 import { NotificationsRoutingModule } from '../../../views/notifications/notifications-routing.module';
 import { InterventiFileComponent } from './modals/interventi-file/interventi-file.component';
 import { InterventiFileContainerComponent } from './modals/interventi-file/interventi-file-container.component';
@@ -27,6 +29,7 @@ import { InterventiProgrammaComponent } from './interventi-programma/interventi-
 import { InterventiProgrammaContainerComponent } from './interventi-programma/interventi-programma-container.component';
 import { InterventiConvalidaComponent } from './interventi-convalida/interventi-convalida.component';
 import { InterventiConvalidaContainerComponent } from './interventi-convalida/interventi-convalida-container.component';
+import { InterventiNotificheComponent } from './modals/interventi-notifiche/interventi-notifiche.component';
 
 
 
@@ -47,7 +50,8 @@ import { InterventiConvalidaContainerComponent } from './interventi-convalida/in
     InterventiProgrammaComponent,
     InterventiProgrammaContainerComponent,
     InterventiConvalidaComponent,
-    InterventiConvalidaContainerComponent
+    InterventiConvalidaContainerComponent,
+    InterventiNotificheComponent
   ],
   imports: [
     HttpClientModule,

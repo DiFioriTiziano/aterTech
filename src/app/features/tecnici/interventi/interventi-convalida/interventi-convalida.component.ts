@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { InterventiUpdateContainerComponent } from '../modals/interventi-update/interventi-update-container.component';
 import { interventiDettaglio_ModalComponent } from '../modals/interventi-dettaglio/interventi-dettaglio_modal.component';
@@ -48,7 +48,7 @@ import { InterventiAter } from '../model/interventi.model';
 
             <tr *ngFor="let item of interventi" >
                 <td>
-                  <a href="#/interventi/programmazione" (click)="openModal_Nota(item)" >
+                  <a href="#/interventi/convalida" (click)="openModal_Nota(item)" >
                       <i class="fa fa-tasks animated fadeIn text-success"></i>
                   </a>
                 </td>
@@ -71,11 +71,11 @@ import { InterventiAter } from '../model/interventi.model';
                     <span *ngIf="item.vpsinf_flag_valido==='NO'" class="text-danger" >Validare</span>
                 </td>
                 <td class="text-primary">
-                    <a href="#/interventi/programmazione" (click)="openModal_Update(item)" data-toggle="modal"><i class="fa fa-edit fa-lg"></i></a>
+                    <a href="#/interventi/convalida" (click)="openModal_Update(item)" data-toggle="modal"><i class="fa fa-edit fa-lg"></i></a>
                  </td>
 
                  <td>
-                 <a href="#/interventi/programmazione" (click)="convalida(item)"> <span class="badge badge-success animated fadeIn">Convalida</span></a>
+                 <a href="#/interventi/convalida" (click)="_convalida(item)"> <span class="badge badge-success animated fadeIn">Convalida</span></a>
                  </td>
 
               </tr>
@@ -99,6 +99,7 @@ export class InterventiConvalidaComponent implements OnInit {
 
   bsModalRef: BsModalRef;
   @Input('interventi') interventi: InterventiAter[]
+  @Output('Item') item : EventEmitter<any> = new EventEmitter<any>()
 
   constructor(private modalService: BsModalService) { }
 
@@ -110,7 +111,6 @@ export class InterventiConvalidaComponent implements OnInit {
       title: 'Modifica'
     };
     this.bsModalRef = this.modalService.show(InterventiUpdateContainerComponent, {initialState});
-    //this.bsModalRef.content.data= item;
     }
 
 
@@ -123,9 +123,12 @@ export class InterventiConvalidaComponent implements OnInit {
       this.bsModalRef.content.data= item;
       }
 
-      conferma_(item){
+/*       conferma_(item){
         console.log(item)
-      }
+      } */
 
+      _convalida(_item){
+        this.item.emit(_item)
+      }
 
 }

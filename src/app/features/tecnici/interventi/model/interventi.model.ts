@@ -15,6 +15,7 @@ export interface interventi {
       vpsinf_dal: string;
       vpsinf_ora: string;
       vpsinf_al: string;
+      vpsinf_allarmato_id:number;
       vpsinf_utent_id_creazione: number;
       vpsinf_data_creazione: string;
       vpsinf_utent_id_aggiornamento: any;
@@ -29,6 +30,7 @@ export interface interventi {
       tipvps_template: any;
       utente_creazione: string;
       utente_aggiornamento: any;
+      vpsinf_stato_immobile:number
   }
 
 

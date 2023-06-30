@@ -6,6 +6,7 @@ import { interventiDettaglio_ModalComponent } from '../modals/interventi-dettagl
 import { InterventiUpdateContainerComponent } from '../modals/interventi-update/interventi-update-container.component';
 import { interventi, InterventiAter } from '../model/interventi.model';
 import { InterventiFileContainerComponent } from '../modals/interventi-file/interventi-file-container.component';
+import { NgIf } from '@angular/common';
 
 
 
@@ -15,7 +16,7 @@ import { InterventiFileContainerComponent } from '../modals/interventi-file/inte
 <div class="animated fadeIn">
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-align-justify"></i> {{title}}
+          <i class="fa fa-align-justify"></i> Lista Interventi programmati
 
           <div class="card-header-actions">
 
@@ -51,10 +52,11 @@ import { InterventiFileContainerComponent } from '../modals/interventi-file/inte
                 <th>Al</th>
                 <th>Annullo</th>
                 <th>Autore</th>
-                <th>Modifica</th>
+                <th>Aggiornamento</th>
                 <th>Syncro</th>
                 <th>Validazione</th>
-                <th></th>
+                <th *ngIf="livello !== 2">Modifica</th>
+                <th>File</th>
 
               </tr>
             </thead>
@@ -72,8 +74,8 @@ import { InterventiFileContainerComponent } from '../modals/interventi-file/inte
                 <td> {{item.vpsinf_matricola}}</td>
                 <td> {{item.tipvps_descrizione}}</td>
 
-                <td> {{item.vpsinf_dal | date: 'dd/MM/yyyy hh:mm'}}</td>
-                <td> {{item.vpsinf_al | date: 'dd/MM/yyyy hh:mm'}}</td>
+                <td> {{item.vpsinf_dal | date: 'dd/MM/yyyy HH:mm:ss':'Z'}}</td>
+                <td> {{item.vpsinf_al | date: 'dd/MM/yyyy HH:mm:ss':'Z'}}</td>
 
                 <td *ngIf="item.vpsinf_cancellato==='NO'"><span class="text-success">Attivo</span></td>
                 <td *ngIf="item.vpsinf_cancellato==='SI'"><span class="text-danger">Annullato</span></td>
@@ -88,9 +90,19 @@ import { InterventiFileContainerComponent } from '../modals/interventi-file/inte
                     <span  class="animated fadeIn" *ngIf="item.vpsinf_flag_valido==='SI'">Validato</span>
                     <span *ngIf="item.vpsinf_flag_valido==='NO'" class="text-danger" >Validare</span>
                 </td>
-                <td *ngIf="livello !== 2" class="text-primary">
-                    <a href="#/interventi/lista" (click)="openModal_Update(item)" data-toggle="modal"><i class="fa fa-edit fa-lg"></i></a>
-                 </td>
+                <td *ngIf="livello !== 2" class="text-primary text-center">
+                  <a href="#/interventi/lista" (click)="openModal_Update(item)" data-toggle="modal"><i class="fa fa-edit fa-lg"></i></a>
+                </td>
+                <td>
+                  <select  id="sel" name="file" class="form-control form-control-sm">
+                  <option *ngFor="let item of fileList" value="{{item.id}}" ><div *ngIf="item.file">{{item.file}}</div></option>
+                  </select>
+                </td>
+
+
+
+
+
 
               </tr>
 
@@ -135,7 +147,6 @@ export class InterventiListComponent implements OnInit {
 
   searchText = '';
   showBoundaryLinks: boolean = true;
-  title:string;
 
   RecordCount: number;
   jobs:any
@@ -143,8 +154,18 @@ export class InterventiListComponent implements OnInit {
   data:any
   livello:any
 
+  fileList = [
+    {"id":1, file:"Scheda odl.pdf"},
+    {"id":2, file:"Scheda_intervento_vps.pdf"},
+    {"id":3, file:""}, //{"id":3, file:"Scheda_stato manutentivo.pdf"},
+    {"id":4, file:"Scheda censimento.pdf"}
+  ]
+
+
+
+
   constructor(private modalService: BsModalService) {
-  this.title = "Lista Interventi"
+
 
   this.livello  = JSON.parse(localStorage.getItem('authLevelDwh')); // faccio il parse perche nello storage salva solo stringa ma i volori sono diversi alla fonte.
 
@@ -158,7 +179,7 @@ export class InterventiListComponent implements OnInit {
 
 
   ngOnChanges(changes: SimpleChanges) {
-  //this.jobList = changes.jobList.currentValue ;
+  this.allJobs = changes.jobList.currentValue ;
 
   }
 
@@ -171,7 +192,6 @@ export class InterventiListComponent implements OnInit {
               title: 'Modifica'
             };
         this.bsModalRef = this.modalService.show(InterventiUpdateContainerComponent, {initialState});
-        //this.bsModalRef.content.data= item;
       }
 
 
@@ -193,19 +213,7 @@ export class InterventiListComponent implements OnInit {
 
 
   search(value: string): void {
-    console.log(value)
-
      this.jobList = this.allJobs.filter((val) => val.vpsinf_matricola.toLowerCase().includes(value));
-
-
-/*      if(value || value == null){
-      this.jobList = this.allJobs.filter((val) => val.vpsinf_matricola.toLowerCase().includes(value));
-        console.log("if ", this.jobList)
-    }else{
-      this.jobList = this.allJobs.filter((val) => val.vpsinf_matricola.toLowerCase().includes(""));
-        console.log("else", this.jobList)
-    } */
-
   }
 
 

@@ -19,6 +19,7 @@ export class InterventiCreateModalComponent implements OnInit {
     @ViewChild('primaryModal') public primaryModal: ModalDirective;
 
     @Output() datiAdd : EventEmitter<any> = new EventEmitter<any>()
+    @Output() matricola : EventEmitter<any> = new EventEmitter<any>()
 
     @Input('asset') public assetAter: any;
     @Input('tipologie') public tipologie: any;
@@ -44,7 +45,6 @@ export class InterventiCreateModalComponent implements OnInit {
 
   constructor(
     private fb:FormBuilder,
-    private interventiService: InterventiService,
     public bsModalRef: BsModalRef,
 
   ) {
@@ -54,14 +54,11 @@ export class InterventiCreateModalComponent implements OnInit {
       this.FormCreate = this.fb.group({
         vpsinf_matricola: [{value:'', disabled:true}, [Validators.required]],
         vpsinf_tipologia: ['', Validators.required],
-      //  vpsinf_stato_id: ['', Validators.required],
-       // vpsinf_flag_verbale_tecnico: [''],
-      //  vpsinf_flag_sequestro: [''],
         vpsinf_info: ['', Validators.required],
         vpsinf_dal: ['', Validators.required] ,
-        vpsinf_al: [''],
+        vpsinf_al: [{ value: "", disabled: false}],
         ora_dal: ['', Validators.required],
-        ora_al: [''],
+        ora_al: [{ value: "", disabled: false}],
         //file1: [''],
         //file2: [''],
         //file3: ['']
@@ -116,6 +113,7 @@ export class InterventiCreateModalComponent implements OnInit {
 
   setValore(matricola){
     this.FormCreate.controls['vpsinf_matricola'].setValue(matricola);
+    this.matricola.emit(matricola)
     this.isCollapsed = !this.isCollapsed
   }
 

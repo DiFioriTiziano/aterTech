@@ -5,6 +5,8 @@ import { InterventiAter } from '../model/interventi.model';
 import { InterventiUpdateContainerComponent } from '../modals/interventi-update/interventi-update-container.component';
 import { interventiDettaglio_ModalComponent } from '../modals/interventi-dettaglio/interventi-dettaglio_modal.component';
 import { VpsInterventiService } from '../../../../shared/service/interventi/vps-interventi.service';
+import { UtilityService } from '../../../../shared/service/utility/utility.service';
+import * as moment from 'moment';
 
 
 @Component({
@@ -70,8 +72,8 @@ import { VpsInterventiService } from '../../../../shared/service/interventi/vps-
                 <td> {{item.vpsinf_matricola}}</td>
                 <td> {{item.tipvps_descrizione}}</td>
 
-                <td> {{item.vpsinf_dal | date: 'dd/MM/yyyy hh:mm'}}</td>
-                <td> {{item.vpsinf_al | date: 'dd/MM/yyyy hh:mm'}}</td>
+                <td> {{this.utilityService.formatDateTime(item.vpsinf_dal)}}</td>
+                <td> {{item.vpsinf_al ? this.utilityService.formatDateTime(item.vpsinf_al): ""}}</td>
 
                 <td *ngIf="item.vpsinf_cancellato==='NO'"><span class="text-success">Attivo</span></td>
                 <td *ngIf="item.vpsinf_cancellato==='SI'"><span class="text-danger">Annullato</span></td>
@@ -114,7 +116,11 @@ export class InterventiProgrammaComponent implements OnInit {
   @Output('conferma') conferma : EventEmitter<any> = new EventEmitter<any>()
 
 
-  constructor(private modalService: BsModalService) { }
+
+  constructor(private modalService: BsModalService, private utilityService : UtilityService,) { }
+
+
+
 
   ngOnInit(): void {
   }
